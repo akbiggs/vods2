@@ -4,4 +4,5 @@ Elu's Random Stuff: flask ingest-channel UCutAiUCILxrF_HBNNJFWbRg '""' "%E - %P1
 Game Arena CBUS: flask ingest-channel UC0i-bU86rDxfW5G-q0HBlDQ '""' "%E RoA2 %R - %P1 (%C1) %V %P2 (%C2)"
 GamersGuild: flask ingest-channel UCScVXk1msI1I1KUktK4BkhQ '""' "%E - %R - %P1 (%C1) %V %P2 (%C2)"
 GamersGuild: flask ingest-channel UCScVXk1msI1I1KUktK4BkhQ '""' "%E -%R - %P1 (%C1) %V %P2 (%C2)"
+KMLTournaments: flask ingest-channel UCAjmpP7UAxdDGqXeg3bQqXg '""' "%E: %R - %P1 (%C1) %V %P2 (%C2) %ROA"
 Weird Esports: flask ingest-channel UC2KsuYai5viA6jaRKYBls5Q '""' "[%E] %R - %P1 (%C1) %V %P2 (%C2)"
