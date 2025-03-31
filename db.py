@@ -392,7 +392,7 @@ def ingest_channel_command(channel_id, query, format):
     def ingest_page(page):
         items = page.get('items')
         if not items:
-            return 0
+            return []
         
         results = []
         for item in items:
