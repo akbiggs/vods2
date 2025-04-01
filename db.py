@@ -126,7 +126,7 @@ def latest_vods(amount=100):
         ))
     return result
 
-def search_vods(p1, p2, c1, c2, event, amount=200):
+def search_vods(p1, p2, c1, c2, event, rank, amount=200):
     db = get_db()
 
     p1_match = '%' + p1 + '%'
@@ -135,6 +135,22 @@ def search_vods(p1, p2, c1, c2, event, amount=200):
     c2_match = '%' + c2 + '%'
     event_match = '%' + event + '%'
 
+    lunarank_query = ''
+    if rank and rank.lower() in ['one_lunarank', 'two_lunarank']:
+        lunarank_players = []
+        with open('data/lunarank.txt') as f:
+            for line in f.readlines():
+                lunarank_players.append(line.strip().lower())
+        if rank == 'one_lunarank':
+            p1_query = ' OR '.join([f"p1.tag LIKE '%{p}%'" for p in lunarank_players])
+            p2_query = ' OR '.join([f"p2.tag LIKE '%{p}%'" for p in lunarank_players])
+            lunarank_query = f'AND (({p1_query}) OR ({p2_query}))'
+        elif rank == 'two_lunarank':
+            p1_query = ' OR '.join([f"p1.tag LIKE '%{p}%'" for p in lunarank_players])
+            p2_query = ' OR '.join([f"p2.tag LIKE '%{p}%'" for p in lunarank_players])
+            lunarank_query = f'AND ({p1_query}) AND ({p2_query})'
+
+    print(lunarank_query)
     vods = None
     if c1 != c2:
         vods = db.cursor().execute("""
@@ -150,7 +166,7 @@ def search_vods(p1, p2, c1, c2, event, amount=200):
             AND (p1.tag LIKE ? OR p2.tag LIKE ?)
             AND (c1.name LIKE ? OR c2.name LIKE ?)
             AND (c1.name LIKE ? OR c2.name LIKE ?)
-            AND (e.name LIKE ?)
+            AND (e.name LIKE ?) """ + lunarank_query + """
         ORDER BY vod_date DESC
         LIMIT ?;
         """, (p1_match, p1_match, p2_match, p2_match, c1_match, c1_match, c2_match, c2_match, event_match, amount,)).fetchall()
@@ -167,7 +183,7 @@ def search_vods(p1, p2, c1, c2, event, amount=200):
             (p1.tag LIKE ? OR p2.tag LIKE ?)
             AND (p1.tag LIKE ? OR p2.tag LIKE ?)
             AND (c1.name LIKE ? AND c2.name LIKE ?)
-            AND (e.name LIKE ?)
+            AND (e.name LIKE ?) """ + lunarank_query + """
         ORDER BY vod_date DESC
         LIMIT ?;
         """, (p1_match, p1_match, p2_match, p2_match, c1_match, c1_match, event_match, amount,)).fetchall()

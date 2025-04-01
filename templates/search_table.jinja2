@@ -51,6 +51,17 @@
                 <label for="event_search" class="search-label">Event: </label>
                 <span><input type="text" id="event_search" name="event" placeholder="Event" autocomplete="off" {% if event %} value="{{event}}" {% endif %}/></span>
             </div>
+            <div class="flex-row">
+                <label for="rank_search" class="search-label">Ranking: </label>
+                <span>
+                    <select id="rank_search" name="rank">
+                        <option value="any" {% if not rank %} selected="selected" {% endif %} >Any</option>
+                        <option value="one_lunarank" {% if rank == 'one_lunarank' %} selected="selected" {% endif %}>At least one LunaRank player</option>
+                        <option value="two_lunarank" {% if rank == 'two_lunarank' %} selected="selected" {% endif %}>Two LunaRank players</option>
+                    </select>
+                </span>
+                <span>(<a href="https://docs.google.com/spreadsheets/d/1CYgG-m4udT1KzJXZpwlLkka4Sbn9Hx_jIUwcZsF0sIc/edit?gid=0#gid=0">LunaRank</a>)</span>
+            </div>
         </div>
         <input type="submit" value="Search"/>
     </form>
