@@ -16,7 +16,8 @@ CHAR_NAME_TO_ID = {
     "wrastor": 8,
     "loxodont": 9,
     "maypul": 10,
-    "etalus": 11
+    "etalus": 11,
+    "olympia": 12
 }
 
 # STATUS VALUES
@@ -61,6 +62,7 @@ def get_character_id(name):
     if name == 'zetter': name = 'zetterburn'
     if name == 'zettersburn': name = 'zetterburn'
     if name == 'fors': name = 'forsburn'
+    if name == 'oly': name = 'olympia'
 
     return CHAR_NAME_TO_ID.get(name)
 
