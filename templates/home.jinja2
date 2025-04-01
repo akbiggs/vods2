@@ -11,7 +11,7 @@
 {% if not is_search %}
 <h1>Recent VODS</h1>
 
-<p>Last updated March 31 2025 (Hitfall 3.5, BoBC7 first half, KML 5-Y).</p>
+<p>Last updated April 1st 2025 (BoBC7 second half, Olympia support and ranking list filter).</p>
 {% else %}
 <h1>Search Results</h1>
 {% endif %}
@@ -26,89 +26,7 @@
 
 <h1>Submit a VOD</h1>
 
-To suggest a VOD you can either <a href="https://github.com/akbiggs/vods2/edit/main/data/vods.csv">edit this file</a> or fill out this form:
-
-<div class="content-body">
-<form action="/submission" method="post">
-<label for="url">YouTube URL: </label> <input id="url" name="url" type="text" size="60"/>
-<p>Playlists are allowed.</p>
-<details open>
-<summary>Details (optional):</summary>
-<table style="text-align: left;">
-<tr>
-  <td>
-    <label>P1 Character: </label>
-    <select id="p1_character" name="p1_character">
-      <option value="none" selected="selected">None</option>
-      <option value="clairen">Clairen</option>
-      <option value="etalus">Etalus</option>
-      <option value="fleet">Fleet</option>
-      <option value="forsburn">Forsburn</option>
-      <option value="kragg">Kragg</option>
-      <option value="loxodont">Loxodont</option>
-      <option value="maypul">Maypul</option>
-      <option value="olympia">Olympia</option>
-      <option value="orcane">Orcane</option>
-      <option value="ranno">Ranno</option>
-      <option value="wrastor">Wrastor</option>
-      <option value="zetterburn">Zetterburn</option>
-    </select>
-  </td>
-  <td>
-    <label>Tag: </label>
-    <input type="text" name="p1_tag" autocomplete="off"/>
-  </td>
-  <td>
-    <label>ELO: </label>
-    <input type="text" name="p1_elo" autocomplete="off"/>
-  </td>
-</tr>
-<tr>
-  <td>
-    <label>P2 Character: </label>
-    <select id="p2_character" name="p2_character">
-      <option value="none" selected="selected">None</option>
-      <option value="clairen">Clairen</option>
-      <option value="etalus">Etalus</option>
-      <option value="fleet">Fleet</option>
-      <option value="forsburn">Forsburn</option>
-      <option value="kragg">Kragg</option>
-      <option value="loxodont">Loxodont</option>
-      <option value="maypul">Maypul</option>
-      <option value="olympia">Olympia</option>
-      <option value="orcane">Orcane</option>
-      <option value="ranno">Ranno</option>
-      <option value="wrastor">Wrastor</option>
-      <option value="zetterburn">Zetterburn</option>
-    </select>
-  </td>
-  <td>
-    <label>Tag: </label>
-    <input type="text" name="p2_tag" autocomplete="off" />
-  </td>
-  <td>
-    <label>ELO: </label>
-    <input type="text" name="p2_elo" autocomplete="off" />
-  </td>
-</tr>
-<tr>
-  <td><label>Event: </label></td>
-  <td><input type="text" name="event" autocomplete="off" /></td>
-</tr>
-<tr>
-  <td><label>Round: </label></td>
-  <td><input type="text" name="round" autocomplete="off" placeholder="Winner's Finals" /></td>
-</tr>
-<tr>
-  <td><label>Date (MM/DD/YY): </label></td>
-  <td><input type="text" name="date" autocomplete="off" placeholder="12/18/2024" /></td>
-</tr>
-</table>
-</details>
-<input type="submit" value="Submit VOD"/>
-</form>
-
-<p>Submissions are reviewed once every few days.</p>
+To suggest a VOD you can <a href="https://github.com/akbiggs/vods2/edit/main/data/vods.csv">edit this file</a>.
 
 </div>
 
