@@ -1,0 +1,16 @@
+1.2.0.5+,04/08/25,https://store.steampowered.com/news/app/2217000/view/535472473750111773
+1.2.0.4,04/07/25,https://store.steampowered.com/news/app/2217000/view/535472473750111270
+1.2.0.2,04/04/25,https://store.steampowered.com/news/app/2217000/view/535472473750110935
+1.2.0.1,04/03/25,https://store.steampowered.com/news/app/2217000/view/535472473750110608
+1.2.0,04/02/25,https://store.steampowered.com/news/app/2217000/view/535472473750110300
+1.1.5,03/18/25,https://store.steampowered.com/news/app/2217000/view/532092958649878187
+1.1.4.1,03/05/25,https://store.steampowered.com/news/app/2217000/view/529840440691654841
+1.1.4,03/04/25,https://store.steampowered.com/news/app/2217000/view/535469307384039483
+1.1.3,02/18/25,https://store.steampowered.com/news/app/2217000/view/750515018473144352
+1.1.2,02/04/25,https://store.steampowered.com/news/app/2217000/view/496060273230086841
+1.1.1.1,01/29/25,https://store.steampowered.com/news/app/2217000/view/496060273230086145
+1.1.0,01/21/25,https://store.steampowered.com/news/app/2217000/view/524206779663385321
+1.0.5.2,01/10/25,https://store.steampowered.com/news/app/2217000/view/496058370516582930
+1.0.5.1,01/08/25,https://store.steampowered.com/news/app/2217000/view/496058370516582402
+1.0.5,01/07/25,https://store.steampowered.com/news/app/2217000/view/496057917371319326
+1.0.4-,12/17/24,https://store.steampowered.com/news/app/2217000/view/708851015406847310

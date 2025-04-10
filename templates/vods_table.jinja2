@@ -1,10 +1,16 @@
 {% if vods %}
 <table class="vodtable">
-  <tr><th style="width:20%">Date</th><th>Match</th><th>Event</th></tr>
+  <tr><th style="width:20%">Date</th><th>Match</th><th>Event</th><th>Patch*</th></tr>
   {% for vod in vods %}
-  <tr><td>{{vod.vod_date.strftime("%m/%d/%y") if vod.vod_date else ''}}</td><td><span><a href="{{vod.url}}"><img src="{{vod.c1_icon_url}}" width="24" height="24"/> {{vod.p1_tag}} vs. <img src="{{vod.c2_icon_url}}" width="24" height="24"/> {{vod.p2_tag}}</a></span></td><td>{{vod.event_name}} {% if vod.round %} ({{vod.round}}) {% endif %}</td></tr>
+  <tr>
+    <td>{{vod.vod_date.strftime("%m/%d/%y") if vod.vod_date else ''}}</td>
+    <td><span><a href="{{vod.url}}"><img src="{{vod.c1_icon_url}}" width="24" height="24"/> {{vod.p1_tag}} vs. <img src="{{vod.c2_icon_url}}" width="24" height="24"/> {{vod.p2_tag}}</a></span></td>
+    <td>{{vod.event_name}} {% if vod.round %} ({{vod.round}}) {% endif %}</td>
+    <td>{% if vod.patch_name %} <a href="{{vod.patch_url}}">{{vod.patch_name}}</a>{% endif %}</td>
+  </tr>
   {% endfor %}
 </table>
+<p>* Patches are guessed from the YouTube upload date and not guaranteed to be accurate.</p>
 {% else %}
 No VODs found for this search.
 {% endif %}

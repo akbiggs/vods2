@@ -31,7 +31,9 @@ def validate_submission_input(url, p1_char, p2_char, p1_tag, p2_tag, event, roun
 @app.route("/")
 def home_page():
     latest_vods = list(db.latest_vods())
-    return render_template("home.jinja2", vods=latest_vods, channels=get_channels(), is_search=False)
+    patches = db.load_patches()
+    vods = db.patch_vods(latest_vods, patches)
+    return render_template("home.jinja2", vods=vods, channels=get_channels(), is_search=False)
 
 @app.route("/search")
 def search_page():
@@ -49,8 +51,10 @@ def search_page():
         rank = ''
 
     search_results = list(db.search_vods(p1, p2, c1, c2, event, rank))
+    patches = db.load_patches()
+    vods = db.patch_vods(search_results, patches)
 
-    return render_template("home.jinja2", vods=search_results, c1=c1, c2=c2, p1=p1, p2=p2, event=event, rank=rank, channels=get_channels(), is_search=True)
+    return render_template("home.jinja2", vods=vods, c1=c1, c2=c2, p1=p1, p2=p2, event=event, rank=rank, channels=get_channels(), is_search=True)
 
 
 @app.post("/submission")

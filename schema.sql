@@ -116,4 +116,4 @@ INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Maypul", "https
 -- Etalus = 11
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Etalus", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/etalus_small.png");
 -- Olympia = 12
-INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Olympia", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/colin_small.png");
+INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Olympia", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/oly_small.png");

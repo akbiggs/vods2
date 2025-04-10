@@ -1,9 +1,9 @@
 import sqlite3
 import click
-from datetime import datetime
+from datetime import datetime, timezone
 from flask import current_app, g
 
-from models import Vod
+from models import Vod, Patch, VodAndPatch
 
 CHAR_NAME_TO_ID = {
     "clairen": 1,
@@ -522,6 +522,50 @@ def export_vods_command(filename):
         for id, url, p1_tag, p2_tag, c1_name, c2_name, event_name, round, vod_date in vods:
             row = [url, p1_tag, c1_name, p2_tag, c2_name, event_name, round if round else '', vod_date if vod_date else '']
             vod_writer.writerow(row)
+
+def load_patches():
+    patches = []
+    with open('data/patches.txt') as f:
+        lines = f.readlines()
+        for line in lines:
+            line = line.strip()
+            if line.startswith('#'):
+                continue
+            name, date, url = line.split(',')
+            patches.append(Patch(
+                name=name,
+                date=datetime.strptime(date, "%m/%d/%y").astimezone(timezone.utc),
+                url=url))
+
+    return patches
+
+def patch_vods(vods, patches):
+    patched_vods = []
+    
+    # Organize patches by date (descending).
+    patches.sort(key=lambda p: p.date, reverse=True)
+
+    for vod in vods:
+        found_patch = None
+        for patch in patches:
+            if vod.vod_date >= patch.date:
+                found_patch = patch
+                break
+        patched_vods.append(VodAndPatch(
+            url=vod.url,
+            round=vod.round,
+            p1_tag=vod.p1_tag,
+            p2_tag=vod.p2_tag,
+            c1_icon_url=vod.c1_icon_url,
+            c2_icon_url=vod.c2_icon_url,
+            vod_date=vod.vod_date,
+            event_name=vod.event_name,
+            patch_name=found_patch.name if found_patch else None,
+            patch_url=found_patch.url if found_patch else None
+        ))
+    
+    return patched_vods
+
 
 def prompt(text, default=None):
     value = input(f'{text} ' + (f'[{default}]' if default else '') + ': ')
