@@ -10,10 +10,11 @@ GamersGuild: flask ingest-channel UCScVXk1msI1I1KUktK4BkhQ '""' "%E -%R - %P1 (%
 GamerLatam: flask ingest-channel UCfFuPQ04E8NeN8Tg31wZkJw '""' "%E - %P1 (%C1) %V %P2 (%C2)" 
 KMLTournaments: flask ingest-channel UCAjmpP7UAxdDGqXeg3bQqXg '""' "%E: %R - %P1 (%C1) %V %P2 (%C2) %ROA" # TENDS TO PULL STUFF BEFORE RIVALS 2 CAME OUT
 Rivals of Aether Italia: flask ingest-channel UCuvN5wq8FZGmEbGXsxzHHsw '""' "%E | %R - %P1 (%C1) %V %P2 (%C2)" # TENDS TO PULL STUFF BEFORE RIVALS 2 CAME OUT
+Rivals of Aether Spain: flask ingest-channel UC-MZ0MXnrwVSw-tJEa-GJ_Q '""' "%E - %R - %P1(%C1) %V %P2(%C2)" 
 Satellite Network: flask ingest-channel UCqB7d-vcBxxlccHB3oMk6ew '""' "%P1 (%C1) %V %P2 (%C2) - %ROA %R - %E"
 Star: flask ingest-channel UC2JcZNdwiPLBYsPtHHIAZZQ '""' "%ROA @ %E - %R - %P1 (%C1) %V %P2 (%C2)"
 UGSGaming: flask ingest-channel UCj5Bpq8HNS3iHLzwI4TH5lQ '""' "%E - %R - %P1(%C1) %V %P2(%C2)"
 Watherum: flask ingest-channel UCO-sKNN967rchSRDtMfjkYw '""' "%E - %P1 (%C1) %V %P2 (%C2) - %ROA"
-====== DO THESE TOMORROW!!! ====
 Weird Esports: flask ingest-channel UC2KsuYai5viA6jaRKYBls5Q '""' "[%E] %R - %P1 (%C1) %V %P2 (%C2)"
 WILRivals: flask ingest-channel UCJVj4V5XT23MyeqHh2bCrnA '""' "%E - %R - %P1 (%C1) %V %P2 (%C2)"
+yeggy: flask ingest-channel UCLzHrJQ6ydw-3Q7cEhb93dQ '""' "%E - %R - %P1 (%C1) %V %P2 (%C2)" 
