@@ -1,4 +1,5 @@
 BackDashSSB: flask ingest-channel UCgAZ972NUfJvwBzuosb7zXw '""' "%E %ROA - %P1 (%C1) %V %P2 (%C2) - %R"
+BlackBolt: flask ingest-channel UCnTjruH1a99X7qiLUTWrIZw '""' "%P1 (%C1) %V %P2 (%C2) - %R - %E"
 ClaimToFameEntertainment: flask ingest-channel UC4Kc1UlDqtjgNWr2nwK6Jfw '""' "%E - %P1 (%C1) %V %P2 (%C2) - %ROA" 
 ConduitGaming: flask ingest-channel UCZB5hfz9zh-7dMgBIi6s-WA '""' "%P1 ( %C1 ) %V %P2 ( %C2 ) - [ %R ]"
 La Crosse Smash: flask ingest-channel UCxFQ3qUpYAenoOVzS_JMkaA '""' "%P1 (%C1) %V %P2 (%C2) | %R | %E | 3/1/25"
