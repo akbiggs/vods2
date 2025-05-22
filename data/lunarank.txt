@@ -1,57 +1,66 @@
 # Source: https://docs.google.com/spreadsheets/d/1CYgG-m4udT1KzJXZpwlLkka4Sbn9Hx_jIUwcZsF0sIc/edit?gid=0#gid=0
 CakeAssault
 Plup
-Stango
-Sparg0
-ZeeBee
-Switch
-Mystery Sol
-Squanto
 Marlon
-Ant
-Asashi
-Soulrifle211
-Leffen
-I0N
-elkiies
-Boiko
+Sparg0
+Stango
+Zeebee
 Beastly
-Ryzuul
-Cody Schwab
+Switch
+I0N
+Mystery Sol
 Rongunshu
-Luck
+Asashi
+toothbrush
+Ant
+elkiies
+Squanto
 Bbatts
-VoiD
+Leffen
+Soulrifle211
+Ryzuul
+BioBirb
+Cody Schwab
+Luck
+Sophilo
 Nbad
 sinbad
+VoiD
+OoDa
 Marss
-BioBirb
 CheesyPotato
 Nogh
-omar
+Oneoutkast
+Musiq
 Pikmon
-toothbrush
 Revilo2112
-OoDa
-Wisp
+nard
+omar
+Iota
+Gengur
 pkay
 Lucius
-FullStream
-Spider
 elpe
-Archangel
+HKP
 Evil Nardwuar
-Mada
 AppleWiz
 Acorn
-HKP
-nard
+Kyb
 Juno
-Gengur
+HyperFlame
+Lucio
+# Area 51
 Rymo
+Hunter
 AverageAlex
+Mada
 Guard
-Mr.R
-Mr. R
-MSB
+# Attendance cut
+Boiko
+FullStream
+Archangel
+Dia
+HTSpider
+ZeusDahGoose
 Neylax
+SeggoAhmet
