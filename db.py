@@ -126,7 +126,7 @@ def latest_vods(amount=100):
         ))
     return result
 
-def search_vods(p1, p2, c1, c2, event, rank, amount=200):
+def search_vods(p1, p2, c1, c2, event, rank, amount=300):
     db = get_db()
 
     p1_match = '%' + p1 + '%'
