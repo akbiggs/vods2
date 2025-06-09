@@ -350,7 +350,7 @@ def ingest_csv_command(filename):
     with open(filename) as csvfile:
         for url, p1, c1, p2, c2, event, round, vod_time in csv.reader(csvfile):
             if vod_exists(url):
-                click.echo(f"Skipping existing vod {url}.")
+                # click.echo(f"Skipping existing vod {url}.")
                 continue
 
             p1_id = ensure_player(p1)
