@@ -8,6 +8,7 @@
                 <span>
                     <select id="c1_search" name="c1">
                         <option value="any" {% if not c1 %} selected="selected" {% endif %} >Any</option>
+                        <option value="absa" {% if c1 == 'absa' %} selected="selected" {% endif %}>Absa</option>
                         <option value="clairen" {% if c1 == 'clairen' %} selected="selected" {% endif %}>Clairen</option>
                         <option value="etalus" {% if c1 == 'etalus' %} selected="selected" {% endif %}>Etalus</option>
                         <option value="fleet" {% if c1 == 'fleet' %} selected="selected" {% endif %} >Fleet</option>
@@ -26,6 +27,7 @@
                 <span>
                     <select id="c2_search" name="c2">
                         <option value="any" {% if not c2 %} selected="selected" {% endif %} >Any</option>
+                        <option value="absa" {% if c2 == 'absa' %} selected="selected" {% endif %}>Absa</option>
                         <option value="clairen" {% if c2 == 'clairen' %} selected="selected" {% endif %}>Clairen</option>
                         <option value="etalus" {% if c2 == 'etalus' %} selected="selected" {% endif %}>Etalus</option>
                         <option value="fleet" {% if c2 == 'fleet' %} selected="selected" {% endif %} >Fleet</option>

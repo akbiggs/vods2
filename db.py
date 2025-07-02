@@ -1,9 +1,10 @@
 import sqlite3
 import click
+import re
 from datetime import datetime, timezone
 from flask import current_app, g
 
-from models import Vod, Patch, VodAndPatch
+from models import Vod, Patch, VodAndPatch, ParsedVodTitle
 
 CHAR_NAME_TO_ID = {
     "clairen": 1,
@@ -17,7 +18,8 @@ CHAR_NAME_TO_ID = {
     "loxodont": 9,
     "maypul": 10,
     "etalus": 11,
-    "olympia": 12
+    "olympia": 12,
+    "absa": 13
 }
 
 # STATUS VALUES
@@ -63,6 +65,8 @@ def get_character_id(name):
     if name == 'zettersburn': name = 'zetterburn'
     if name == 'fors': name = 'forsburn'
     if name == 'oly': name = 'olympia'
+    if name == 'maple': name = 'maypul'
+    if name == 'mapul': name = 'maypul'
 
     return CHAR_NAME_TO_ID.get(name)
 
@@ -375,7 +379,6 @@ def ingest_channel_command(channel_id, query, format):
     import googleapiclient.discovery
     import googleapiclient.errors
     import os
-    import re
 
     scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
@@ -402,16 +405,7 @@ def ingest_channel_command(channel_id, query, format):
         )
         return request.execute()
 
-    format_regex_str = (re.escape(format)
-                    .replace('%SIDE', '(([\s*W\s*])|([\s*L\s*]))')
-                    .replace('%E', '(?P<event>[\s*#*\(*\s*\w~#&;\-:.\)*]+)')
-                    .replace('%P1', '(?P<p1>[\s*\w\$|&;:~!?#.@\-\+]+)')
-                    .replace('%P2', '(?P<p2>[\s*\w\$|&;:~!?#.@\-\+]+)')
-                    .replace('%C1', '(?P<c1>[\s*\w/*,*]+)')
-                    .replace('%C2', '(?P<c2>[\s*\w/*,*]+)')
-                    .replace('%V', '((vs.)|(vs)|(Vs.)|(VS.)|(Vs)|(VS))')
-                    .replace('%ROA', '((RoA2)|(ROA2)|(RoA 2)|(ROA 2)|(RoAII)|(ROAII)|(Rivals II)|(RIVALS 2)|(RIVALS II)|(RIVALS OF AETHER 2)|(RIVALS OF AETHER II)|(Rivals 2)|(Rivals of Aether 2)|(Rivals of Aether II)|(Rivals II Bracket)|(Rivals 2 Bracket))?')
-                    .replace('%R', '(?P<round>[\s*\(*\s*\w\-#&;\)*]+)'))
+    format_regex_str = title_query_to_regex_str(format)
     print(format_regex_str)
     format_regex = re.compile(format_regex_str)
 
@@ -438,48 +432,21 @@ def ingest_channel_command(channel_id, query, format):
                 click.echo(f'ALREADY PRESENT: {title}')
                 continue
 
-            info = format_regex.match(title.strip())
+            info = parse_vod_title(title, url, format_regex)
             if not info:
                 click.echo(f'DOES NOT MATCH: {title}')
                 continue
-            p1 = info.group('p1')
-            p2 = info.group('p2')
-
-            c1 = None
-            if info.groupdict().get('c1'):
-                c1 = info.group('c1').lower().split(',')[0].split('/')[0].replace('P1 ', '').replace('P2 ', '')
-            else:
-                c1 = prompt(f"c1 for {url}")
-            c2 = None
-            if info.groupdict().get('c2'):
-                c2 = info.group('c2').lower().split(',')[0].split('/')[0].replace('P1 ', '').replace('P2 ', '')
-            else:
-                c2 = prompt(f"c2 for {url}")
-            event = info.groupdict().get('event') or 'Unknown'
-            round = info.groupdict().get('round') or ''
-
-            # TODO: Parse round name info.
-            event_id = ensure_event(event)
-            p1_id = ensure_player(p1)
-            p2_id = ensure_player(p2)
-            c1_id = get_character_id(c1)
-            if not c1_id:
-                # click.echo(f"Unknown character {c1} for {url}, skipping VOD.")
+            if not info.c1_id or not info.c2_id:
                 continue
 
-            c2_id = get_character_id(c2)
-            if not c2_id:
-                # click.echo(f"Unknown character {c2} for {url}, skipping VOD.")
-                continue
-
-            result = f'p1={p1} c1={c1} p2={p2} c2={c2} event={event} round={round} vod_date={published_at} url={url}'
+            result = f'p1={info.p1} c1={info.c1} p2={info.p2} c2={info.c2} event={info.event} round={info.round} vod_date={published_at} url={url}'
             click.echo(result)
             results.append(result)
 
             db.cursor().execute("""
                               INSERT INTO vod (game_id, event_id, url, p1_id, p2_id, c1_id, c2_id, vod_date, round)
                               VALUES          (?,       ?,        ?,   ?,     ?,     ?,     ?,     ?,        ?);
-                              """, (RIVALS_OF_AETHER_TWO, event_id, url, p1_id, p2_id, c1_id, c2_id, published_at, round,))
+                              """, (RIVALS_OF_AETHER_TWO, info.event_id, url, info.p1_id, info.p2_id, info.c1_id, info.c2_id, published_at, info.round,))
         
         return results
 
@@ -522,6 +489,131 @@ def export_vods_command(filename):
         for id, url, p1_tag, p2_tag, c1_name, c2_name, event_name, round, vod_date in vods:
             row = [url, p1_tag, c1_name, p2_tag, c2_name, event_name, round if round else '', vod_date if vod_date else '']
             vod_writer.writerow(row)
+
+@click.command('ingest-multi-vod')
+@click.argument('multi_vod_url')
+@click.argument('event')
+@click.argument('title_format')
+@click.argument('datetime_str')
+@click.argument('filename')
+def ingest_multi_vod_command(multi_vod_url, event, datetime_str, title_format, filename):
+    """Splits a single VOD into multiple VODs from a description file.
+    
+    Example:
+
+        flask ingest-multi-vod https://www.youtube.com/watch?v=blah "CEO 2025" "%P1 (%C1) %V %P2 (%C2)" "2025-06-17 21:33:44+00:00" description.txt
+
+    where description.txt is lines in the format:
+
+        00:00 Alex (Zetterburn) vs. Bob (Olympia)
+        43:20 Cynthia (Wrastor) vs. Dylan (Forsburn)
+    """
+    results = []
+    with open(filename, 'r') as f:
+        db = get_db()
+
+        format_regex_str = title_query_to_regex_str(title_format)
+        format_regex = re.compile(format_regex_str)
+
+        for line in f.readlines():
+            line = line.strip()
+            line_parts = line.split(' ')
+            timestamp, title = line_parts[0], ' '.join(line_parts[1:])
+            timestamp_parts = timestamp.split(':')
+            time = 0
+            if len(timestamp_parts) == 1:
+                time = int(timestamp_parts[0])
+            elif len(timestamp_parts) == 2:
+                time = int(timestamp_parts[0]) * 60 + int(timestamp_parts[1])
+            elif len(timestamp_parts) == 3:
+                time = int(timestamp_parts[0]) * 3600 + int(timestamp_parts[1]) * 60 + int(timestamp_parts[2])
+            else:
+                click.echo(f'UNKNOWN TIMESTAMP FORMAT: {timestamp}.')
+            
+            url = multi_vod_url + f"&t={time}"
+
+            existing_vod = db.cursor().execute("SELECT id from vod WHERE url = ? LIMIT 1;", (url,)).fetchone()
+            if existing_vod:
+                click.echo(f'ALREADY PRESENT: {title}')
+                continue            
+
+            info = parse_vod_title(title, url, format_regex, default_event_name=event)
+            if not info:
+                click.echo(f'DOES NOT MATCH: {title}')
+                continue
+            if not info.c1_id or not info.c2_id:
+                continue
+
+            result = f'p1={info.p1} c1={info.c1} p2={info.p2} c2={info.c2} event={info.event} round={info.round} vod_date={datetime_str} url={url}'
+            results.append(result)
+
+            db.cursor().execute("""
+                              INSERT INTO vod (game_id, event_id, url, p1_id, p2_id, c1_id, c2_id, vod_date, round)
+                              VALUES          (?,       ?,        ?,   ?,     ?,     ?,     ?,     ?,        ?);
+                              """, (RIVALS_OF_AETHER_TWO, info.event_id, url, info.p1_id, info.p2_id, info.c1_id, info.c2_id, datetime_str, info.round,))
+
+    click.echo('\n'.join(results))
+    response = input(f'Are you sure you want to commit {len(results)} VODs? [y/n] ')
+    if response in ['y', 'yes']:
+        db.commit()
+    else:
+        click.echo('Aborting.')
+        return
+
+def title_query_to_regex_str(query):
+    """Converts queries like "%P1 (%C1) %V %P2 (%C2)" into a regex str."""
+    return (re.escape(query)
+                    .replace('%SIDE', '(([\s*W\s*])|([\s*L\s*]))')
+                    .replace('%E', '(?P<event>[\s*#*\(*\s*\w~#&;\-:.\)*]+)')
+                    .replace('%P1', '(?P<p1>[\s*\w\$|&;:~!?#.@\-\+]+)')
+                    .replace('%P2', '(?P<p2>[\s*\w\$|&;:~!?#.@\-\+]+)')
+                    .replace('%C1', '(?P<c1>[\s*\w/*,*]+)')
+                    .replace('%C2', '(?P<c2>[\s*\w/*,*]+)')
+                    .replace('%V', '((vs.)|(vs)|(Vs.)|(VS.)|(Vs)|(VS))')
+                    .replace('%ROA', '((RoA2)|(ROA2)|(RoA 2)|(ROA 2)|(RoAII)|(ROAII)|(Rivals II)|(RIVALS 2)|(RIVALS II)|(RIVALS OF AETHER 2)|(RIVALS OF AETHER II)|(Rivals 2)|(Rivals of Aether 2)|(Rivals of Aether II)|(Rivals II Bracket)|(Rivals 2 Bracket))?')
+                    .replace('%R', '(?P<round>[\s*\(*\s*\w\-#&;\)*]+)'))
+
+def parse_vod_title(title, url, format_regex, default_event_name="Unknown"):
+    info = format_regex.match(title.strip())
+    if not info:
+        return None
+    
+    p1 = info.group('p1')
+    p2 = info.group('p2')
+
+    c1 = None
+    if info.groupdict().get('c1'):
+        c1 = info.group('c1').lower().split(',')[0].split('/')[0].replace('P1 ', '').replace('P2 ', '')
+    else:
+        c1 = prompt(f"c1 for {url}")
+    c2 = None
+    if info.groupdict().get('c2'):
+        c2 = info.group('c2').lower().split(',')[0].split('/')[0].replace('P1 ', '').replace('P2 ', '')
+    else:
+        c2 = prompt(f"c2 for {url}")
+    event = info.groupdict().get('event') or default_event_name
+    round = info.groupdict().get('round') or ''
+
+    # TODO: Parse round name info.
+    event_id = ensure_event(event)
+    p1_id = ensure_player(p1)
+    p2_id = ensure_player(p2)
+    c1_id = get_character_id(c1)
+    c2_id = get_character_id(c2)
+
+    return ParsedVodTitle(
+        p1=p1,
+        p1_id=p1_id,
+        p2=p2,
+        p2_id=p2_id,
+        c1=c1,
+        c1_id=c1_id,
+        c2=c2,
+        c2_id=c2_id,
+        event=event,
+        event_id=event_id,
+        round=round
+    )
 
 def load_patches():
     patches = []
@@ -583,3 +675,4 @@ def init_app(app):
     app.cli.add_command(ingest_channel_command)
     app.cli.add_command(ingest_csv_command)
     app.cli.add_command(export_vods_command)
+    app.cli.add_command(ingest_multi_vod_command)

@@ -14,3 +14,6 @@ wheels/
 
 # YouTube API key.
 youtube_api_key
+
+# Temp files.
+/tmp
