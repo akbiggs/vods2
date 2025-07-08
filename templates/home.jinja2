@@ -1,42 +1,39 @@
 <!doctype html>
-
 <head>
-    <title>Rivals 2 VODS</title>
-    <style>
-        {
-            % include "styles.css" %
-        }
-    </style>
+<title>Rivals 2 VODS</title>
+<style>
+{% include "styles.css" %}
+</style>
 </head>
 
 <body>
 
-    {% if not is_search %}
-    <h1>Recent VODS</h1>
+{% if not is_search %}
+<h1>Recent VODS</h1>
 
-    <p>Last updated July 8th 2025 (GOML 2025).</p>
-    {% else %}
-    <h1>Search Results</h1>
-    {% endif %}
+<p>Last updated July 8th 2025 (GOML 2025).</p>
+{% else %}
+<h1>Search Results</h1>
+{% endif %}
 
-    <div class="content-body">
-        {% include "search_table.jinja2" %}
-    </div>
+<div class="content-body">
+    {% include "search_table.jinja2" %}
+</div>
 
-    <div class="content-body">
-        {% include "vods_table.jinja2" %}
-    </div>
+<div class="content-body">
+    {% include "vods_table.jinja2" %}
+</div>
 
-    <h1>Submit a VOD</h1>
+<h1>Submit a VOD</h1>
 
-    To suggest a VOD you can <a href="https://github.com/akbiggs/vods2/edit/main/data/vods.csv">edit this file</a>.
+To suggest a VOD you can <a href="https://github.com/akbiggs/vods2/edit/main/data/vods.csv">edit this file</a>.
 
-    </div>
+</div>
 
-    <h1>Credits</h1>
+<h1>Credits</h1>
 
-    <div class="content-body">
-        {% include "credits.jinja2" %}
-    </div>
+<div class="content-body">
+    {% include "credits.jinja2" %}
+</div>
 
 </body>
