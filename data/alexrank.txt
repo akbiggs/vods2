@@ -1,74 +1,85 @@
 # AlexList is a copy of LunaRank plus some other players whose VODs I like to follow.
 CakeAssault
-Plup
 Marlon
 Sparg0
-Stango
-Zeebee
-Beastly
-Switch
-I0N
-Mystery Sol
-Rongunshu
-Asashi
-toothbrush
-Ant
-elkiies
-Squanto
-Bbatts
-Leffen
-Soulrifle211
-Ryzuul
-BioBirb
-Cody Schwab
-Luck
+Plup
 Sophilo
-Nbad
-sinbad
-VoiD
-OoDa
-Marss
-CheesyPotato
-Nogh
-Oneoutkast
-Musiq
-Pikmon
-Revilo2112
-nard
-omar
-Iota
-Gengur
-pkay
-Lucius
-elpe
-HKP
-Evil Nardwuar
-AppleWiz
-Acorn
-Kyb
-Juno
-HyperFlame
-Lucio
-# Area 51
-Rymo
-Hunter
-AverageAlex
-Mada
-Guard
-# Attendance cut
+ZeeBee
+ION
+Stango
+Beastly
+elkies
+elkiies
+Rongunshu
+Mystery Sol
+toothbrush
+Asashi
+Ant
+Bbatts
+Switch
+HamPolo
 Boiko
-FullStream
-Archangel
-Dia
-HTSpider
-ZeusDahGoose
-Neylax
-SeggoAhmet
-# Alex's list starts here. I play Clairen BTW.
+BioBirb
+Remrin
 vibe
+Dakpo
+Bullets
+Ryzuul
+Stro
+FullStream
+ZeusDahGoose
+Acorn
+Iota
+Sago
+Archangel
+Lucius
+Luck
+Sandstorm
+pkay
+Marss
+Yoda Cage
+Evil Nardwuar
+Gengur
+Mr.R
+Mr. R
+Bop GOT EM
+HyperFlame
+OoDa
+Musiq
+nard
+Oneoutkast
+Revilo2112
+Cody Schwab
+HKP
+SolarBeam
+Pikmon
+Soulrfile211
+Rymo
+Bin
+CheesyPotato
+Nbad
+VoiD
+Shadowhawke
+SeggoAhmet
+Dingo
+Lucio
+Juno
+MSB
+Teri
+# EU
+Dia
+Neylax
+Mr.R
+Caitlyn
+HTSpider
+Cone
+Griffith
+Sho
+Guthix
+10QuidShoes
+# Alex's list starts here. I play Clairen BTW.
 landon
 glum
-mang0
 lucky
 bullets
 animal
