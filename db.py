@@ -761,7 +761,7 @@ def prompt(text, default=None):
     
 
 sqlite3.register_converter(
-    "timestamp", lambda v: datetime.fromisoformat(v.decode())
+    "timestamp", lambda v: datetime.fromisoformat(v.decode().replace('Z', '+00:00'))
 )
 
 def init_app(app):
