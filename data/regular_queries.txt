@@ -5,7 +5,7 @@ Central Oregon: flask ingest-channel UCGJPfrs5DpkptwBBYCXilHw '""' "%P1 (%C1) %V
 Coach Zeke: flask ingest-channel UC6BACtjgcDHqRAI5I_dlTdg '""' "%E | %P1(%C1) %V %P2(%C2) | %ROA"
 ClaimToFameEntertainment: flask ingest-channel UC4Kc1UlDqtjgNWr2nwK6Jfw '""' "%E - %P1 (%C1) %V %P2 (%C2) - %ROA" 
 Collision Gaming Series: flask ingest-channel UCn_LdOLhjFF3_fgBrk-7y9A '""' "%E - %R - %P1 (%C1) %V %P2 (%C2) - %ROA"
-ConduitGaming: flask ingest-channel UCZB5hfz9zh-7dMgBIi6s-WA '""' "%P1 ( %C1 ) %V %P2 ( %C2 ) - [ %R ]"
+ConduitGaming: flask ingest-channel UCZB5hfz9zh-7dMgBIi6s-WA '"vs"' "%P1 ( %C1 ) %V %P2 ( %C2 ) - [ %R ]"
 La Crosse Smash: flask ingest-channel UCxFQ3qUpYAenoOVzS_JMkaA '""' "%P1 (%C1) %V %P2 (%C2) | %R | %E | 3/1/25"
 Elu's Random Stuff: flask ingest-channel UCutAiUCILxrF_HBNNJFWbRg '""' "%E - %R - %P1 (%C1) %V %P2 (%C2)"
 Elu's Random Stuff: flask ingest-channel UCutAiUCILxrF_HBNNJFWbRg '""' "%E - %P1 (%C1) %V %P2 (%C2) - %R"
