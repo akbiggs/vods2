@@ -666,7 +666,7 @@ def title_query_to_regex_str(query):
                     .replace('%C1', '(?P<c1>[\s*\w/*,*]+)')
                     .replace('%C2', '(?P<c2>[\s*\w/*,*]+)')
                     .replace('%V', '((vs.)|(vs)|(Vs.)|(VS.)|(Vs)|(VS))')
-                    .replace('%ROA', '((RoA2)|(ROA2)|(RoA 2)|(ROA 2)|(RoAII)|(ROAII)|(Rivals II)|(RIVALS 2)|(RIVALS II)|(RIVALS OF AETHER 2)|(RIVALS OF AETHER II)|(Rivals 2)|(Rivals of Aether 2)|(Rivals of Aether II)|(Rivals II Bracket)|(Rivals 2 Bracket))?')
+                    .replace('%ROA', '((RoA2)|(ROA2)|(RoA 2)|(ROA 2)|(RoAII)|(ROAII)|(Rivals II)|(RIVALS 2)|(RIVALS II)|(RIVALS OF AETHER 2)|(RIVALS OF AETHER II)|(Rivals 2)|(Rivals of Aether 2)|(Rivals 2 Tournament)|(Rivals of Aether II)|(Rivals II Bracket)|(Rivals 2 Bracket))?')
                     .replace('%R', '(?P<round>[\s*\(*\s*\w\-#&;\)*]+)'))
 
 def parse_vod_title(title, url, format_regex, default_event_name="Unknown"):
