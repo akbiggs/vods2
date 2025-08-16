@@ -56,7 +56,7 @@ def init_db():
         db.executescript(f.read().decode('utf8'))
 
 def get_character_id(name):
-    name = name.lower()
+    name = name.strip().lower()
 
     # Common nicknames and misspellings.
     if name == 'clarien': name = 'clairen'
@@ -468,6 +468,102 @@ def ingest_channel_command(channel_id, query, format):
         click.echo('Aborting.')
         return
 
+@click.command('ingest-playlist')
+@click.argument('playlist_url')
+@click.argument('event_name')
+@click.argument('format_str')
+def ingest_playlist_command(playlist_url, event_name, format_str):
+    import googleapiclient.discovery
+    import googleapiclient.errors
+    import re
+    from urllib.parse import urlparse, parse_qs
+
+    format_regex = re.compile(title_query_to_regex_str(format_str))
+
+    api_service_name = "youtube"
+    api_version = "v3"
+    api_key = None
+    with open('youtube_api_key') as f:
+        api_key = f.readline().strip()
+
+    youtube = googleapiclient.discovery.build(
+        api_service_name, api_version, developerKey=api_key
+    )
+
+    # get playlist ID
+    query = parse_qs(urlparse(playlist_url).query)
+    playlist_id = query.get("list", [None])[0]
+    if not playlist_id:
+        click.echo("Invalid playlist URL")
+        return
+
+    db = get_db()
+
+    def get_page(page_token=None):
+        request = youtube.playlistItems().list(
+            part="snippet",
+            maxResults=50,
+            playlistId=playlist_id,
+            pageToken=page_token
+        )
+        return request.execute()
+
+    def ingest_page(page):
+        items = page.get('items')
+        if not items:
+            return []
+
+        results = []
+        for item in items:
+            snippet = item['snippet']
+            video_id = snippet['resourceId']['videoId']
+            url = f"https://www.youtube.com/watch?v={video_id}"
+            published_at = snippet['publishedAt']
+            title = snippet['title']
+
+            existing_vod = db.cursor().execute(
+                "SELECT id FROM vod WHERE url = ? LIMIT 1;", (url,)
+            ).fetchone()
+            if existing_vod:
+                click.echo(f'ALREADY PRESENT: {title}')
+                continue
+
+            info = parse_vod_title(title, url, format_regex, event_name)
+            if not info:
+                click.echo(f'DOES NOT MATCH: {title}')
+                continue
+                
+            #debugging because I am learning 
+            # if not info.c1_id or not info.c2_id:
+            #     click.echo(f'UNRECOGNIZED CHARACTER: {info.c1} or {info.c2} in {title}')
+            #     continue
+
+            result = f'INGESTED: {info.p1} ({info.c1}) vs {info.p2} ({info.c2}) - {info.round} [{published_at}]'
+            click.echo(result)
+            results.append(result)
+
+            db.cursor().execute("""
+                INSERT INTO vod (game_id, event_id, url, p1_id, p2_id, c1_id, c2_id, vod_date, round)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+            """, (RIVALS_OF_AETHER_TWO, info.event_id, url, info.p1_id, info.p2_id, info.c1_id, info.c2_id, published_at, info.round,))
+
+        return results
+
+    page = get_page()
+    results = []
+    results += ingest_page(page)
+    while page.get('nextPageToken'):
+        page = get_page(page['nextPageToken'])
+        results += ingest_page(page)
+
+    click.echo(f'\nTotal VODs ready to commit: {len(results)}')
+    response = input(f'Are you sure you want to commit {len(results)} VODs? [y/n] ')
+    if response.lower() in ['y', 'yes']:
+        db.commit()
+        click.echo('Committed successfully!')
+    else:
+        click.echo('Aborting.')
+
 @click.command('export-vods')
 @click.argument('filename')
 def export_vods_command(filename):
@@ -676,3 +772,4 @@ def init_app(app):
     app.cli.add_command(ingest_csv_command)
     app.cli.add_command(export_vods_command)
     app.cli.add_command(ingest_multi_vod_command)
+    app.cli.add_command(ingest_playlist_command)
