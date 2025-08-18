@@ -138,3 +138,7 @@ td {
 	color: #999;
 	pointer-events: none;
 }
+/* hide "current" page, kind of hacky but works */
+.page-item.active .sr-only {
+	display: none;
+}
