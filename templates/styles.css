@@ -37,7 +37,7 @@ td {
 }
 
 .vod-table-container {
-	max-height: 60vh;
+	max-height: 58vh;
 	min-height: 200px;
 	overflow-y: auto;
 	border: 1px solid #ccc;
@@ -105,9 +105,36 @@ td {
 	margin: 0;
 }
 
-.pagination-links ul {
+.pagination {
 	display: flex;
 	justify-content: start;
-	margin: 1rem;
-	gap: 1rem;
+	gap: 5px;
+	flex-wrap: wrap;
+	list-style: none;
+	padding: 0;
+	margin: 10px 0;
+}
+
+.pagination .page-item {
+	display: inline-block;
+}
+
+.pagination .page-link {
+	display: block;
+	padding: 5px 10px;
+	text-decoration: none;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	color: white;
+}
+
+.pagination .page-item.active .page-link {
+	background-color: #6161b2;
+	color: white;
+	border-color: #6161b2;
+}
+
+.pagination .page-item.disabled .page-link {
+	color: #999;
+	pointer-events: none;
 }
