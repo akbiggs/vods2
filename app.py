@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from markupsafe import escape
 from urllib.parse import urlparse
+from flask_paginate import Pagination, get_page_parameter
 
 import db
 from models import Channel
@@ -33,7 +34,26 @@ def home_page():
     latest_vods = list(db.latest_vods())
     patches = db.load_patches()
     vods = db.patch_vods(latest_vods, patches)
-    return render_template("home.jinja2", vods=vods, channels=get_channels(), is_search=False)
+
+    # pagination setup
+
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    # number of items per page
+    per_page = 25
+    offset = (page - 1) * per_page
+    total = len(vods)
+
+    # slice vods for current page
+    vods_paginated = vods[offset: offset + per_page]
+    pagination = Pagination(page=page, per_page=per_page, total=total)
+
+    return render_template(
+        "home.jinja2",
+        vods=vods_paginated,
+        channels=get_channels(),
+        is_search=False,
+        pagination=pagination
+    )
 
 @app.route("/search")
 def search_page():

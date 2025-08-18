@@ -24,6 +24,12 @@
     {% include "vods_table.jinja2" %}
 </div>
 
+{% if pagination %}
+<div class="content-body">
+    {{ pagination.links }}
+</div>
+{% endif %}
+
 <h1>Submit a VOD</h1>
 
 To suggest a VOD you can <a href="https://github.com/akbiggs/vods2/edit/main/data/vods.csv">edit this file</a>.
