@@ -19,6 +19,7 @@
 <div class="content-body">
     {% include "search_table.jinja2" %}
 </div>
+{# we do this on the top and bottom of the table to eliminate the need to scroll up and down to navigate #}
 {% if pagination %}
 <div class="content-body">
     {{ pagination.links }}

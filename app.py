@@ -39,7 +39,7 @@ def home_page():
 
     page = request.args.get(get_page_parameter(), type=int, default=1)
     # number of items per page
-    per_page = 25
+    per_page = 40
     offset = (page - 1) * per_page
     total = len(vods)
 
@@ -77,7 +77,7 @@ def search_page():
     #pagination
 
     page = request.args.get(get_page_parameter(), type=int, default=1)
-    per_page = 25
+    per_page = 40
     offset = (page - 1) * per_page
     total = len(vods)
 

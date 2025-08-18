@@ -102,7 +102,7 @@ def vod_exists(url):
     existing_vod = db.cursor().execute("SELECT id from vod WHERE url = ? LIMIT 1;", (url,)).fetchone()
     return True if existing_vod else False
 
-def latest_vods(amount=100):
+def latest_vods(amount=10000):
     db = get_db()
     vods = db.cursor().execute("""
     SELECT vod.id, vod.url, p1.tag, p2.tag, c1.name, c1.icon_url, c2.name, c2.icon_url, e.name, vod.round, vod.vod_date
