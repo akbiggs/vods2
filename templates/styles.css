@@ -41,6 +41,7 @@ td {
 	min-height: 200px;
 	overflow-y: auto;
 	border: 1px solid #ccc;
+	overscroll-behavior: contain; //prevent page scrolling at end of vods when scrolling the table
 }
 
 .vodtable {
