@@ -102,6 +102,7 @@ td {
 	gap: 1.5rem;
 	margin-top: 10px;
 }
+
 form input[type="submit"],
 form input[type="button"] {
 	font-size: 1rem;
