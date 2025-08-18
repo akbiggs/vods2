@@ -99,6 +99,11 @@ td {
 
 .buttons {
 	display: flex;
-	gap: 10px;
+	gap: 1.5rem;
 	margin-top: 10px;
+}
+form input[type="submit"],
+form input[type="button"] {
+	font-size: 1rem;
+	padding: 0.25rem 0.5rem;
 }
