@@ -19,6 +19,11 @@
 <div class="content-body">
     {% include "search_table.jinja2" %}
 </div>
+{% if pagination %}
+<div class="pagination-links">
+    {{ pagination.links }}
+</div>
+{% endif %}
 
 <div class="content-body">
     {% include "vods_table.jinja2" %}
