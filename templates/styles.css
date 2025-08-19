@@ -105,6 +105,8 @@ td {
 
 form input[type="submit"],
 form input[type="button"] {
+	width: 5rem;
+	height: auto;
 	font-size: 1rem;
-	padding: 0.25rem 0.5rem;
+	padding: 0.1em;
 }

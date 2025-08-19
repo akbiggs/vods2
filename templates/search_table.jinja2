@@ -69,18 +69,10 @@
         </div>
         <div class="buttons">
         <input type="submit" value="Search"/>
-        <input type="button" value="Reset" onclick="resetDefaults()"/>
+        <a href="/search">
+            <input type="button" value="Reset"/>
+        </a>
         </div>
     </form>
 </details>
 
-<script>
-function resetDefaults() {
-    document.getElementById("c1_search").value = "any";
-    document.getElementById("c2_search").value = "any";
-    document.getElementById("p1_search").value = "";
-    document.getElementById("p2_search").value = "";
-    document.getElementById("event_search").value = "";
-    document.getElementById("rank_search").value = "any";
-}
-</script>
