@@ -105,6 +105,20 @@ td {
 	margin: 0;
 }
 
+.buttons {
+	display: flex;
+	gap: 1.5rem;
+	margin-top: 10px;
+}
+
+form input[type="submit"],
+form input[type="button"] {
+	width: 5rem;
+	height: auto;
+	font-size: 1rem;
+	padding: 0.1em;
+}
+
 .pagination {
 	display: flex;
 	justify-content: start;
