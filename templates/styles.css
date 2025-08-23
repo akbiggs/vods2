@@ -40,7 +40,7 @@ td {
 }
 
 .vod-table-container {
-	max-height: 83vh;
+	max-height: 82vh;
 	min-height: 200px;
 	overflow-y: auto;
 	overscroll-behavior: contain; /* prevent page scrolling at end of vods when scrolling the table */
@@ -186,7 +186,7 @@ form input[type="button"]:hover {
 .pagination {
 	display: flex;
 	justify-content: center;
-	gap: 5px;
+	gap: 0.5rem;
 	flex-wrap: wrap;
 	list-style: none;
 	padding: 0;
@@ -200,10 +200,10 @@ form input[type="button"]:hover {
 
 .pagination .page-link {
 	display: block;
-	padding: 5px 10px;
+	padding: 0.75rem 1.05rem;
 	text-decoration: none;
-	border: 1px solid #ccc;
-	border-radius: 3px;
+	/* border: 1px solid #ccc; */
+	border-radius: 5px;
 	color: white;
 }
 
