@@ -35,12 +35,14 @@ td {
 	border: none;
 	text-align: left;
 }
+.tablerheaders {
+	color: #6161b2;
+}
 
 .vod-table-container {
 	max-height: 58vh;
 	min-height: 200px;
 	overflow-y: auto;
-	border: 1px solid #ccc;
 	overscroll-behavior: contain; /* prevent page scrolling at end of vods when scrolling the table */
 	max-width: 60%; /* adjust as needed */
 	padding: 0 1rem; /* optional horizontal padding */
@@ -57,11 +59,12 @@ td {
 
 /* Header row */
 .vodtable th {
-	font-weight: 600;
-	text-align: left;
-	padding: 0.75rem;
-	border-bottom: 2px solid var(--text-primary);
-	border-right: 1px solid var(--table-border);
+	position: sticky;
+	top: 0; /* stick to top */
+	background-color: #2e2e53;
+	color: #f5f5f5;
+	z-index: 5;
+	border-right: 1px solid black;
 }
 
 /* Each cell */
@@ -70,6 +73,14 @@ td {
 	border-bottom: 1px solid var(--text-primary);
 	border-right: 1px solid var(--table-border);
 	vertical-align: middle;
+}
+
+/* Vertical and horizontal centering for all table cells */
+.vodtable th,
+.vodtable td {
+	vertical-align: middle; /* vertical alignment */
+	text-align: center; /* horizontal alignment */
+	padding: 0.75rem; /* keeps spacing consistent */
 }
 
 /* Row height */
