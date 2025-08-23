@@ -90,7 +90,7 @@ body:has(details[open]) .vod-table-container {
 
 /* Row height */
 .vodtable tr {
-	height: 35px;
+	height: 2.75rem;
 }
 
 /* Last cell in each row */
