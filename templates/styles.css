@@ -40,12 +40,17 @@ td {
 }
 
 .vod-table-container {
-	max-height: 62vh;
+	max-height: 83vh;
 	min-height: 200px;
 	overflow-y: auto;
 	overscroll-behavior: contain; /* prevent page scrolling at end of vods when scrolling the table */
-	max-width: 60%; /* adjust as needed */
-	padding: 0 1rem; /* optional horizontal padding */
+	max-width: 60%;
+	padding: 0 1rem;
+	transition: max-height 0.3s ease, height 0.3s ease;
+}
+/*shrink table when search is open*/
+body:has(details[open]) .vod-table-container {
+	max-height: 64vh;
 }
 
 .vodtable {
@@ -78,9 +83,9 @@ td {
 /* Vertical and horizontal centering for all table cells */
 .vodtable th,
 .vodtable td {
-	vertical-align: middle; /* vertical alignment */
-	text-align: center; /* horizontal alignment */
-	padding: 0.75rem; /* keeps spacing consistent */
+	vertical-align: middle;
+	text-align: center;
+	padding: 0.75rem;
 }
 
 /* Row height */
