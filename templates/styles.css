@@ -40,7 +40,7 @@ td {
 }
 
 .vod-table-container {
-	max-height: 58vh;
+	max-height: 62vh;
 	min-height: 200px;
 	overflow-y: auto;
 	overscroll-behavior: contain; /* prevent page scrolling at end of vods when scrolling the table */
@@ -166,7 +166,16 @@ form input[type="button"] {
 	width: 5rem;
 	height: auto;
 	font-size: 1rem;
-	padding: 0.1em;
+	padding: 0.25em;
+	background-color: #3b3b3b;
+	border: 1px solid #ccc;
+}
+
+form input[type="submit"]:hover,
+form input[type="button"]:hover {
+	background-color: #555555;
+	color: white;
+	cursor: pointer;
 }
 
 .pagination {
@@ -197,7 +206,7 @@ form input[type="button"] {
 }
 
 .pagination .page-item.active .page-link {
-	background-color: #6161b2;
+	background-color: #2e2e53;
 	color: white;
 	border-color: #6161b2;
 }
