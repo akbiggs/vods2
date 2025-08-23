@@ -65,7 +65,6 @@ body:has(details[open]) .vod-table-container {
 	font-family: sans-serif;
 	font-size: 0.95rem;
 	border-collapse: collapse;
-	table-layout: fixed; /* prevent table from expanding too wide */
 }
 
 .vodtable th,
