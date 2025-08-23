@@ -19,7 +19,7 @@ body {
 	margin-top: 20px;
 	margin-left: 20px;
 	font-family: sans-serif;
-	background-color: Canvas;
+	background-color: #121212;
 	color: CanvasText;
 	color-scheme: light dark;
 	box-sizing: content-box;
@@ -41,37 +41,76 @@ td {
 	min-height: 200px;
 	overflow-y: auto;
 	border: 1px solid #ccc;
-	overscroll-behavior: contain; //prevent page scrolling at end of vods when scrolling the table
+	overscroll-behavior: contain; /* prevent page scrolling at end of vods when scrolling the table */
+	max-width: 60%; /* adjust as needed */
+	padding: 0 1rem; /* optional horizontal padding */
 }
 
 .vodtable {
+	width: 100%;
 	border: 1px solid var(--text-primary);
 	text-align: left;
 	border-spacing: 0;
+	font-family: sans-serif;
+	font-size: 0.95rem;
 }
 
-/* Each cell now only responsible for half its border, no double bordering. */
-.vodtable th,
-.vodtable td {
-	padding: 5px;
-	border-bottom: 1px solid var(--text-primary);
+/* Header row */
+.vodtable th {
+	font-weight: 600;
+	text-align: left;
+	padding: 0.75rem;
+	border-bottom: 2px solid var(--text-primary);
 	border-right: 1px solid var(--table-border);
 }
 
+/* Each cell */
+.vodtable td {
+	padding: 0.75rem;
+	border-bottom: 1px solid var(--text-primary);
+	border-right: 1px solid var(--table-border);
+	vertical-align: middle;
+}
+
+/* Row height */
 .vodtable tr {
 	height: 35px;
 }
 
-/* Last cell in each row, don't double border the table. */
+/* Last cell in each row */
 .vodtable th:last-child,
 .vodtable td:last-child {
 	border-right: 0;
 }
 
-/* Last row in table, don't double border the bottom */
-.votdable tr:last-child th,
+/* Last row */
 .vodtable tr:last-child td {
 	border-bottom: 0;
+}
+
+/* Zebra striping*/
+.vodtable tr:nth-child(even) {
+	background-color: #181818;
+}
+
+/*Hover effect with no hover on header row*/
+.vodtable tr:not(:first-child):hover {
+	background-color: #222;
+}
+
+/* Links inside table */
+.vodtable a {
+	text-decoration: none;
+}
+
+.vodtable a:hover {
+	text-decoration: underline;
+}
+
+/* Icons */
+.vodtable img {
+	vertical-align: middle;
+	margin: 0 0.25rem;
 }
 
 .search-form {
@@ -140,6 +179,10 @@ form input[type="button"] {
 	border: 1px solid #ccc;
 	border-radius: 3px;
 	color: white;
+}
+
+.pagination .page-link:hover {
+	background-color: #333;
 }
 
 .pagination .page-item.active .page-link {
