@@ -64,12 +64,19 @@ body:has(details[open]) .vod-table-container {
 	border-spacing: 0;
 	font-family: sans-serif;
 	font-size: 0.95rem;
+	border-collapse: collapse;
+	table-layout: fixed; /* prevent table from expanding too wide */
+}
+
+.vodtable th,
+.vodtable td {
+	box-sizing: border-box;
 }
 
 /* Header row */
 .vodtable th {
 	position: sticky;
-	top: 0; /* stick to top */
+	top: 0px; /* stick to top */
 	background-color: #2e2e53;
 	color: #f5f5f5;
 	z-index: 5;
