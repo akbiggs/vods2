@@ -185,12 +185,13 @@ form input[type="button"]:hover {
 
 .pagination {
 	display: flex;
-	justify-content: start;
+	justify-content: center;
 	gap: 5px;
 	flex-wrap: wrap;
 	list-style: none;
 	padding: 0;
 	margin: 10px 0;
+	max-width: 60%;
 }
 
 .pagination .page-item {

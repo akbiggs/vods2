@@ -39,13 +39,19 @@ def home_page():
 
     page = request.args.get(get_page_parameter(), type=int, default=1)
     # number of items per page
-    per_page = 40
+    per_page = 50
     offset = (page - 1) * per_page
     total = len(vods)
 
     # slice vods for current page
     vods_paginated = vods[offset: offset + per_page]
-    pagination = Pagination(page=page, per_page=per_page, total=total)
+    pagination = Pagination(
+        page=page,
+        per_page=per_page,
+        total=total,
+        inner_window=2,
+        outer_window=0
+    )
 
     return render_template(
         "home.jinja2",
@@ -77,13 +83,19 @@ def search_page():
     #pagination
 
     page = request.args.get(get_page_parameter(), type=int, default=1)
-    per_page = 40
+    per_page = 50
     offset = (page - 1) * per_page
     total = len(vods)
 
     # slice vods for current page
     vods = vods[offset: offset + per_page]
-    pagination = Pagination(page=page, per_page=per_page, total=total)
+    pagination = Pagination(
+        page=page,
+        per_page=per_page,
+        total=total,
+        inner_window=2,
+        outer_window=0
+    )
     
     return render_template("home.jinja2", vods=vods, c1=c1, c2=c2, p1=p1, p2=p2, event=event, rank=rank, channels=get_channels(), is_search=True, pagination=pagination)
 
