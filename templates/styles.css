@@ -29,10 +29,6 @@ body {
 	margin: 10px;
 }
 
-summary {
-	cursor: pointer;
-}
-
 table,
 th,
 td {
@@ -65,6 +61,8 @@ body:has(details[open]) .vod-table-container {
 	font-size: 0.95rem;
 	border-collapse: collapse;
 	max-height: 84vh;
+	border-left: 2px solid #2e2e53;
+	border-bottom: 2px solid #2e2e53;
 }
 
 .vodtable th,
@@ -140,8 +138,27 @@ body:has(details[open]) .vod-table-container {
 	margin: 0 0.25rem;
 }
 
+.content-body-search {
+	width: 60%;
+	display: flex;
+	justify-content: center;
+}
+
+summary {
+	cursor: pointer;
+	background-color: #2e2e53;
+	text-align: center;
+	padding: 0.5rem;
+	border-radius: 5px;
+}
+
+summary:hover {
+	background-color: #3e3e7a;
+}
+
 .search-form {
 	display: flex;
+	align-items: center;
 	flex-direction: column;
 	gap: 0.75rem;
 	margin: 10px;
@@ -189,6 +206,7 @@ body:has(details[open]) .vod-table-container {
 
 .rank-links {
 	display: flex;
+	flex-direction: column;
 	gap: 0.5rem;
 	font-size: 1rem;
 }
@@ -197,7 +215,6 @@ body:has(details[open]) .vod-table-container {
 	display: flex;
 	gap: 1rem;
 	justify-content: flex-start;
-	margin-top: 10px;
 }
 
 .buttons input[type="submit"],
