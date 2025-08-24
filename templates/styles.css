@@ -253,13 +253,27 @@ body:has(details[closed]) summary {
 	padding: 0;
 	margin: 10px 0;
 	max-width: 60%;
+	position: relative;
+	border-top: none;
 }
 
 .pagination .page-item {
 	display: inline-block;
 }
 
+/* line above pagination */
+.pagination::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 65%;
+	border-top: 1px solid #2e2e53;
+}
+
 .pagination .page-link {
+	margin-top: 0.5rem;
 	display: block;
 	padding: 0.6rem 0.9rem;
 	text-decoration: none;
