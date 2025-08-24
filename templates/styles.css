@@ -60,7 +60,7 @@ body:has(details[open]) .vod-table-container {
 	/* text-align: left; */
 	border-spacing: 0;
 	font-family: sans-serif;
-	font-size: 0.95rem;
+	font-size: 1.1rem;
 	border-collapse: collapse;
 	max-height: 84vh;
 	/* border-left: 2px solid #2e2e53; */
