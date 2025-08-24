@@ -49,6 +49,7 @@ td {
 	overflow-y: auto;
 	overscroll-behavior: contain; /* prevent page scrolling at end of vods when scrolling the table */
 	max-width: 60%;
+	padding: 0;
 	transition: max-height 0.3s ease, height 0.3s ease;
 }
 /*shrink table when search is open*/
@@ -58,12 +59,12 @@ body:has(details[open]) .vod-table-container {
 
 .vodtable {
 	width: 100%;
-	border: 1px solid var(--text-primary);
 	/* text-align: left; */
 	border-spacing: 0;
 	font-family: sans-serif;
 	font-size: 0.95rem;
 	border-collapse: collapse;
+	max-height: 84vh;
 }
 
 .vodtable th,
@@ -74,11 +75,12 @@ body:has(details[open]) .vod-table-container {
 /* Header row */
 .vodtable th {
 	position: sticky;
-	top: 0px; /* stick to top */
+	top: 0; /* stick to top */
 	background-color: #2e2e53;
 	color: #f5f5f5;
 	z-index: 5;
 	border-right: 1px solid black;
+	background-clip: padding-box;
 }
 
 /* Each cell */
