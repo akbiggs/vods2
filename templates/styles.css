@@ -35,6 +35,7 @@ td {
 	border: none;
 	text-align: left;
 }
+
 .tablerheaders {
 	color: #6161b2;
 }
@@ -47,6 +48,7 @@ td {
 	max-width: 60%;
 	padding: 0;
 	transition: max-height 0.3s ease, height 0.3s ease;
+	border-radius: 5px;
 }
 /*shrink table when search is open*/
 body:has(details[open]) .vod-table-container {
