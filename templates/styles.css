@@ -149,7 +149,7 @@ summary {
 	background-color: #2e2e53;
 	text-align: center;
 	padding: 0.5rem;
-	border-radius: 5px;
+	border-radius: 5px 5px 0px 0px;
 }
 
 summary:hover {
@@ -161,8 +161,18 @@ summary:hover {
 	align-items: center;
 	flex-direction: column;
 	gap: 0.75rem;
-	margin: 10px;
-	max-width: 700px;
+	margin-top: -5px;
+	padding-top: 0;
+	padding: 0.5rem;
+	border-left: 2px solid #2e2e53;
+	border-right: 2px solid #2e2e53;
+	border-bottom: 2px solid #2e2e53;
+	border-radius: 5px;
+}
+
+body:has(details[closed]) summary {
+	border-bottom: 2px solid #2e2e53;
+	border-radius: 5px;
 }
 
 .search-grid {
@@ -170,8 +180,8 @@ summary:hover {
 	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 	gap: 0.75rem 1rem;
 	align-items: center;
+	margin-top: 0.25rem;
 }
-
 .form-group {
 	display: flex;
 	flex-direction: column;
