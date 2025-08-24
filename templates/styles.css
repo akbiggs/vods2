@@ -63,8 +63,8 @@ body:has(details[open]) .vod-table-container {
 	font-size: 0.95rem;
 	border-collapse: collapse;
 	max-height: 84vh;
-	border-left: 2px solid #2e2e53;
-	border-bottom: 2px solid #2e2e53;
+	/* border-left: 2px solid #2e2e53; */
+	/* border-bottom: 2px solid #2e2e53; */
 }
 
 .vodtable th,
