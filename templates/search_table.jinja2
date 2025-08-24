@@ -1,78 +1,95 @@
-<details open>
-    <summary><b>Search:</b></summary>
+<details closed>
+  <summary><b>Search:</b></summary>
 
-    <form action="/search">
-        <div class="search-form flex-col">
-            <div class="flex-row">
-                <span class="search-label">Characters:</span>
-                <span>
-                    <select id="c1_search" name="c1">
-                        <option value="any" {% if not c1 %} selected="selected" {% endif %} >Any</option>
-                        <option value="absa" {% if c1 == 'absa' %} selected="selected" {% endif %}>Absa</option>
-                        <option value="clairen" {% if c1 == 'clairen' %} selected="selected" {% endif %}>Clairen</option>
-                        <option value="etalus" {% if c1 == 'etalus' %} selected="selected" {% endif %}>Etalus</option>
-                        <option value="fleet" {% if c1 == 'fleet' %} selected="selected" {% endif %} >Fleet</option>
-                        <option value="forsburn" {% if c1 == 'forsburn' %} selected="selected" {% endif %}>Forsburn</option>
-                        <option value="kragg" {% if c1 == 'kragg' %} selected="selected" {% endif %}>Kragg</option>
-                        <option value="loxodont" {% if c1 == 'loxodont' %} selected="selected" {% endif %}>Loxodont</option>
-                        <option value="maypul" {% if c1 == 'maypul' %} selected="selected" {% endif %}>Maypul</option>
-                        <option value="olympia" {% if c1 == 'olympia' %} selected="selected" {% endif %}>Olympia</option>
-                        <option value="orcane" {% if c1 == 'orcane' %} selected="selected" {% endif %}>Orcane</option>
-                        <option value="ranno" {% if c1 == 'ranno' %} selected="selected" {% endif %}>Ranno</option>
-                        <option value="wrastor" {% if c1 == 'wrastor' %} selected="selected" {% endif %}>Wrastor</option>
-                        <option value="zetterburn" {% if c1 == 'zetterburn' %} selected="selected" {% endif %}>Zetterburn</option>
-                    </select>
-                </span>
-                <span> vs. </span>
-                <span>
-                    <select id="c2_search" name="c2">
-                        <option value="any" {% if not c2 %} selected="selected" {% endif %} >Any</option>
-                        <option value="absa" {% if c2 == 'absa' %} selected="selected" {% endif %}>Absa</option>
-                        <option value="clairen" {% if c2 == 'clairen' %} selected="selected" {% endif %}>Clairen</option>
-                        <option value="etalus" {% if c2 == 'etalus' %} selected="selected" {% endif %}>Etalus</option>
-                        <option value="fleet" {% if c2 == 'fleet' %} selected="selected" {% endif %} >Fleet</option>
-                        <option value="forsburn" {% if c2 == 'forsburn' %} selected="selected" {% endif %}>Forsburn</option>
-                        <option value="kragg" {% if c2 == 'kragg' %} selected="selected" {% endif %}>Kragg</option>
-                        <option value="loxodont" {% if c2 == 'loxodont' %} selected="selected" {% endif %}>Loxodont</option>
-                        <option value="maypul" {% if c2 == 'maypul' %} selected="selected" {% endif %}>Maypul</option>
-                        <option value="olympia" {% if c2 == 'olympia' %} selected="selected" {% endif %}>Olympia</option>
-                        <option value="orcane" {% if c2 == 'orcane' %} selected="selected" {% endif %}>Orcane</option>
-                        <option value="ranno" {% if c2 == 'ranno' %} selected="selected" {% endif %}>Ranno</option>
-                        <option value="wrastor" {% if c2 == 'wrastor' %} selected="selected" {% endif %}>Wrastor</option>
-                        <option value="zetterburn" {% if c2 == 'zetterburn' %} selected="selected" {% endif %}>Zetterburn</option>
-                    </select>
-                </span>
-            </div>
-            <div class="flex-row">
-                <span class="search-label">Players: </span>
-                <span><input type="text" id="p1_search" name="p1" placeholder="Tag" autocomplete="off" {% if p1 %} value="{{p1}}" {% endif %}/></span>
-                <span> vs. </span>
-                <span><input type="text" id="p2_search" name="p2" placeholder="Tag" autocomplete="off" {% if p2 %} value="{{p2}}" {% endif %}/></span>
-            </div>
-            <div class="flex-row">
-                <label for="event_search" class="search-label">Event: </label>
-                <span><input type="text" id="event_search" name="event" placeholder="Event" autocomplete="off" {% if event %} value="{{event}}" {% endif %}/></span>
-            </div>
-            <div class="flex-row">
-                <label for="rank_search" class="search-label">Ranking: </label>
-                <span>
-                    <select id="rank_search" name="rank">
-                        <option value="any" {% if not rank %} selected="selected" {% endif %} >Any</option>
-                        <option value="one_lunarank" {% if rank == 'one_lunarank' %} selected="selected" {% endif %}>At least one LunaRank player</option>
-                        <option value="two_lunarank" {% if rank == 'two_lunarank' %} selected="selected" {% endif %}>Two LunaRank players</option>
-                        <option value="one_alexrank" {% if rank == 'one_alexrank' %} selected="selected" {% endif %}>At least one AlexList player</option>
-                        <option value="two_alexrank" {% if rank == 'two_alexrank' %} selected="selected" {% endif %}>Two AlexList players</option>
-                    </select>
-                </span>
-                <span>(<a href="https://docs.google.com/spreadsheets/d/1CYgG-m4udT1KzJXZpwlLkka4Sbn9Hx_jIUwcZsF0sIc/edit?gid=0#gid=0">LunaRank</a>, <a href="https://github.com/akbiggs/vods2/blob/main/data/alexrank.txt">AlexList</a>)</span>
-            </div>
-        </div>
-        <div class="buttons">
-        <input type="submit" value="Search"/>
-        <a href="/search">
-            <input type="button" value="Reset"/>
+  <form action="/search" class="search-form">
+
+    <div class="search-grid">
+
+      <!-- Characters -->
+      <div class="form-group">
+        <label for="c1_search">Character 1:</label>
+        <select id="c1_search" name="c1">
+          <option value="any" {% if not c1 %} selected {% endif %}>Any</option>
+          <option value="absa" {% if c1 == 'absa' %} selected {% endif %}>Absa</option>
+          <option value="clairen" {% if c1 == 'clairen' %} selected {% endif %}>Clairen</option>
+          <option value="etalus" {% if c1 == 'etalus' %} selected {% endif %}>Etalus</option>
+          <option value="fleet" {% if c1 == 'fleet' %} selected {% endif %}>Fleet</option>
+          <option value="forsburn" {% if c1 == 'forsburn' %} selected {% endif %}>Forsburn</option>
+          <option value="kragg" {% if c1 == 'kragg' %} selected {% endif %}>Kragg</option>
+          <option value="loxodont" {% if c1 == 'loxodont' %} selected {% endif %}>Loxodont</option>
+          <option value="maypul" {% if c1 == 'maypul' %} selected {% endif %}>Maypul</option>
+          <option value="olympia" {% if c1 == 'olympia' %} selected {% endif %}>Olympia</option>
+          <option value="orcane" {% if c1 == 'orcane' %} selected {% endif %}>Orcane</option>
+          <option value="ranno" {% if c1 == 'ranno' %} selected {% endif %}>Ranno</option>
+          <option value="wrastor" {% if c1 == 'wrastor' %} selected {% endif %}>Wrastor</option>
+          <option value="zetterburn" {% if c1 == 'zetterburn' %} selected {% endif %}>Zetterburn</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="c2_search">Character 2:</label>
+        <select id="c2_search" name="c2">
+          <option value="any" {% if not c2 %} selected {% endif %}>Any</option>
+          <option value="absa" {% if c2 == 'absa' %} selected {% endif %}>Absa</option>
+          <option value="clairen" {% if c2 == 'clairen' %} selected {% endif %}>Clairen</option>
+          <option value="etalus" {% if c2 == 'etalus' %} selected {% endif %}>Etalus</option>
+          <option value="fleet" {% if c2 == 'fleet' %} selected {% endif %}>Fleet</option>
+          <option value="forsburn" {% if c2 == 'forsburn' %} selected {% endif %}>Forsburn</option>
+          <option value="kragg" {% if c2 == 'kragg' %} selected {% endif %}>Kragg</option>
+          <option value="loxodont" {% if c2 == 'loxodont' %} selected {% endif %}>Loxodont</option>
+          <option value="maypul" {% if c2 == 'maypul' %} selected {% endif %}>Maypul</option>
+          <option value="olympia" {% if c2 == 'olympia' %} selected {% endif %}>Olympia</option>
+          <option value="orcane" {% if c2 == 'orcane' %} selected {% endif %}>Orcane</option>
+          <option value="ranno" {% if c2 == 'ranno' %} selected {% endif %}>Ranno</option>
+          <option value="wrastor" {% if c2 == 'wrastor' %} selected {% endif %}>Wrastor</option>
+          <option value="zetterburn" {% if c2 == 'zetterburn' %} selected {% endif %}>Zetterburn</option>
+        </select>
+      </div>
+
+      <!-- Players -->
+      <div class="form-group">
+        <label for="p1_search">Player 1:</label>
+        <input type="text" id="p1_search" name="p1" placeholder="Tag" autocomplete="off" {% if p1 %} value="{{p1}}" {% endif %}>
+      </div>
+
+      <div class="form-group">
+        <label for="p2_search">Player 2:</label>
+        <input type="text" id="p2_search" name="p2" placeholder="Tag" autocomplete="off" {% if p2 %} value="{{p2}}" {% endif %}>
+      </div>
+
+      <!-- Event and Ranking-->
+      <div class="form-group event-rank">
+        <label for="event_search">Event:</label>
+        <input type="text" id="event_search" name="event" placeholder="Event" autocomplete="off" {% if event %} value="{{event}}" {% endif %}>
+                <label for="rank_search">Ranking:</label>
+        <select id="rank_search" name="rank">
+          <option value="any" {% if not rank %} selected {% endif %}>Any</option>
+          <option value="one_lunarank" {% if rank == 'one_lunarank' %} selected {% endif %}>At least one LunaRank player</option>
+          <option value="two_lunarank" {% if rank == 'two_lunarank' %} selected {% endif %}>Two LunaRank players</option>
+          <option value="one_alexrank" {% if rank == 'one_alexrank' %} selected {% endif %}>At least one AlexList player</option>
+          <option value="two_alexrank" {% if rank == 'two_alexrank' %} selected {% endif %}>Two AlexList players</option>
+        </select>
+        <span class="rank-links">
+        <a href="https://docs.google.com/spreadsheets/d/1CYgG-m4udT1KzJXZpwlLkka4Sbn9Hx_jIUwcZsF0sIc/edit?gid=0#gid=0"
+            target="_blank"
+            rel="noopener noreferrer">
+            LunaRank
+            </a> 
+        <a href="https://github.com/akbiggs/vods2/blob/main/data/alexrank.txt" 
+            target="_blank" 
+            rel="noopener noreferrer">
+            AlexList
         </a>
-        </div>
-    </form>
-</details>
 
+        </span>
+            </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="buttons">
+      <input type="submit" value="Search">
+      <a href="/search"><input type="button" value="Reset"></a>
+    </div>
+
+  </form>
+</details>
