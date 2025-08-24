@@ -273,7 +273,7 @@ body:has(details[closed]) summary {
 }
 
 .pagination .page-link {
-	margin-top: 0.5rem;
+	margin-top: 0.35rem;
 	display: block;
 	padding: 0.6rem 0.9rem;
 	text-decoration: none;
