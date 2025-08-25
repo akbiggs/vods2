@@ -46,7 +46,7 @@ You only need to do this once.
 6. Install dependencies.
 
    ```sh
-   python3 -m pip install click==8.1.7 flask==3.1.0
+   python3 -m pip install click==8.1.7 flask==3.1.0 flask-paginate==2024.4.12
    ```
 
 7. Initialize the database. Type "confirm" when the script asks you to.
