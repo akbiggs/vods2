@@ -19,14 +19,14 @@ body {
 	margin-top: 20px;
 	margin-left: 20px;
 	font-family: sans-serif;
-	background-color: Canvas;
+	background-color: #121212;
 	color: CanvasText;
 	color-scheme: light dark;
 	box-sizing: content-box;
 }
 
 .content-body {
-	margin: 10px;
+	margin-top: 10px;
 }
 
 table,
@@ -36,100 +36,258 @@ td {
 	text-align: left;
 }
 
+.tablerheaders {
+	color: #6161b2;
+}
+
 .vod-table-container {
-	max-height: 58vh;
+	max-height: 82vh;
 	min-height: 200px;
 	overflow-y: auto;
-	border: 1px solid #ccc;
-	overscroll-behavior: contain; //prevent page scrolling at end of vods when scrolling the table
+	overscroll-behavior: contain; /* prevent page scrolling at end of vods when scrolling the table */
+	max-width: 60%;
+	padding: 0;
+	transition: max-height 0.3s ease, height 0.3s ease;
+	border-radius: 5px;
+}
+/*shrink table when search is open*/
+body:has(details[open]) .vod-table-container {
+	max-height: 64vh;
 }
 
 .vodtable {
-	border: 1px solid var(--text-primary);
-	text-align: left;
+	width: 100%;
+	/* text-align: left; */
 	border-spacing: 0;
+	font-family: sans-serif;
+	font-size: 1.1rem;
+	border-collapse: collapse;
+	max-height: 84vh;
+	/* border-left: 2px solid #2e2e53; */
+	/* border-bottom: 2px solid #2e2e53; */
 }
 
-/* Each cell now only responsible for half its border, no double bordering. */
 .vodtable th,
 .vodtable td {
-	padding: 5px;
+	box-sizing: border-box;
+}
+
+/* Header row */
+.vodtable th {
+	position: sticky;
+	top: 0; /* stick to top */
+	background-color: #2e2e53;
+	color: #f5f5f5;
+	z-index: 5;
+	border-right: 1px solid black;
+	background-clip: padding-box;
+}
+
+/* Each cell */
+.vodtable td {
+	padding: 0.75rem;
 	border-bottom: 1px solid var(--text-primary);
 	border-right: 1px solid var(--table-border);
+	vertical-align: middle;
 }
 
+/* Vertical and horizontal centering for all table cells */
+.vodtable th,
+.vodtable td {
+	vertical-align: middle;
+	text-align: left;
+	padding: 0.75rem;
+}
+
+/* Row height */
 .vodtable tr {
-	height: 35px;
+	height: 2.75rem;
 }
 
-/* Last cell in each row, don't double border the table. */
+/* Last cell in each row */
 .vodtable th:last-child,
 .vodtable td:last-child {
 	border-right: 0;
 }
 
-/* Last row in table, don't double border the bottom */
-.votdable tr:last-child th,
+/* Last row */
 .vodtable tr:last-child td {
 	border-bottom: 0;
 }
 
+/* Zebra striping*/
+.vodtable tr:nth-child(even) {
+	background-color: #181818;
+}
+
+/*Hover effect with no hover on header row*/
+.vodtable tr:not(:first-child):hover {
+	background-color: #222;
+}
+
+/* Links inside table */
+.vodtable a {
+	text-decoration: none;
+}
+
+.vodtable a:hover {
+	text-decoration: underline;
+}
+
+/* Icons */
+.vodtable img {
+	vertical-align: middle;
+	margin: 0 0.25rem;
+}
+
+.content-body-search {
+	width: 60%;
+	display: flex;
+	justify-content: center;
+}
+
+summary {
+	cursor: pointer;
+	background-color: #2e2e53;
+	text-align: center;
+	padding: 0.5rem;
+	border-radius: 5px 5px 0px 0px;
+}
+
+summary:hover {
+	background-color: #3e3e7a;
+}
+
 .search-form {
-	margin: 10px;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	gap: 0.75rem;
+	margin-top: -5px;
+	padding-top: 0;
+	padding: 0.5rem;
+	border-left: 2px solid #2e2e53;
+	border-right: 2px solid #2e2e53;
+	border-bottom: 2px solid #2e2e53;
+	border-radius: 5px;
 }
 
-.search-form .flex-row {
-	height: 30px;
-	margin-left: 10px;
-	gap: 5px;
+body:has(details[closed]) summary {
+	border-bottom: 2px solid #2e2e53;
+	border-radius: 5px;
 }
 
-.search-form input {
-	height: 20px;
+.search-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 0.75rem 1rem;
+	align-items: center;
+	margin-top: 0.25rem;
+}
+.form-group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
 }
 
+.form-group.event-rank {
+	grid-column: span 2;
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
+	align-items: center;
+}
+
+.form-group.full-width {
+	grid-column: 1 / -1;
+}
+
+.search-form input,
 .search-form select {
-	height: 25px;
+	padding: 0.35rem 0.5rem;
+	font-size: 0.95rem;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	background-color: #181818;
+	color: #f5f5f5;
 }
 
-.search-form .search-label {
-	width: 100px;
-	text-align: right;
+.search-form input::placeholder {
+	color: #bbb;
 }
 
-.searchtable input {
-	width: 100px;
+.rank-links {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	font-size: 1rem;
 }
 
-.searchtable p {
-	margin: 0;
+.buttons {
+	display: flex;
+	gap: 1rem;
+	justify-content: flex-start;
+}
+
+.buttons input[type="submit"],
+.buttons input[type="button"] {
+	background-color: #181818;
+	border: 1px solid #ccc;
+	color: #f5f5f5;
+	cursor: pointer;
+	padding: 0.4rem 0.8rem;
+	border-radius: 4px;
+}
+
+.buttons input[type="submit"]:hover,
+.buttons input[type="button"]:hover {
+	background-color: #333;
 }
 
 .pagination {
 	display: flex;
-	justify-content: start;
-	gap: 5px;
+	justify-content: center;
+	gap: 0.5rem;
 	flex-wrap: wrap;
 	list-style: none;
 	padding: 0;
 	margin: 10px 0;
+	max-width: 60%;
+	position: relative;
+	border-top: none;
 }
 
 .pagination .page-item {
 	display: inline-block;
 }
 
+/* line above pagination */
+.pagination::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 65%;
+	border-top: 1px solid #2e2e53;
+}
+
 .pagination .page-link {
+	margin-top: 0.35rem;
 	display: block;
-	padding: 5px 10px;
+	padding: 0.6rem 0.9rem;
 	text-decoration: none;
-	border: 1px solid #ccc;
-	border-radius: 3px;
+	/* border: 1px solid #ccc; */
+	border-radius: 5px;
 	color: white;
 }
 
+.pagination .page-link:hover {
+	background-color: #333;
+}
+
 .pagination .page-item.active .page-link {
-	background-color: #6161b2;
+	background-color: #2e2e53;
 	color: white;
 	border-color: #6161b2;
 }
@@ -141,4 +299,8 @@ td {
 /* hide "current" in pagination link, kind of hacky but works */
 .page-item.active .sr-only {
 	display: none;
+}
+
+a:visited {
+	color: #8c8cff;
 }

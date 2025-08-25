@@ -9,29 +9,30 @@
 <body>
 
 {% if not is_search %}
-<h1>Recent VODS</h1>
+{# <h1>Recent VODS</h1> #}
 
-<p>Last updated August 16th 2025 (Supernova, more monthlies and other locals (thanks Lumi!!)).</p>
+<p>Last updated: August 16th 2025 (Supernova, more monthlies and other locals (thanks Lumi!!)).</p>
 {% else %}
-<h1>Search Results</h1>
+<h3>Search Results</h3>
 {% endif %}
 
-<div class="content-body">
+<div class="content-body-search">
     {% include "search_table.jinja2" %}
 </div>
+
+<div class="content-body">
+    {% include "vods_table.jinja2" %}
+</div>
+
 {% if pagination %}
 <div class="pagination-links">
     {{ pagination.links }}
 </div>
 {% endif %}
 
-<div class="content-body">
-    {% include "vods_table.jinja2" %}
-</div>
-
 <h1>Submit a VOD</h1>
 
-To suggest a VOD you can <a href="https://github.com/akbiggs/vods2/edit/main/data/vods.csv">edit this file</a>.
+To suggest a VOD you can <a href="https://github.com/akbiggs/vods2/edit/main/data/vods.csv" target="_blank" rel="noopener noreferrer">edit this file</a>.
 
 </div>
 
