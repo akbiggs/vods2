@@ -1,7 +1,12 @@
 {% if vods %}
 <div class="vod-table-container">
 <table class="vodtable">
-  <tr><th style="width:20%">Date</th><th>Match</th><th>Event</th><th title="Patches are guessed from the YouTube upload date and not guaranteed to be accurate.">Patch ⓘ</th>
+  <tr>
+    <th style="width:20%">Date</th>
+    <th>Match</th>
+    <th>Event</th>
+    <th>Round</th>
+    <th title="Patches are guessed from the YouTube upload date and not guaranteed to be accurate.">Patch ⓘ</th>
 </tr>
   {% for vod in vods %}
   <tr>
@@ -18,7 +23,9 @@
       <a href="/search?c1=any&c2=any&p1=&p2=&event={{ vod.event_name | urlencode | replace('%20', '+') }}&rank=any">
         {{ vod.event_name }}
       </a>
-      {% if vod.round %} ({{ vod.round }}){% endif %}
+    </td>
+    <td>
+          {% if vod.round %} ({{ vod.round }}){% endif %}
     </td>
     <td>{% if vod.patch_name %}<a href="{{ vod.patch_url }}" rel="noopener noreferrer">{{ vod.patch_name }}</a>{% endif %}</td>
   </tr>

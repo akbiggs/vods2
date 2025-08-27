@@ -52,7 +52,7 @@ td {
 }
 /*shrink table when search is open*/
 body:has(details[open]) .vod-table-container {
-	max-height: 64vh;
+	max-height: 68vh;
 }
 
 .vodtable {
