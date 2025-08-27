@@ -45,14 +45,14 @@ td {
 	min-height: 200px;
 	overflow-y: auto;
 	overscroll-behavior: contain; /* prevent page scrolling at end of vods when scrolling the table */
-	max-width: 60%;
+	max-width: 70%;
 	padding: 0;
 	transition: max-height 0.3s ease, height 0.3s ease;
 	border-radius: 5px;
 }
 /*shrink table when search is open*/
 body:has(details[open]) .vod-table-container {
-	max-height: 68vh;
+	max-height: 65vh;
 }
 
 .vodtable {
@@ -62,7 +62,7 @@ body:has(details[open]) .vod-table-container {
 	font-family: sans-serif;
 	font-size: 1.1rem;
 	border-collapse: collapse;
-	max-height: 84vh;
+	max-height: 82vh;
 	/* border-left: 2px solid #2e2e53; */
 	/* border-bottom: 2px solid #2e2e53; */
 }
@@ -141,7 +141,7 @@ body:has(details[open]) .vod-table-container {
 }
 
 .content-body-search {
-	width: 60%;
+	width: 70%;
 	display: flex;
 	justify-content: center;
 }
@@ -252,7 +252,7 @@ body:has(details[closed]) summary {
 	list-style: none;
 	padding: 0;
 	margin: 10px 0;
-	max-width: 60%;
+	max-width: 70%;
 	position: relative;
 	border-top: none;
 }
@@ -268,7 +268,7 @@ body:has(details[closed]) summary {
 	top: 0;
 	left: 50%;
 	transform: translateX(-50%);
-	width: 65%;
+	width: 60%;
 	border-top: 1px solid #2e2e53;
 }
 
