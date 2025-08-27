@@ -3,26 +3,27 @@
 <table class="vodtable">
   <tr>
     <th style="width:8.5%" title="MM/DD/YYYY">Date <span class="info">&#128712;</span></th>
-    <th>Match</th>
     <th>Event</th>
+    <th>Match</th>
     <th>Round</th>
     <th style="width:9%" title="Patches are guessed from the YouTube upload date and not guaranteed to be accurate.">Patch <span class="info">&#128712;</span></th>
 </tr>
   {% for vod in vods %}
   <tr>
     <td>{{ vod.vod_date.strftime("%m/%d/%y") if vod.vod_date else '' }}</td>
+
     <td>
+      <a href="/search?c1=any&c2=any&p1=&p2=&event={{ vod.event_name | urlencode | replace('%20', '+') }}&rank=any">
+        {{ vod.event_name }}
+      </a>
+    </td>
+        <td>
       <span>
         <a href="{{ vod.url }}" rel="noopener noreferrer">
           <img src="{{ vod.c1_icon_url }}" width="24" height="24"/> {{ vod.p1_tag }} vs. 
           <img src="{{ vod.c2_icon_url }}" width="24" height="24"/> {{ vod.p2_tag }}
         </a>
       </span>
-    </td>
-    <td>
-      <a href="/search?c1=any&c2=any&p1=&p2=&event={{ vod.event_name | urlencode | replace('%20', '+') }}&rank=any">
-        {{ vod.event_name }}
-      </a>
     </td>
     <td>
           {% if vod.round %} {{ vod.round }}{% endif %}
