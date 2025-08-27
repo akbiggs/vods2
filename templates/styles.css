@@ -85,7 +85,7 @@ body:has(details[open]) .vod-table-container {
 
 /* Info icon in header */
 .info {
-	font-size: 1.25rem;
+	font-size: 0.9rem;
 	font-weight: lighter;
 }
 
