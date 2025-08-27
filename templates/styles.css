@@ -170,6 +170,7 @@ summary:hover {
 	border-right: 2px solid #2e2e53;
 	border-bottom: 2px solid #2e2e53;
 	border-radius: 5px;
+	min-height: fit-content;
 }
 
 body:has(details[closed]) summary {
