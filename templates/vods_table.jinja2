@@ -2,7 +2,7 @@
 <div class="vod-table-container">
 <table class="vodtable">
   <tr>
-    <th style="width:8.5%" title="MM/DD/YYYY">Date <span class="info">&#128712;</span></th>
+    <th style="width:8.5%" title="MM/DD/YY">Date <span class="info">&#128712;</span></th>
     <th>Event</th>
     <th>Match</th>
     <th>Round</th>
@@ -11,7 +11,6 @@
   {% for vod in vods %}
   <tr>
     <td>{{ vod.vod_date.strftime("%m/%d/%y") if vod.vod_date else '' }}</td>
-
     <td>
       <a href="/search?c1=any&c2=any&p1=&p2=&event={{ vod.event_name | urlencode | replace('%20', '+') }}&rank=any">
         {{ vod.event_name }}
