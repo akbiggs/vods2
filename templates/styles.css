@@ -1,5 +1,5 @@
 :root {
-	--text-primary: black;
+	--text-primary: white
 	--table-border: black;
 }
 
@@ -81,6 +81,10 @@ body:has(details[open]) .vod-table-container {
 	z-index: 5;
 	border-right: 1px solid black;
 	background-clip: padding-box;
+}
+
+.patchHeader{
+	width: 9%;
 }
 
 /* Info icon in header */
@@ -190,7 +194,7 @@ body:has(details[closed]) summary {
 	align-items: center;
 	margin-top: 0.25rem;
 }
-
+/*Mobile Fixes*/
 @media (max-width: 1000px) {
 	.search-grid {
 		display: grid;
@@ -200,6 +204,24 @@ body:has(details[closed]) summary {
 		display: flex;
 		justify-content: flex-start;
 		width: 100%;
+	}
+	.vod-table-container {
+		max-width: 100%;
+	}
+	details[open] {
+		width: 100%;
+	}
+	.pagination {
+		min-width: 100%;
+	}
+	/* table td:first-child,
+	table th:first-child,
+	table td:last-child,
+	table th:last-child {
+    display: none;
+  } */
+	.patchHeader{
+		width: 10%;
 	}
 }
 .form-group {
