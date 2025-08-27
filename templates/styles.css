@@ -170,7 +170,6 @@ summary:hover {
 	border-right: 2px solid #2e2e53;
 	border-bottom: 2px solid #2e2e53;
 	border-radius: 5px;
-	min-height: fit-content;
 }
 
 body:has(details[closed]) summary {
@@ -184,6 +183,18 @@ body:has(details[closed]) summary {
 	gap: 0.75rem 1rem;
 	align-items: center;
 	margin-top: 0.25rem;
+}
+
+@media (max-width: 1000px) {
+	.search-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+	.content-body-search {
+		display: flex;
+		justify-content: flex-start;
+		width: 100%;
+	}
 }
 .form-group {
 	display: flex;
