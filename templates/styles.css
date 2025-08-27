@@ -83,6 +83,12 @@ body:has(details[open]) .vod-table-container {
 	background-clip: padding-box;
 }
 
+/* Info icon in header */
+.info {
+	font-size: 1.25rem;
+	font-weight: lighter;
+}
+
 /* Each cell */
 .vodtable td {
 	padding: 0.75rem;
