@@ -318,8 +318,8 @@ a:visited {
 /*Mobile Fixes*/
 @media (max-width: 1000px) {
 	.search-grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
+		display: flex;
+		flex-direction: column;
 	}
 	.content-body-search {
 		display: flex;
@@ -329,8 +329,25 @@ a:visited {
 	.vod-table-container {
 		max-width: 100%;
 	}
-	details[open] {
+	details[open]{
 		width: 100%;
+	}
+	details{
+		width: 100%;
+	}
+	.form-group{
+		width: 100%;
+	}
+	.buttons{
+		display: flex;
+		justify-content: center;
+		gap: 10rem;
+		width: 100%;
+	}
+	.buttons input[type="submit"],
+	.buttons input[type="button"] {
+		width:10rem;
+		height: 3rem;
 	}
 	.pagination {
 		min-width: 100%;
@@ -344,4 +361,5 @@ a:visited {
 	.patchHeader{
 		width: 10%;
 	}
+
 }
