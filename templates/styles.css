@@ -1,5 +1,5 @@
 :root {
-	--text-primary: black;
+	--text-primary: white
 	--table-border: black;
 }
 
@@ -81,6 +81,10 @@ body:has(details[open]) .vod-table-container {
 	z-index: 5;
 	border-right: 1px solid black;
 	background-clip: padding-box;
+}
+
+.patchHeader{
+	width: 9%;
 }
 
 /* Info icon in header */
@@ -189,18 +193,6 @@ body:has(details[closed]) summary {
 	gap: 0.75rem 1rem;
 	align-items: center;
 	margin-top: 0.25rem;
-}
-
-@media (max-width: 1000px) {
-	.search-grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-	}
-	.content-body-search {
-		display: flex;
-		justify-content: flex-start;
-		width: 100%;
-	}
 }
 .form-group {
 	display: flex;
@@ -321,4 +313,53 @@ body:has(details[closed]) summary {
 
 a:visited {
 	color: #8c8cff;
+}
+
+/*Mobile Fixes*/
+@media (max-width: 1000px) {
+	.search-grid {
+		display: flex;
+		flex-direction: column;
+	}
+	.content-body-search {
+		display: flex;
+		justify-content: flex-start;
+		width: 100%;
+	}
+	.vod-table-container {
+		max-width: 100%;
+	}
+	details[open]{
+		width: 100%;
+	}
+	details{
+		width: 100%;
+	}
+	.form-group{
+		width: 100%;
+	}
+	.buttons{
+		display: flex;
+		justify-content: center;
+		gap: 10rem;
+		width: 100%;
+	}
+	.buttons input[type="submit"],
+	.buttons input[type="button"] {
+		width:10rem;
+		height: 3rem;
+	}
+	.pagination {
+		min-width: 100%;
+	}
+	table td:first-child,
+	table th:first-child,
+	table td:last-child,
+	table th:last-child {
+    display: none;
+  	}
+	.patchHeader{
+		width: 10%;
+	}
+
 }
