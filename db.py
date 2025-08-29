@@ -68,6 +68,7 @@ def get_character_id(name):
     if name == 'oly': name = 'olympia'
     if name == 'maple': name = 'maypul'
     if name == 'mapul': name = 'maypul'
+    if name == 'lox': name = 'loxodont'
 
     return CHAR_NAME_TO_ID.get(name)
 
@@ -625,6 +626,11 @@ def extract_vods_v1_command(vod_url, event):
     duration_iso = yt_response.get('items')[0].get('contentDetails').get('duration')
     duration = parse_iso8601_duration(duration_iso)
 
+    # Common bad readings that we have to tell the model to watch out for.
+    BAD_READINGS = {
+        'Cpuo': 'CPU0'
+    }
+
     # If you try to run a video that is too long through Gemini's API, the API
     # call will fail with an internal error with no additional details.
     # To work around this, we split the analysis into multiple Gemini API calls
@@ -677,7 +683,7 @@ The rest of this prompt is the original prompt for the first Gemini API call for
                             fps=0.005,
                         )
                     ),
-                    genai.types.Part(text=prelude + """Whenever a new match begins in the video, tell me the tags of the players that are playing in this match, what round it is and what characters they are playing, and the playback time when the match began.
+                    genai.types.Part(text=prelude + f"""Whenever a new match begins in the video, tell me the tags of the players that are playing in this match, what round it is and what characters they are playing, and the playback time when the match began.
 
 There are several factors that indicate that a match has begun. All of these criteria must be met:
 
@@ -689,7 +695,9 @@ The player tags and round name are located at the top of the video.
 Player tags and round names should be formatted as proper names (not all-caps).
 Sometimes player tags will start with a different colored word. This is a sponsor title and it should be omitted from the player tag.
 The character names are located at the bottom of the video. The character names are on the same side as the respective player names.
-The YouTube playback time must be in seconds.""")
+The YouTube playback time must be in seconds.
+
+Some common player tag errors and their corrections: [{','.join(f'\'{k}\' -> \'{v}\'' for k, v in BAD_READINGS.items())}]""")
                 ]
             ),
             # I tried for a while to get Gemini to consistently give me back structured text just using my
@@ -804,7 +812,7 @@ def ingest_multi_vod_command(multi_vod_url, event, datetime_str, title_format, f
     
     Example:
 
-        flask ingest-multi-vod https://www.youtube.com/watch?v=blah "CEO 2025" "%P1 (%C1) %V %P2 (%C2)" "2025-06-17 21:33:44+00:00" description.txt
+        flask ingest-multi-vod "https://www.youtube.com/watch?v=blah" "CEO 2025" "%P1 (%C1) %V %P2 (%C2)" "2025-06-17 21:33:44+00:00" description.txt
 
     where description.txt is lines in the format:
 
