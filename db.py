@@ -1,7 +1,8 @@
 import sqlite3
 import click
 import re
-from datetime import datetime, timezone
+import math
+from datetime import datetime, timezone, timedelta
 from flask import current_app, g
 
 from models import Vod, Patch, VodAndPatch, ParsedVodTitle
@@ -71,6 +72,7 @@ def get_character_id(name):
     return CHAR_NAME_TO_ID.get(name)
 
 def ensure_event(event):
+    """Creates a new Event entry if it doesn't already exist and returns the ID."""
     db = get_db()
     entry = db.cursor().execute("SELECT id, name FROM event WHERE name = ?;", (event,)).fetchone()
     if not entry:
@@ -80,6 +82,7 @@ def ensure_event(event):
     return entry[0] if entry else None
 
 def ensure_player(player):
+    """Creates a new Player entry if it doesn't already exist and returns the ID."""
     db = get_db()
     entry = db.cursor().execute("SELECT id, tag FROM player WHERE tag = ?;", (player,)).fetchone()
     if not entry:
@@ -586,6 +589,210 @@ def export_vods_command(filename):
             row = [url, p1_tag, c1_name, p2_tag, c2_name, event_name, round if round else '', vod_date if vod_date else '']
             vod_writer.writerow(row)
 
+@click.command('extract-vods')
+@click.argument('vod_url')
+@click.argument('event')
+def extract_vods_v1_command(vod_url, event):
+    """Analyzes a vod for player names and characters.
+
+    This is an MVP implementation that requires a Gemini API key.
+    
+    Example:
+    
+        flask extract-vods "https://www.youtube.com/watch?v=gWtNu_6hoDY" "Wasteland Warriors #22"
+    """
+    from google import genai
+    import googleapiclient.discovery
+    import googleapiclient.errors
+    import time
+    import json
+
+    print("Fetching the video publish date...")
+    yt_api_service_name = "youtube"
+    yt_api_version = "v3"
+    yt_api_key = None
+    with open('youtube_api_key') as f:
+        yt_api_key = f.readline().strip()
+    youtube = googleapiclient.discovery.build(
+        yt_api_service_name, yt_api_version, developerKey=yt_api_key
+    )
+    yt_request = youtube.videos().list(
+        part="snippet,contentDetails,statistics",
+        id=vod_url.split('?v=')[1]
+    )
+    yt_response = yt_request.execute()
+    vod_date = yt_response.get('items')[0].get('snippet').get('publishedAt')
+    duration_iso = yt_response.get('items')[0].get('contentDetails').get('duration')
+    duration = parse_iso8601_duration(duration_iso)
+
+    # If you try to run a video that is too long through Gemini's API, the API
+    # call will fail with an internal error with no additional details.
+    # To work around this, we split the analysis into multiple Gemini API calls
+    # if it exceeds MAX_DURATION_SECONDS_PER_REQUEST.
+    MAX_DURATION_SECONDS_PER_REQUEST = 3200
+    num_genai_calls = math.ceil(duration.total_seconds() / MAX_DURATION_SECONDS_PER_REQUEST) # TODO: cleanup
+    if num_genai_calls > 1:
+        print(f'Splitting the analysis into {num_genai_calls} Gemini API calls.')
+
+    def analyze_chunk(n, matches, start_seconds, end_seconds):
+        start = time.time()
+
+        genai_client = None
+        with open('gemini_api_key') as f:
+            api_key = f.readline().strip()
+            genai_client = genai.Client(api_key=api_key)
+
+        # Sometimes during later API calls, Gemini seems to lose track of what
+        # the timestamp should be and reports super early timestamps, screwing
+        # things up. So for any chunk after the first chunk, we show it some of
+        # the existing response that it is adding to, so it hopefully remains
+        # more consistent from call to call.
+        prelude = ""
+        if n > 0:
+            prelude = f"""You are in the middle of a Gemini video analysis to find timestamps where matches begin in a competitive tournament video. Previous Gemini API calls have found some earlier matches.
+            
+You are analyzing the range {start_seconds} to {end_seconds}, while the previous Gemini API call analyzed the range {start_seconds - MAX_DURATION_SECONDS_PER_REQUEST} to {end_seconds - MAX_DURATION_SECONDS_PER_REQUEST}. The timestamps you return should fall within your designated analysis range.
+
+If it helps improve the analysis, I've noticed from running these prompts on you many times that your analysis is very accurate for earlier timestamps (in fact it is usually pinpoint precise for the first match) and wildly inaccurate with later timestamps (for example the timestamp starts in the middle of the wrong match instead of the beginning of the right match). I'm not sure if that gives you a clue to improve your accuracy. I am looking for accuracy over speed here.
+
+The results from the previous API calls follow. Your timestamps should not be lower than the last result's timestamp. Bad timestamps have been a frequent bug when I prompt you without this context.
+
+```
+{matches}
+```
+
+The rest of this prompt is the original prompt for the first Gemini API call for this tournament, which you should follow.
+
+"""
+
+        response = genai_client.models.generate_content(
+            model='models/gemini-2.5-pro',
+            contents=genai.types.Content(
+                parts=[
+                    genai.types.Part(
+                        file_data=genai.types.FileData(file_uri=vod_url),
+                        video_metadata=genai.types.VideoMetadata(
+                            start_offset=f'{start_seconds}s',
+                            end_offset=f'{end_seconds}s',
+                            fps=0.005,
+                        )
+                    ),
+                    genai.types.Part(text=prelude + """Whenever a new match begins in the video, tell me the tags of the players that are playing in this match, what round it is and what characters they are playing, and the playback time when the match began.
+
+There are several factors that indicate that a match has begun. All of these criteria must be met:
+
+- The game count reads 0 for both players.
+- The percentage count reads 0 for both players.
+- At least one of the player names has changed recently.
+
+The player tags and round name are located at the top of the video.
+Player tags and round names should be formatted as proper names (not all-caps).
+Sometimes player tags will start with a different colored word. This is a sponsor title and it should be omitted from the player tag.
+The character names are located at the bottom of the video. The character names are on the same side as the respective player names.
+The YouTube playback time must be in seconds.""")
+                ]
+            ),
+            # I tried for a while to get Gemini to consistently give me back structured text just using my
+            # prompt, but it kept inserting backticks and dashes and other annoying things.
+            # After a while I gave up, so here I require a JSON schema for the output that looks like:
+            # [ { time, p1, p2, c1, c2, round (optional) } ]
+            config=genai.types.GenerateContentConfig(
+                response_mime_type="application/json",
+                response_schema={
+                    'type': 'ARRAY',
+                    'items': {
+                        'type': 'OBJECT',
+                        'properties': {
+                            'time': {'type': 'INTEGER', 'format': 'int32'},
+                            'player1': {'type': 'STRING'},
+                            'player2': {'type': 'STRING'},
+                            'character1': {'type': 'STRING'},
+                            'character2': {'type': 'STRING'},
+                            'round': {'type': 'STRING'},
+                        },
+                        'required': ['time', 'player1', 'player2', 'character1', 'character2']
+                    }
+                }
+            )
+        )
+
+        print(f'Finished Gemini call in {(time.time() - start):.2f} seconds.')
+        print(response.text)
+        return json.loads(response.text)
+
+    matches = []
+    # Uncomment these lines (and comment out the for-loop below) to test with a
+    # specific time range. This is useful for testing changes quickly and with
+    # less API quota, as analyzing a full event vod uses a significant number of
+    # tokens and takes a while.
+    # print("Analyzing the video for matches using Gemini. This usually takes a few minutes...")
+    # matches = analyze_chunk(0, 1200)
+    for n in range(0, num_genai_calls):
+        print(f'Call {n+1}/{num_genai_calls}: Calling Gemini to analyze the video. This usually takes a few minutes...')
+        matches += analyze_chunk(
+            n=n,
+            matches=matches,
+            start_seconds=n * MAX_DURATION_SECONDS_PER_REQUEST,
+            end_seconds=min(duration.total_seconds(), (n+1) * MAX_DURATION_SECONDS_PER_REQUEST))
+    
+    # Parse the Gemini response into individual vods.
+    db = get_db()
+    results = []
+    seen_sets = [] # [(p1, p2, round)]
+    matches.sort(key=lambda x: x.get('time'))
+    print('Debugging all matches...')
+    print(matches)
+    for match in matches:
+        t = match.get('time')
+        url = vod_url + f"&t={t}"
+
+        existing_vod = db.cursor().execute("SELECT id from vod WHERE url = ? LIMIT 1;", (url,)).fetchone()
+        if existing_vod:
+            click.echo(f'ALREADY PRESENT: {match}')
+            continue
+
+        if not match.get('character1') or not match.get('character2') or not match.get('player1') or not match.get('player2'):
+            click.echo(f'MISSING DATA: {match}')
+            continue
+
+        p1 = match['player1']
+        c1 = match['character1']
+        p2 = match['player2']
+        c2 = match['character2']
+        round = match.get('round')
+
+        result = f'p1={p1} c1={c1} p2={p2} c2={c2} event={event} round={round} vod_date={vod_date} url={url}'
+        # A vod starts on the first game of the set, i.e. don't add matches that have the same players and round name.
+        # This is only necessary because I can't get Gemini to omit later matches in a set in its response.
+        already_added = any(p1 == seen_p1 and p2 == seen_p2 and round == seen_round for (seen_p1, seen_p2, seen_round) in seen_sets)
+        if already_added:
+            continue
+        seen_sets.append((p1, p2, round))
+
+        click.echo(result)
+        results.append(result)
+
+        event_id = ensure_event(event)
+        p1_id = ensure_player(p1)
+        p2_id = ensure_player(p2)
+        c1_id = get_character_id(c1)
+        c2_id = get_character_id(c2)
+
+        if not c1_id or not c2_id:
+            continue     
+
+        db.cursor().execute("""
+                            INSERT INTO vod (game_id, event_id, url, p1_id, p2_id, c1_id, c2_id, vod_date, round)
+                            VALUES          (?,       ?,        ?,   ?,     ?,     ?,     ?,     ?,        ?);
+                            """, (RIVALS_OF_AETHER_TWO, event_id, url, p1_id, p2_id, c1_id, c2_id, vod_date, round,))
+
+    response = input(f'Are you sure you want to commit {len(results)} VODs? [y/n] ')
+    if response.lower() in ['y', 'yes']:
+        db.commit()
+        click.echo('Committed successfully!')
+    else:
+        click.echo('Aborting.')
+
 @click.command('ingest-multi-vod')
 @click.argument('multi_vod_url')
 @click.argument('event')
@@ -659,15 +866,15 @@ def ingest_multi_vod_command(multi_vod_url, event, datetime_str, title_format, f
 def title_query_to_regex_str(query):
     """Converts queries like "%P1 (%C1) %V %P2 (%C2)" into a regex str."""
     return (re.escape(query)
-                    .replace('%SIDE', '(([\s*W\s*])|([\s*L\s*]))')
-                    .replace('%E', '(?P<event>[\s*#*\(*\s*\w~#&;\-:.\)*]+)')
-                    .replace('%P1', '(?P<p1>[\s*\w\$|&;:~!?#.@\-\+]+)')
-                    .replace('%P2', '(?P<p2>[\s*\w\$|&;:~!?#.@\-\+]+)')
-                    .replace('%C1', '(?P<c1>[\s*\w/*,*]+)')
-                    .replace('%C2', '(?P<c2>[\s*\w/*,*]+)')
+                    .replace('%SIDE', r'(([\s*W\s*])|([\s*L\s*]))')
+                    .replace('%E', r'(?P<event>[\s*#*\(*\s*\w~#&;\-:.\)*]+)')
+                    .replace('%P1', r'(?P<p1>[\s*\w\$|&;:~!?#.@\-\+]+)')
+                    .replace('%P2', r'(?P<p2>[\s*\w\$|&;:~!?#.@\-\+]+)')
+                    .replace('%C1', r'(?P<c1>[\s*\w/*,*]+)')
+                    .replace('%C2', r'(?P<c2>[\s*\w/*,*]+)')
                     .replace('%V', '((vs.)|(vs)|(Vs.)|(VS.)|(Vs)|(VS))')
                     .replace('%ROA', '((RoA2)|(ROA2)|(RoA 2)|(ROA 2)|(RoAII)|(ROAII)|(Rivals II)|(RIVALS 2)|(RIVALS II)|(RIVALS OF AETHER 2)|(RIVALS OF AETHER II)|(Rivals 2)|(Rivals of Aether 2)|(Rivals 2 Tournament)|(Rivals of Aether II)|(Rivals II Bracket)|(Rivals 2 Bracket))?')
-                    .replace('%R', '(?P<round>[\s*\(*\s*\w\-#&;\)*]+)'))
+                    .replace('%R', r'(?P<round>[\s*\(*\s*\w\-#&;\)*]+)'))
 
 def parse_vod_title(title, url, format_regex, default_event_name="Unknown"):
     info = format_regex.match(title.strip())
@@ -754,6 +961,14 @@ def patch_vods(vods, patches):
     
     return patched_vods
 
+# Thanks to https://stackoverflow.com/a/77332099.
+def parse_iso8601_duration(duration: str) -> timedelta:    
+    pattern = r"^P(?:(?P<days>\d+\.\d+|\d*?)D)?T?(?:(?P<hours>\d+\.\d+|\d*?)H)?(?:(?P<minutes>\d+\.\d+|\d*?)M)?(?:(?P<seconds>\d+\.\d+|\d*?)S)?$"
+    match = re.match(pattern, duration)
+    if not match:
+        raise ValueError(f"Invalid ISO 8601 duration: {duration}")
+    parts = {k: float(v) for k, v in match.groupdict("0").items()}
+    return timedelta(**parts)
 
 def prompt(text, default=None):
     value = input(f'{text} ' + (f'[{default}]' if default else '') + ': ')
@@ -773,3 +988,4 @@ def init_app(app):
     app.cli.add_command(export_vods_command)
     app.cli.add_command(ingest_multi_vod_command)
     app.cli.add_command(ingest_playlist_command)
+    app.cli.add_command(extract_vods_v1_command)

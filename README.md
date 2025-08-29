@@ -100,7 +100,7 @@ Adding VODs from a YouTube channel currently requires the Google Python API
 Client to use YouTube's API.
 
 ```sh
-python3 -m pip install google-api-python-client
+python3 -m pip install google-api-python-client==2.179.0
 ```
 
 You also need to
@@ -174,6 +174,33 @@ The corresponding command would be:
 python3 -m flask ingest-playlist "https://www.youtube.com/playlist?list=PLG_10Q9RHnFwFQwGbNUmz_hO6mUJiAnei" "Monthly of Aether #9: NA" "%P1 ( %C1 ) %V %P2 ( %C2 ) - [ %R ]"
 ```
 
+### Adding VODs automatically from a large VOD (experimental)
+
+Sometimes large VODs are uploaded without timestamps for matches. We try to
+support these vods by analyzing the video for matches automatically.
+
+This currently requires Google's genai library to use Gemini's video analysis.
+
+```sh
+python3 -m pip install -q -U google-genai==1.32.0
+```
+
+You also need to
+[get a Gemini API key](https://aistudio.google.com/apikey)
+and put it in a `gemini_api_key` file in the top-level `vods2` folder. Note
+that there is no file extension on `gemini_api_key`.
+
+You can then ingest a large VOD using:
+
+```sh
+python3 -m flask extract-vods "<youtube_url>" "<event_name>"
+```
+
+For example for Wasteland Warriors #22:
+
+```sh
+python3 -m flask extract-vods "https://www.youtube.com/watch?v=gWtNu_6hoDY" "Wasteland Warriors #22"
+```
 
 ### Exporting VODs list
 

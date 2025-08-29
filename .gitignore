@@ -12,7 +12,8 @@ wheels/
 # Databases.
 *.db
 
-# YouTube API key.
+# API keys.
+gemini_api_key
 youtube_api_key
 
 # Temp files.
