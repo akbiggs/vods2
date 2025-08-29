@@ -627,6 +627,11 @@ def extract_vods_v1_command(vod_url, event):
     duration = parse_iso8601_duration(duration_iso)
 
     # Common bad readings that we have to tell the model to watch out for.
+    # TODO: Unused right now because my logic for inserting it breaks with
+    # Python 3.10 (which is what PythonAnywhere uses).
+    #   File "/home/akbiggs/mysite/db.py", line 700
+    #    Some common player tag errors and their corrections: [{','.join(f'\'{k}\' -> \'{v}\'' for k, v in BAD_READINGS.items())}]""")
+    #      SyntaxError: f-string expression part cannot include a backslash
     BAD_READINGS = {
         'Cpuo': 'CPU0'
     }
@@ -696,8 +701,7 @@ Player tags and round names should be formatted as proper names (not all-caps).
 Sometimes player tags will start with a different colored word. This is a sponsor title and it should be omitted from the player tag.
 The character names are located at the bottom of the video. The character names are on the same side as the respective player names.
 The YouTube playback time must be in seconds.
-
-Some common player tag errors and their corrections: [{','.join(f'\'{k}\' -> \'{v}\'' for k, v in BAD_READINGS.items())}]""")
+""")
                 ]
             ),
             # I tried for a while to get Gemini to consistently give me back structured text just using my
