@@ -1,5 +1,5 @@
 {% if vods %}
-<div class="vod-table-container">
+<div class="vod-table-container {% if request.path == '/' %}home{% endif %}">
   <table class="vodtable">
     <tr>
       <th style="width:8.5%" title="MM/DD/YY">Date <span class="info">&#128712;</span></th>

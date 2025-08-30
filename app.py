@@ -134,3 +134,11 @@ def submit_page():
 @app.route("/credits")
 def credits_page():
     return render_template("home.jinja2", channels=get_channels())
+
+@app.route("/contact")
+def contact_page():
+    return render_template("home.jinja2")
+
+@app.route("/about")
+def about_page():
+    return render_template("home.jinja2")

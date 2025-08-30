@@ -50,6 +50,10 @@ td {
 	border-radius: 5px;
 	margin-left: 0.5rem;
 }
+/*we have more space on home page so make table bigger*/
+.vod-table-container.home {
+	max-height: 88vh;
+}
 
 /*shrink table when search is open*/
 body:has(details[open]) .vod-table-container {
@@ -318,7 +322,7 @@ body:has(details[closed]) summary {
 .navbarContainer {
 	display: flex;
 	height: 2.75rem;
-	gap: 10rem;
+	gap: 5rem;
 	background-color: #2e2e53;
 	margin-bottom: 0.5rem;
 	font-weight: bold;
@@ -364,6 +368,7 @@ body:has(details[closed]) summary {
 	}
 	a:hover {
 		color: #bbbbff;
+	}
 }
 
 
@@ -427,5 +432,4 @@ body:has(details[closed]) summary {
 	a {
 		color: #6d6dc1;
 	}
-
 }
