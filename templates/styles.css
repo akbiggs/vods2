@@ -345,6 +345,11 @@ body:has(details[closed]) summary {
 	background-color: #3e3e7a;
 }
 
+.navbar-item.is-active{
+	border-bottom: 2px solid white;
+	border-radius: 2px;
+}
+
 .updateContainer {
 	display: flex;
 	align-items: center;
@@ -354,7 +359,11 @@ body:has(details[closed]) summary {
 	border-radius: 5px;
 	font-size: 0.9rem;
 	font-weight: normal;
-
+	a {
+		color: #ffffff;
+	}
+	a:hover {
+		color: #bbbbff;
 }
 
 
