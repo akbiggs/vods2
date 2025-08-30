@@ -48,6 +48,7 @@ td {
 	padding: 0;
 	transition: max-height 0.3s ease, height 0.3s ease;
 	border-radius: 5px;
+	margin-left: 0.5rem;
 }
 
 /*shrink table when search is open*/
