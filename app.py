@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request , redirect
 from markupsafe import escape
 from urllib.parse import urlparse
 from flask_paginate import Pagination, get_page_parameter
@@ -31,40 +31,40 @@ def validate_submission_input(url, p1_char, p2_char, p1_tag, p2_tag, event, roun
 
 @app.route("/")
 def home_page():
-    latest_vods = list(db.latest_vods())
-    patches = db.load_patches()
-    vods = db.patch_vods(latest_vods, patches)
+    #We are redirecting to search page because search is basically the same as home page now
 
-    # pagination setup
+    # latest_vods = list(db.latest_vods())
+    # patches = db.load_patches()
+    # vods = db.patch_vods(latest_vods, patches)
 
-    page = request.args.get(get_page_parameter(), type=int, default=1)
-    # number of items per page
-    per_page = 80
-    offset = (page - 1) * per_page
-    total = len(vods)
+    # # pagination setup
 
-    # slice vods for current page
-    vods_paginated = vods[offset: offset + per_page]
-    pagination = Pagination(
-        page=page,
-        per_page=per_page,
-        total=total,
-        inner_window=2,
-        outer_window=1,
-        prev_label='<&nbsp;&nbsp;&nbsp;Previous',
-        next_label='Next&nbsp;&nbsp;&nbsp;>',
-        css_framework='bootstrap5',
-        bs_version=5
-    )
+    # page = request.args.get(get_page_parameter(), type=int, default=1)
+    # # number of items per page
+    # per_page = 80
+    # offset = (page - 1) * per_page
+    # total = len(vods)
 
-    return render_template(
-        "home.jinja2",
-        vods=vods_paginated,
-        channels=get_channels(),
-        is_search=False,
-        pagination=pagination
-    )
+    # # slice vods for current page
+    # vods_paginated = vods[offset: offset + per_page]
+    # pagination = Pagination(
+    #     page=page,
+    #     per_page=per_page,
+    #     total=total,
+    #     inner_window=2,
+    #     outer_window=1,
+    #     prev_label='<&nbsp;&nbsp;&nbsp;Previous',
+    #     next_label='Next&nbsp;&nbsp;&nbsp;>',
+    #     css_framework='bootstrap5',
+    #     bs_version=5
+    # )
 
+    # return render_template(
+    #     "home.jinja2",
+    #     vods=vods_paginated,        is_search=False,
+    #     pagination=pagination
+    # )
+    return redirect("/search", code=302)
 @app.route("/search")
 def search_page():
     p1 = request.args.get('p1') or ''
@@ -128,3 +128,19 @@ def vod_post():
         db.create_submission(url, p1_char, p2_char, p1_tag, p2_tag, event, round, date)
         return render_template('submission_success.jinja2')
     return render_template('submission_fail.jinja2')
+
+@app.route("/submit")
+def submit_page():
+    return render_template("home.jinja2")
+
+@app.route("/credits")
+def credits_page():
+    return render_template("home.jinja2", channels=get_channels())
+
+@app.route("/contact")
+def contact_page():
+    return render_template("home.jinja2")
+
+@app.route("/about")
+def about_page():
+    return render_template("home.jinja2")
