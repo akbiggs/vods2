@@ -40,7 +40,7 @@ You only need to do this once.
     On Unix:
 
     ```sh
-    chmod +x .venv/bin/activate && .venv/bin/activate
+    chmod +x .venv/bin/activate && source .venv/bin/activate
     ```
 
 6. Install dependencies.
