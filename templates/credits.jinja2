@@ -1,27 +1,41 @@
+<p>The VODs on this site come from the following YouTube channels. Thanks for uploading your VODs.</p>
 
-    <p>The VODs on this site come from the following YouTube channels. Thanks for uploading your VODs.</p>
+<ul>
+  {% for channel in channels %}
+    <li>
+      <a href="{{ channel.url }}" rel="noopener noreferrer">{{ channel.name }}</a>
+    </li>
+  {% endfor %}
+</ul>
 
-    <ul>
-      {% for channel in channels %}
-        <li><a href="{{ channel.url }}" rel="noopener noreferrer">{{ channel.name }}</a></li>
-      {% endfor %}
-    </ul>
+<p>
+  If you know more channels that you would like to see added, feel free to DM
+  <a href="https://discordapp.com/users/akbiggs">akbiggs</a> on Discord.
+</p>
 
-    <p>If you know more channels that you would like to see added, feel free to DM <a href="https://discordapp.com/users/akbiggs">akbiggs</a> on Discord.</p>
+<p>
+  This site is
+  <a href="https://www.github.com/akbiggs/vods2" rel="noopener noreferrer">built</a>
+  with Python using
+  <a href="https://flask.palletsprojects.com" rel="noopener noreferrer">Flask</a>
+  and
+  <a href="https://click.palletsprojects.com" rel="noopener noreferrer">Click</a>.
+</p>
 
-    <p>This site is <a href="https://www.github.com/akbiggs/vods2" rel="noopener noreferrer">built</a> with Python using <a href="https://flask.palletsprojects.com" rel="noopener noreferrer">Flask</a> and <a href="https://click.palletsprojects.com" rel="noopener noreferrer">Click</a>.</p>
+<p>Special thanks:</p>
 
-    <p>Special thanks:</p>
+<ul>
+  <li>Lumi: tons of VODs, styling, playlist ingestion.</li>
+  <li>
+    Wisp for contributing
+    <a href="https://github.com/akbiggs/vods2/pull/1" rel="noopener noreferrer">style improvements.</a>
+  </li>
+</ul>
 
-    <ul>
-      <li>Lumi: tons of VODs, styling, playlist ingestion.</li>
-      <li>Wisp for contributing <a href="https://github.com/akbiggs/vods2/pull/1" rel="noopener noreferrer">style improvements.</a></li>
-    </ul>
+<p>Roadmap:</p>
 
-    <p>Roadmap:</p>
-
-    <ul>
-      <li>Add more VODs.</li>
-      <li>Make the site look okay.</li>
-      <li>Make the character order in the VODs table reflect the search order.</li>
-    </ul>
+<ul>
+  <li>Add more VODs.</li>
+  <li>Make the site look okay.</li>
+  <li>Make the character order in the VODs table reflect the search order.</li>
+</ul>

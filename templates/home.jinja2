@@ -1,50 +1,60 @@
 <!doctype html>
 <head>
-<title>Rivals 2 VODS</title>
-<style>
-{% include "styles.css" %}
-</style>
+    <title>Rivals 2 VODS</title>
+    <style>
+        {% include "styles.css" %}
+    </style>
 </head>
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 <body>
 
-{# Always display #}
-<div class=navbarContainer>
-    {% include "navbar.jinja2" %}
-</div>
+    {# Always display #}
+    <div class="navbarContainer">
+        {% include "navbar.jinja2" %}
+    </div>
 
-{# Main Page Render #}
-{%if request.path == "/" %}
-<div class="content-body">
-    {% include "vods_table.jinja2" %}
-</div>
-<div class="pagination-links">
-    {{ pagination.links }}
-</div>
+    {# Main Page Render #}
+    {% if request.path == "/" %}
+        <div class="content-body">
+            {% include "vods_table.jinja2" %}
+        </div>
+        <div class="pagination-links">
+            {{ pagination.links }}
+        </div>
 
-{# Search Page Render #}
-{% elif request.path == "/search" %}
-<div class="content-body-search">
-    {% include "search_table.jinja2" %}
-</div>
-<div class="content-body">
-    {% include "vods_table.jinja2" %}
-</div>
-{% if pagination %}
-<div class="pagination-links">
-    {{ pagination.links }}
-</div>
-{% endif %}
+    {# Search Page Render #}
+    {% elif request.path == "/search" %}
+        <div class="content-body-search">
+            {% include "search_table.jinja2" %}
+        </div>
+        <div class="content-body">
+            {% include "vods_table.jinja2" %}
+        </div>
+        {% if pagination %}
+            <div class="pagination-links">
+                {{ pagination.links }}
+            </div>
+        {% endif %}
 
-{# Submit Page Render #}
-{% elif request.path == "/submit" %}
-<div class="infoPages">
-    {% include "submit.jinja2" %}
-</div>
-
-{# Credits Page Render #}
-{% elif request.path == "/credits" %}
-<div class="infoPages">
-    {% include "credits.jinja2" %}
-{% endif %}
+    {# Submit Page Render #}
+    {% elif request.path == "/submit" %}
+        <div class="infoPages">
+            {% include "submit.jinja2" %}
+        </div>
+    {# Credits Page Render #}
+    {% elif request.path == "/credits" %}
+        <div class="infoPages">
+            {% include "credits.jinja2" %}
+        </div>
+    {# Contact Page Render#}
+    {% elif request.path == "/contact" %}
+        <div class="infoPages">
+            {% include "contact.jinja2" %}
+        </div>
+    {# About Page Render#}
+    {% elif request.path == "/about" %}
+        <div class="infoPages">
+            {% include "about.jinja2" %}
+        </div>
+    {% endif %}
 </body>
