@@ -633,7 +633,8 @@ def extract_vods_v1_command(vod_url, event):
     #    Some common player tag errors and their corrections: [{','.join(f'\'{k}\' -> \'{v}\'' for k, v in BAD_READINGS.items())}]""")
     #      SyntaxError: f-string expression part cannot include a backslash
     BAD_READINGS = {
-        'Cpuo': 'CPU0'
+        'Cpuo': 'CPU0',
+        'Sawstepp': 'Sawstep',
     }
 
     # If you try to run a video that is too long through Gemini's API, the API
