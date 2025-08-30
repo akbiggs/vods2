@@ -1,3 +1,4 @@
+* August 30: Hop On Rivals #31 - #26
 * August 29: Added support for full tournament vods without timestamps, added a few such tournaments.
 * August 28: Collision, Runway Rivals + mobile revamp
 * August 25: Lumi redesigned the site and added a bunch of VODs
