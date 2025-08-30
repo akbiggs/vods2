@@ -368,6 +368,10 @@ body:has(details[closed]) summary {
 }
 
 
+.infoPages{
+	margin-left: 1rem;
+}
+
 /*Mobile Fixes*/
 @media (max-width: 1000px) {
 	.search-grid {
