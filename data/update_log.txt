@@ -1,0 +1,22 @@
+* August 29: Added support for full tournament vods without timestamps, added a few such tournaments.
+* August 28: Collision, Runway Rivals + mobile revamp
+* August 25: Lumi redesigned the site and added a bunch of VODs
+* August 16: Supernova, more monthlies and other locals (thanks Lumi!!)
+* August 16: Monthlies and other locals. Supernova coming soon
+* August 6: EVO 2025 Top 8, Major's Mansion, more locals
+* July 8: GOML 2025
+* July 3: UW Bothell, CEO 2025 H Pools
+* July 2: CEO 2025, more locals, Absa support.
+* June 9: more locals
+* May 28: Combo Breaker 2025. I got 13th btw
+* May 24: Warped #6, Fusion 251, Frosty Faustings XVII
+* May 22: more locals, updated rankings
+* May 14: back from vacation! Zeekly VODs + more locals
+* April 22: more locals
+* April 19: Eagle's Nest 15, Slipstream Showdown 2, Aether Reborn #3
+* April 17: more VODs from all followed channels
+* April 16: more VODs from all followed channels
+* April 10: show guess for patch number in VOD table
+* April 1: BoBC7 second half, Olympia support and ranking list filter
+* March 31: Hitfall 3.5, BoBC7 first half, KML 5-Y
+* March 18: Run The Rivals #6, Monthly of Aether #4
