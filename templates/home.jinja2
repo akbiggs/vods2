@@ -9,11 +9,11 @@
 <body>
 
 {% if not is_search %}
-<p>Last updated: August 29th 2025 (Collision, Runway Rivals + mobile revamp).</p>
+{# <p>Last updated: August 29th 2025 (Collision, Runway Rivals + mobile revamp).</p> #}
 {% else %}
 {# <h3>Search Results</h3> #}
 {% endif %}
-
+    {% include "navbar.jinja2" %}
 <div class="content-body-search">
     {% include "search_table.jinja2" %}
 </div>
@@ -28,7 +28,7 @@
 </div>
 {% endif %}
 
-<h1>Submit a VOD</h1>
+{# <h1>Submit a VOD</h1>
 
 To suggest a VOD you can <a href="https://github.com/akbiggs/vods2/edit/main/data/vods.csv" rel="noopener noreferrer">edit this file</a>.
 
@@ -38,6 +38,6 @@ To suggest a VOD you can <a href="https://github.com/akbiggs/vods2/edit/main/dat
 
 <div class="content-body">
     {% include "credits.jinja2" %}
-</div>
+</div> #}
 
 </body>

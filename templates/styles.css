@@ -15,12 +15,11 @@
 }
 
 body {
-	margin-top: 20px;
-	margin-left: 20px;
 	font-family: sans-serif;
 	background-color: #121212;
 	color: white;
 	color-scheme: light dark;
+	margin: 0;
 }
 
 .content-body {
@@ -313,6 +312,30 @@ body:has(details[closed]) summary {
 .page-item.active .sr-only {
 	display: none;
 }
+
+.navbar {
+  background-color: #2e2e53;
+  height: 3rem;
+  display: flex;
+  margin-bottom: 0.5rem;
+  border-radius: 0px 0px 5px 5px;
+}
+
+.navbar a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  padding: 0 1rem;
+}
+
+.navbar a:hover {
+  background-color: #3e3e7a;
+}
+
 
 /*Mobile Fixes*/
 @media (max-width: 1000px) {
