@@ -50,10 +50,6 @@ td {
 	border-radius: 5px;
 	margin-left: 0.5rem;
 }
-/*we have more space on home page so make table bigger*/
-.vod-table-container.home {
-	max-height: 88vh;
-}
 
 /*shrink table when search is open*/
 body:has(details[open]) .vod-table-container {

@@ -12,18 +12,9 @@
     <div class="navbarContainer">
         {% include "navbar.jinja2" %}
     </div>
-
-    {# Main Page Render #}
-    {% if request.path == "/" %}
-        <div class="content-body">
-            {% include "vods_table.jinja2" %}
-        </div>
-        <div class="pagination-links">
-            {{ pagination.links }}
-        </div>
-
+    
     {# Search Page Render #}
-    {% elif request.path == "/search" %}
+    {% if request.path == "/search" %}
         <div class="content-body-search">
             {% include "search_table.jinja2" %}
         </div>

@@ -1,7 +1,6 @@
 {# The request path stuff is to help highlight which page the user is on#}
 <nav class="navbar">
-    <a class="navbar-item {% if request.path == '/' %}is-active{% endif %}" href="/">Home</a>
-    <a class="navbar-item {% if request.path == '/search' %}is-active{% endif %}" href="/search">Search</a>
+    <a class="navbar-item {% if request.path == '/search' %}is-active{% endif %}" href="/search">Home</a>
     <a class="navbar-item {% if request.path == '/submit' %}is-active{% endif %}" href="/submit">Submit</a>
     <a class="navbar-item {% if request.path == '/credits' %}is-active{% endif %}" href="/credits">Credits</a>
     <a class="navbar-item {% if request.path == '/contact' %}is-active{% endif %}" href="/contact">Contact</a>
