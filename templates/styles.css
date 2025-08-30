@@ -20,6 +20,7 @@ body {
 	color: white;
 	color-scheme: light dark;
 	margin: 0;
+	height: 100vh;
 }
 
 .content-body {
@@ -38,7 +39,7 @@ td {
 }
 
 .vod-table-container {
-	max-height: 82vh;
+	max-height: 83.5vh;
 	min-height: 200px;
 	overflow-y: auto;
 	overscroll-behavior: contain;
@@ -313,27 +314,45 @@ body:has(details[closed]) summary {
 	display: none;
 }
 
+.navbarContainer {
+	display: flex;
+	height: 2.75rem;
+	gap: 10rem;
+	background-color: #2e2e53;
+	margin-bottom: 0.5rem;
+	font-weight: bold;
+}
+
 .navbar {
-  background-color: #2e2e53;
-  height: 3rem;
-  display: flex;
-  margin-bottom: 0.5rem;
-  border-radius: 0px 0px 5px 5px;
+	justify-content: flex-start;
+	display: flex;
+	border-radius: 0px 0px 5px 5px;
 }
 
 .navbar a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-  padding: 0 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	text-decoration: none;
+	border-radius: 5px;
+	transition: background-color 0.3s ease;
+	padding: 0 1rem;
 }
 
 .navbar a:hover {
-  background-color: #3e3e7a;
+	background-color: #3e3e7a;
+}
+
+.updateContainer {
+	display: flex;
+	align-items: center;
+	background-color: #2e2e53;
+	color: white;
+	padding: 0.5rem 1rem;
+	border-radius: 5px;
+	font-size: 0.9rem;
+	font-weight: normal;
 }
 
 
