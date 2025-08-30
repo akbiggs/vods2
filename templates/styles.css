@@ -1,6 +1,5 @@
 :root {
-	--text-primary: white
-	--table-border: black;
+	--text-primary: white --table-border: black;
 }
 
 .flex-row {
@@ -43,12 +42,14 @@ td {
 	max-height: 82vh;
 	min-height: 200px;
 	overflow-y: auto;
-	overscroll-behavior: contain; /* prevent page scrolling at end of vods when scrolling the table */
+	overscroll-behavior: contain;
+	/* prevent page scrolling at end of vods when scrolling the table */
 	max-width: 60%;
 	padding: 0;
 	transition: max-height 0.3s ease, height 0.3s ease;
 	border-radius: 5px;
 }
+
 /*shrink table when search is open*/
 body:has(details[open]) .vod-table-container {
 	max-height: 65vh;
@@ -74,7 +75,8 @@ body:has(details[open]) .vod-table-container {
 /* Header row */
 .vodtable th {
 	position: sticky;
-	top: 0; /* stick to top */
+	top: 0;
+	/* stick to top */
 	background-color: #2e2e53;
 	color: #f5f5f5;
 	z-index: 5;
@@ -82,7 +84,7 @@ body:has(details[open]) .vod-table-container {
 	background-clip: padding-box;
 }
 
-.patchHeader{
+.patchHeader {
 	width: 9%;
 }
 
@@ -193,6 +195,7 @@ body:has(details[closed]) summary {
 	align-items: center;
 	margin-top: 0.25rem;
 }
+
 .form-group {
 	display: flex;
 	flex-direction: column;
@@ -305,13 +308,10 @@ body:has(details[closed]) summary {
 	color: #999;
 	pointer-events: none;
 }
+
 /* hide "current" in pagination link, kind of hacky but works */
 .page-item.active .sr-only {
 	display: none;
-}
-
-a:visited {
-	color: #8c8cff;
 }
 
 /*Mobile Fixes*/
@@ -320,46 +320,57 @@ a:visited {
 		display: flex;
 		flex-direction: column;
 	}
+
 	.content-body-search {
 		display: flex;
 		justify-content: flex-start;
 		width: 100%;
 	}
+
 	.vod-table-container {
 		max-width: 100%;
 	}
-	details[open]{
+
+	details[open] {
 		width: 100%;
 	}
-	details{
+
+	details {
 		width: 100%;
 	}
-	.form-group{
+
+	.form-group {
 		width: 100%;
 	}
-	.buttons{
+
+	.buttons {
 		display: flex;
 		justify-content: center;
 		gap: 10rem;
 		width: 100%;
 	}
+
 	.buttons input[type="submit"],
 	.buttons input[type="button"] {
-		width:10rem;
+		width: 10rem;
 		height: 3rem;
 	}
+
 	.pagination {
 		min-width: 100%;
 	}
+
 	table td:first-child,
 	table th:first-child,
 	table td:last-child,
 	table th:last-child {
-    display: none;
-  	}
-	.patchHeader{
+		display: none;
+	}
+
+	.patchHeader {
 		width: 10%;
 	}
+
 	a {
 		color: #6d6dc1;
 	}

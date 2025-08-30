@@ -258,12 +258,14 @@ def parse_date(str):
 # COMMANDS
 
 @click.command('init-db')
-def init_db_command():
+@click.option('--force', '-f', is_flag=True)
+def init_db_command(force):
     """Clear the existing data and create new tables."""
-    response = input("This is going to drop the database. Type \"confirm\" to confirm: ")
-    if response != "confirm":
-        print("Aborting.")
-        return
+    if not force:
+        response = input("This is going to drop the database. Type \"confirm\" to confirm: ")
+        if response != "confirm":
+            print("Aborting.")
+            return
 
     init_db()
     click.echo('Initialized the database.')
