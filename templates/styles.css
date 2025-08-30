@@ -39,7 +39,7 @@ td {
 }
 
 .vod-table-container {
-	max-height: 83.5vh;
+	max-height: 83vh;
 	min-height: 200px;
 	overflow-y: auto;
 	overscroll-behavior: contain;
