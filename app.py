@@ -59,9 +59,7 @@ def home_page():
 
     return render_template(
         "home.jinja2",
-        vods=vods_paginated,
-        channels=get_channels(),
-        is_search=False,
+        vods=vods_paginated,        is_search=False,
         pagination=pagination
     )
 
@@ -128,3 +126,11 @@ def vod_post():
         db.create_submission(url, p1_char, p2_char, p1_tag, p2_tag, event, round, date)
         return render_template('submission_success.jinja2')
     return render_template('submission_fail.jinja2')
+
+@app.route("/submit")
+def submit_page():
+    return render_template("home.jinja2")
+
+@app.route("/credits")
+def credits_page():
+    return render_template("home.jinja2", channels=get_channels())

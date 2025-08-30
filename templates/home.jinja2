@@ -8,36 +8,43 @@
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 <body>
 
-{% if not is_search %}
-{# <p>Last updated: August 29th 2025 (Collision, Runway Rivals + mobile revamp).</p> #}
-{% else %}
-{# <h3>Search Results</h3> #}
-{% endif %}
+{# Always display #}
+<div class=navbarContainer>
     {% include "navbar.jinja2" %}
-<div class="content-body-search">
-    {% include "search_table.jinja2" %}
 </div>
 
+{# Main Page Render #}
+{%if request.path == "/" %}
 <div class="content-body">
     {% include "vods_table.jinja2" %}
 </div>
+<div class="pagination-links">
+    {{ pagination.links }}
+</div>
 
+{# Search Page Render #}
+{% elif request.path == "/search" %}
+<div class="content-body-search">
+    {% include "search_table.jinja2" %}
+</div>
+<div class="content-body">
+    {% include "vods_table.jinja2" %}
+</div>
 {% if pagination %}
 <div class="pagination-links">
     {{ pagination.links }}
 </div>
 {% endif %}
 
-{# <h1>Submit a VOD</h1>
-
-To suggest a VOD you can <a href="https://github.com/akbiggs/vods2/edit/main/data/vods.csv" rel="noopener noreferrer">edit this file</a>.
-
+{# Submit Page Render #}
+{% elif request.path == "/submit" %}
+<div class="infoPages">
+    {% include "submit.jinja2" %}
 </div>
 
-<h1>Credits</h1>
-
-<div class="content-body">
+{# Credits Page Render #}
+{% elif request.path == "/credits" %}
+<div class="infoPages">
     {% include "credits.jinja2" %}
-</div> #}
-
+{% endif %}
 </body>

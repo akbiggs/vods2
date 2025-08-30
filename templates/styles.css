@@ -354,6 +354,7 @@ body:has(details[closed]) summary {
 	border-radius: 5px;
 	font-size: 0.9rem;
 	font-weight: normal;
+
 }
 
 
