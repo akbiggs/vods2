@@ -5,8 +5,8 @@ import urllib.parse
 from datetime import datetime
 import sys
 
-# Usage: python3 utils/update_template.py [numberOfEvents]
-# numberOfEvents is optional, defaults to 4, max is 8
+# Usage: python3 utils/update_template.py    # uses default of 4 events
+#        python3 utils/update_template.py 5  # uses 5 events
 
 # db path
 db_path = Path(__file__).parent.parent / "database.db"
