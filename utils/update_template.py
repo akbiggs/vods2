@@ -33,7 +33,16 @@ def update_event_links(numberOfEvents: int = 4) -> None:
     recentEvents = getRecentEventNames(numberOfEvents)
 
     today = datetime.today()
-    formattedDate = today.strftime("%B %d, %Y")
+    day=today.day
+
+    # so we don't have to import another library just for this
+    # https://stackoverflow.com/questions/739241/date-ordinal-output?noredirect=1&lq=1
+    if 4 <= day <= 20 or 24 <= day <= 30:
+        suffix = "th"
+    else:
+        suffix = ["st", "nd", "rd"][day % 10 - 1]
+
+    formattedDate = today.strftime(f"%B {day}{suffix}, %Y")
 
     # build jinja file
     jinjaContent = '<div class="updateContainer">\n    <p>Last updated: ' + formattedDate + ' | '
