@@ -14,7 +14,7 @@ db_path = Path(__file__).parent.parent / "database.db"
 # path to template output
 output_file = Path(__file__).parent.parent / "templates/updates.jinja2"
 
-def getRecentEventNames(numberOfEvents: int = 5) -> List[str]:
+def getRecentEventNames(numberOfEvents: int = 4) -> List[str]:
     """Return the most recent event names from the database."""
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
