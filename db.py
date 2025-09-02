@@ -538,12 +538,10 @@ def ingest_playlist_command(playlist_url, event_name, format_str):
             if not info:
                 click.echo(f'DOES NOT MATCH: {title}')
                 continue
-                
-            #debugging because I am learning 
-            # if not info.c1_id or not info.c2_id:
-            #     click.echo(f'UNRECOGNIZED CHARACTER: {info.c1} or {info.c2} in {title}')
-            #     continue
 
+            if not info.c1_id or not info.c2_id:
+                continue
+                
             result = f'INGESTED: {info.p1} ({info.c1}) vs {info.p2} ({info.c2}) - {info.round} [{published_at}]'
             click.echo(result)
             results.append(result)
@@ -882,7 +880,7 @@ def title_query_to_regex_str(query):
     """Converts queries like "%P1 (%C1) %V %P2 (%C2)" into a regex str."""
     return (re.escape(query)
                     .replace('%SIDE', r'(([\s*W\s*])|([\s*L\s*]))')
-                    .replace('%E', r'(?P<event>[\s*#*\(*\s*\w~#&;\-:.\)*]+)')
+                    .replace('%E', r'(?P<event>[\s*#*\(*\s*\w\'~#&;\-:.\)*]+)')
                     .replace('%P1', r'(?P<p1>[\s*\w\$|&;:~!?#.@\-\+]+)')
                     .replace('%P2', r'(?P<p2>[\s*\w\$|&;:~!?#.@\-\+]+)')
                     .replace('%C1', r'(?P<c1>[\s*\w/*,*]+)')

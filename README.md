@@ -148,7 +148,7 @@ You can add VODs from a YouTube playlist to the database using the following
 command:
 
 ```sh
-python3 -m flask ingest-playlist <playlist_url> '<event_name>' '<video_title_format>'
+python3 -m flask ingest-playlist "playlist_url" '<event_name>' '<video_title_format>'
 ```
 
 where:
