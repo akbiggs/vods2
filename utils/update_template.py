@@ -37,6 +37,7 @@ def update_event_links(numberOfEvents: int = 4) -> None:
 
     # so we don't have to import another library just for this
     # https://stackoverflow.com/questions/739241/date-ordinal-output?noredirect=1&lq=1
+    
     if 4 <= day <= 20 or 24 <= day <= 30:
         suffix = "th"
     else:
@@ -45,12 +46,15 @@ def update_event_links(numberOfEvents: int = 4) -> None:
     formattedDate = today.strftime(f"%B {day}{suffix}, %Y")
 
     # build jinja file
-    jinjaContent = '<div class="updateContainer">\n    <p>Last updated: ' + formattedDate + ' | '
+    jinjaContent = '<div class="updateContainer">\n    <p>Last updated: ' + formattedDate + ' | ' + '\n'
     links = []
-    for event in recentEvents:
+    for i,event in enumerate(recentEvents):
         eventURL = urllib.parse.quote_plus(event)
-        links.append(f'<a href="/search?c1=any&c2=any&p1=&p2=&event={eventURL}&rank=any">{{{{ "{event}" }}}}</a>')
-    jinjaContent += ', '.join(links)
+        # add comma except for last one
+        comma = "," if i < len(recentEvents)-1 else ""
+        # \t for indentation
+        links.append(f'\t\t<a href="/search?c1=any&c2=any&p1=&p2=&event={eventURL}&rank=any">{event}</a>{comma}')
+    jinjaContent += '\n'.join(links)
     jinjaContent += '\n    </p>\n</div>'
 
     with open(output_file, "w", encoding="utf-8") as file:
