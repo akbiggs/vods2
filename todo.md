@@ -22,7 +22,7 @@
   - https://www.youtube.com/@broscalamity/videos
   - https://www.youtube.com/@thedunkdojogaming/videos
   - https://www.youtube.com/@dgttx512/videos
-  - https://www.youtube.com/@PGHRivals/videos
+  - ~~https://www.youtube.com/@PGHRivals/videos~~
   - Most of these are from https://docs.google.com/spreadsheets/d/1C3rJHZWzKMurMJmjACMEB1JZziPyNMrj57b5fE-4t9A/edit?gid=0#gid=0
 - Work on vod-splitter for faster ingestion of large untagged vods https://github.com/Ludini1/vod-splitter
 - Backfill large untagged vods (for example Hop On has a lot of good high-level content, Hop On #24 - #1 need to be ingested)
