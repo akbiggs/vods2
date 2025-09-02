@@ -163,6 +163,7 @@ where:
     -   `%E`: (optional) The event name.
     -   `%R`: (optional) The round name.
     -   `%V`: (optional) Some versus text, for example "vs", "VS", "vs.".
+    -   `%ROA`: (optional) Some reference to Rivals of Aether II, for example "RoA2", "Rivals of Aether II", "Rivals 2".
 
 For example if you want to add the playlist for [Monthly of Aether #9: NA](https://www.youtube.com/playlist?list=PLG_10Q9RHnFwFQwGbNUmz_hO6mUJiAnei), an example video title is:
 
