@@ -8,8 +8,10 @@ import sys
 # Usage: python3 utils/update_template.py    # uses default of 4 events
 #        python3 utils/update_template.py 5  # uses 5 events
 
-#Note: If you drop DB/re-ingest CSV this script will no longer be able to accurately pull the latest events
-#      because the IDs will be reset. You will need to manually edit the output jinja2 file if you care enough.
+#Note: If you drop DB/re-ingest CSV this script will no longer 
+#      be able to accurately pull the latest added events because the IDs will be reset.
+#      Instead it will pull the events with the most recent dates. 
+#      You will need to manually edit the output jinja2 file if you care enough.
 
 # db path
 db_path = Path(__file__).parent.parent / "database.db"
