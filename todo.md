@@ -17,7 +17,7 @@
   - https://www.youtube.com/@gamequestpg/streams
   - https://youtube.com/@RivalsofAetherEurope/videos
   - ~~https://www.youtube.com/@rivalsofasia7265/videos~~ **DONE**
-  - https://www.youtube.com/@LADAETHER
+  - ~~https://www.youtube.com/@LADAETHER~~ **DONE**
   - https://www.youtube.com/@SuperiorCalRivals2/videos hasn't been parsed correctly apparently?
   - https://www.youtube.com/@broscalamity/videos
   - https://www.youtube.com/@thedunkdojogaming/videos
