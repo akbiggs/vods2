@@ -56,7 +56,7 @@ def update_event_links(numberOfEvents: int = 4) -> None:
         # add comma except for last one
         comma = "," if i < len(recentEvents)-1 else ""
         # \t for indentation
-        links.append(f'\t\t<a href="/search?c1=any&c2=any&p1=&p2=&event={eventURL}&rank=any">{event}</a>{comma}')
+        links.append(f'\t\t<a href="/?c1=any&c2=any&p1=&p2=&event={eventURL}&rank=any">{event}</a>{comma}')
     jinjaContent += '\n'.join(links)
     jinjaContent += '\n    </p>\n</div>'
 
