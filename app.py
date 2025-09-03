@@ -29,8 +29,8 @@ def validate_submission_input(url, p1_char, p2_char, p1_tag, p2_tag, event, roun
         return "Only YouTube and Twitch VODs are accepted for now."
     return None
 
-@app.route("/")
-def home_page():
+# @app.route("/")
+# def home_page():
     #We are redirecting to search page because search is basically the same as home page now
 
     # latest_vods = list(db.latest_vods())
@@ -64,8 +64,8 @@ def home_page():
     #     vods=vods_paginated,        is_search=False,
     #     pagination=pagination
     # )
-    return redirect("/search", code=302)
-@app.route("/search")
+    # return redirect("/search", code=302)
+@app.route("/")
 def search_page():
     p1 = request.args.get('p1') or ''
     p2 = request.args.get('p2') or ''
