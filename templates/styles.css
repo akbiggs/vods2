@@ -437,3 +437,12 @@ body:has(details[closed]) summary {
 		color: #6d6dc1;
 	}
 }
+/*1440p*/
+@media (min-width: 2560px) {
+	.vod-table-container {
+  		max-height: 88vh;
+	}
+	body:has(details[open]) .vod-table-container {
+  		max-height: 74.5vh;
+	}
+}
