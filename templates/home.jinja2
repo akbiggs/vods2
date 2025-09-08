@@ -10,16 +10,16 @@
 
     {# Always display #}
     <div class="navbarContainer">
-        {% include "navbar.jinja2" %}
+        {% include "./navbar/navbar.jinja2" %}
     </div>
     
     {# Search Page Render #}
     {% if request.path == "/" %}
         <div class="content-body-search">
-            {% include "search_table.jinja2" %}
+            {% include "./search/search_table.jinja2" %}
         </div>
         <div class="content-body">
-            {% include "vods_table.jinja2" %}
+            {% include "./table/vods_table.jinja2" %}
         </div>
         {% if pagination %}
             <div class="pagination-links">
@@ -30,22 +30,22 @@
     {# Submit Page Render #}
     {% elif request.path == "/submit" %}
         <div class="infoPages">
-            {% include "submit.jinja2" %}
+            {% include "./submit/submit.jinja2" %}
         </div>
     {# Credits Page Render #}
     {% elif request.path == "/credits" %}
         <div class="infoPages">
-            {% include "credits.jinja2" %}
+            {% include "./credits/credits.jinja2" %}
         </div>
     {# Contact Page Render#}
     {% elif request.path == "/contact" %}
         <div class="infoPages">
-            {% include "contact.jinja2" %}
+            {% include "./contact/contact.jinja2" %}
         </div>
     {# About Page Render#}
     {% elif request.path == "/about" %}
         <div class="infoPages">
-            {% include "about.jinja2" %}
+            {% include "./about/about.jinja2" %}
         </div>
     {% endif %}
 </body>
