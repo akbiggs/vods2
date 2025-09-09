@@ -1,2 +1,2 @@
-Weird Esports/Run The Rivals flask-ingest-playlist "PLAYLISTURL" "Run The Rivals #" "[%E] %R - %P1 (%C1) %V %P2 (%C2)"
-Rivals of Aether Uruguay flask-ingest-playlist "PLAYLISTURL" "EVENTNAME" "%E | %ROA | %R - %P1 (%C1) %V %P2 (%C2)"
+Weird Esports/Run The Rivals flask ingest-playlist "PLAYLISTURL" "Run The Rivals #" "[%E] %R - %P1 (%C1) %V %P2 (%C2)"
+Rivals of Aether Uruguay flask ingest-playlist "PLAYLISTURL" "EVENTNAME" "%E | %ROA | %R - %P1 (%C1) %V %P2 (%C2)"
