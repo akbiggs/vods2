@@ -1,24 +1,36 @@
-<p>The VODs on this site come from the following YouTube channels. Thanks for uploading your VODs.</p>
-
-<ul>
-  {% for channel in channels %}
-    <li>
-      <a href="{{ channel.url }}" rel="noopener noreferrer">{{ channel.name }}</a>
-    </li>
-  {% endfor %}
-</ul>
-
+<style>
+  {% include "/credits/credits.css" %}
+</style>
 <p>
-  If you know more channels that you would like to see added, feel free to DM
-  <a href="https://discordapp.com/users/akbiggs">akbiggs</a> on Discord.
+  The VODs on this site come from the following YouTube channels.
 </p>
 
-<p>Special thanks:</p>
+<div class="credits-grid">
+  {% for channel in channels %}
+    <a href="{{ channel.url }}" target="_blank" rel="noopener noreferrer" class="credits-card-link">
+      <div class="credits-card">
+        <p class="channel-name">{{ channel.name }}</p>
+        <p class="channel-url">{{ channel.url }}</p>
+      </div>
+    </a>
+  {% endfor %}
+</div>
 
-<ul>
-  <li><a href="https://github.com/Lumi-sg" rel="noopener noreferrer">Lumi</a>: tons of VODs, styling, playlist ingestion.</li>
-  <li>
-    <a href="https://github.com/dwinings" rel="noopener noreferrer">Wisp</a> for contributing
-    <a href="https://github.com/akbiggs/vods2/pull/1" rel="noopener noreferrer">style improvements.</a>
-  </li>
-</ul>
+<div class="more-credits">
+  <p>
+    If you know more channels that you would like to see added, feel free to DM
+    <a href="https://discordapp.com/users/akbiggs">akbiggs</a> on Discord, or create an <a href="https://github.com/akbiggs/vods2/issues/new">issue</a> on github.
+  </p>
+
+  <p>Special thanks:</p>
+
+  <ul>
+    <li>
+      <a href="https://github.com/Lumi-sg" rel="noopener noreferrer">Lumi</a>: tons of VODs, styling, playlist ingestion.
+    </li>
+    <li>
+      <a href="https://github.com/dwinings" rel="noopener noreferrer">Wisp</a> for contributing
+      <a href="https://github.com/akbiggs/vods2/pull/1" rel="noopener noreferrer">style improvements.</a>
+    </li>
+  </ul>
+</div>

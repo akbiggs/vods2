@@ -1,0 +1,58 @@
+.credits-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	gap: 1rem;
+	max-height: 70vh;
+	overflow-y: auto;
+	padding-right: 0.5rem;
+}
+
+.credits-card-link {
+	text-decoration: none;
+	color: inherit;
+	display: block;
+	cursor: pointer;
+}
+
+.credits-card {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 0.75rem 1rem;
+	background-color: #1a1a1a;
+	border: 1px solid #2e2e53;
+	border-radius: 5px;
+	transition: background-color 0.3s ease, transform 0.2s ease;
+	height: 5rem;
+}
+
+.credits-card-link:hover .credits-card {
+	background-color: #2e2e53;
+	transform: translateY(-2px);
+}
+
+.channel-name {
+	font-weight: bold;
+	color: white;
+	margin-bottom: 0.25rem;
+}
+
+.channel-url {
+	color: #6d6dc1;
+	font-size: 0.9rem;
+	text-decoration: none;
+}
+
+.more-credits {
+	margin-top: 1rem;
+}
+
+.more-credits::before {
+	content: "";
+	display: block;
+	width: 50%;
+	height: 1px;
+	background-color: #2e2e53;
+	margin: 0 auto;
+	margin-top: 0.5rem;
+}
