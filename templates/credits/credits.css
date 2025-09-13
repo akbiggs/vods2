@@ -5,6 +5,7 @@
 	max-height: 70vh;
 	overflow-y: auto;
 	padding-right: 0.5rem;
+	font-size: 1rem;
 }
 
 .credits-card-link {
@@ -29,7 +30,6 @@
 
 .credits-card-link:hover .credits-card {
 	background-color: #2e2e53;
-	transform: translateY(-2px);
 }
 
 .channel-name {
@@ -38,11 +38,11 @@
 	margin-bottom: 0.25rem;
 }
 
-.channel-url {
+/* .channel-url {
 	color: #6d6dc1;
 	font-size: 0.8rem;
 	text-decoration: none;
-}
+} */
 
 .more-credits {
 	margin-top: 1rem;
