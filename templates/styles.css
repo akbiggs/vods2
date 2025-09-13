@@ -371,9 +371,15 @@ body:has(details[closed]) summary {
 	}
 }
 
-
 .infoPages{
 	margin-left: 1rem;
+	margin-right: 1rem;
+	font-size: 1.25rem;
+}
+
+li {
+	margin-bottom: 0.25rem;
+	line-height: 1.25;
 }
 
 /*Mobile Fixes*/

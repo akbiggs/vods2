@@ -1,0 +1,36 @@
+<style>
+  {% include "/credits/credits.css" %}
+</style>
+
+
+<div class="credits-grid">
+  {% for channel in channels %}
+    <a href="{{ channel.url }}" rel="noopener noreferrer" class="credits-card-link">
+      <div class="credits-card">
+        <p class="channel-name">{{ channel.name }}</p>
+      </div>
+    </a>
+  {% endfor %}
+</div>
+
+<div class="more-credits">
+<p>
+  Please show support for the channels that made this project possible by uploading their VODS.
+</p>
+  <p>
+    If you know more channels that you would like to see added, feel free to DM
+    <a href="https://discordapp.com/users/akbiggs">akbiggs</a> on Discord, or create an <a href="https://github.com/akbiggs/vods2/issues/new">issue</a> on github.
+  </p>
+
+  <p>Special thanks:</p>
+
+  <ul>
+    <li>
+      <a href="https://github.com/Lumi-sg" rel="noopener noreferrer">Lumi</a>: tons of VODs, styling, playlist ingestion.
+    </li>
+    <li>
+      <a href="https://github.com/dwinings" rel="noopener noreferrer">Wisp</a> for contributing
+      <a href="https://github.com/akbiggs/vods2/pull/1" rel="noopener noreferrer">style improvements.</a>
+    </li>
+  </ul>
+</div>
