@@ -377,9 +377,9 @@ body:has(details[closed]) summary {
 	font-size: 1.25rem;
 }
 
-li {
-	margin-bottom: 0.25rem;
-	line-height: 1.25;
+li,ul {
+	margin-bottom: 0.4rem;
+	line-height: 1.4;
 }
 
 /*Mobile Fixes*/
