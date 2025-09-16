@@ -17,7 +17,7 @@ import sys
 db_path = Path(__file__).parent.parent / "database.db"
 
 # path to template output
-output_file = Path(__file__).parent.parent / "templates/updates.jinja2"
+output_file = Path(__file__).parent.parent / "templates/updates/updates.jinja2"
 
 def get_recent_event_names(num_events: int = 4) -> List[str]:
     """Return the most recent event names from the database."""
