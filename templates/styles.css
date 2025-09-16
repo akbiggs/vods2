@@ -383,6 +383,22 @@ body:has(details[closed]) summary {
 }
 
 
+@media (min-width: 1280px) and (max-width: 1919px){
+	.vod-table-container {
+		max-width: 100%;
+		margin-right: 0.5rem;
+		max-height: 78vh;
+	}
+	body:has(details[open]) .vod-table-container {
+  	max-height: 54vh;
+	}
+	.pagination {
+		max-width: 100%;
+	}
+	.content-body-search{
+		width: 100%;
+	}
+}
 
 /*Mobile Fixes*/
 @media (max-width: 1000px) {
