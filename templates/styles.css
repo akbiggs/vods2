@@ -375,7 +375,7 @@ body:has(details[closed]) summary {
 	margin-left: 1rem;
 	margin-right: 1rem;
 	font-size: 1.25rem;
-
+	
 	li,ul {
 		margin-bottom: 0.4rem;
 		line-height: 1.4;
@@ -452,23 +452,5 @@ body:has(details[closed]) summary {
 	}
 	body:has(details[open]) .vod-table-container {
   		max-height: 74.5vh;
-	}
-}
-
-/*720p*/
-@media (min-width: 720px){
-	.vod-table-container {
-		max-width: 100%;
-		margin-right: 0.5rem;
-		max-height: 78vh;
-	}
-	body:has(details[open]) .vod-table-container {
-  	max-height: 54vh;
-	}
-	.pagination {
-		max-width: 100%;
-	}
-	.content-body-search{
-		width: 100%;
 	}
 }
