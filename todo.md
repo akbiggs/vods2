@@ -23,6 +23,5 @@
   - Most of these are from https://docs.google.com/spreadsheets/d/1C3rJHZWzKMurMJmjACMEB1JZziPyNMrj57b5fE-4t9A/edit?gid=0#gid=0
 - Work on vod-splitter for faster ingestion of large untagged vods https://github.com/Ludini1/vod-splitter
 - Backfill large untagged vods (for example Hop On has a lot of good high-level content, Hop On #24 - #1 need to be ingested)
-- Finish up non-home pages
 - Maybe a Google Form for people to suggest YouTube channels to be added, to reduce DMs? I don't feel strongly, I'm fine
   with the current setup.
