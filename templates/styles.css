@@ -402,12 +402,6 @@ body:has(details[closed]) summary {
 
 /*Mobile Fixes*/
 @media (max-width: 1000px) {
-	body{
-		font-size: 1.5rem;
-	}
-	.navbarContainer{
-		height: 4.5rem;
-	}
 	.search-grid {
 		display: flex;
 		flex-direction: column;
@@ -418,9 +412,7 @@ body:has(details[closed]) summary {
 		justify-content: flex-start;
 		width: 100%;
 	}
-	.search-form input{
-		font-size: 1.5rem;
-	} 
+
 	.vod-table-container {
 		max-width: 100%;
 	}
@@ -452,7 +444,6 @@ body:has(details[closed]) summary {
 
 	.pagination {
 		min-width: 100%;
-		font-size: 2rem;
 	}
 
 	table td:first-child,
@@ -469,13 +460,6 @@ body:has(details[closed]) summary {
 	a {
 		color: #6d6dc1;
 	}
-	.vodtable tr {
-	height: 5rem;
-	}
-	.vodtable{
-		font-size: 1.5rem;
-	}
-	
 }
 /*1440p*/
 @media (min-width: 2560px) {
