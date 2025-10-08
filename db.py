@@ -20,7 +20,8 @@ CHAR_NAME_TO_ID = {
     "maypul": 10,
     "etalus": 11,
     "olympia": 12,
-    "absa": 13
+    "absa": 13,
+    "galvan": 14
 }
 
 # STATUS VALUES
