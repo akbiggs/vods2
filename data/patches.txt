@@ -1,3 +1,4 @@
+1.4.1,10/21/25,https://store.steampowered.com/news/app/2217000/view/528734917353277452
 1.4.0,10/07/25,https://store.steampowered.com/news/app/2217000/view/523103429639276474
 1.3.2.1,08/06/25,https://store.steampowered.com/news/app/2217000/view/535483888748724546
 1.3.2,08/05/25,https://store.steampowered.com/news/app/2217000/view/535483254329837906
