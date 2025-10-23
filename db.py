@@ -70,6 +70,8 @@ def get_character_id(name):
     if name == 'maple': name = 'maypul'
     if name == 'mapul': name = 'maypul'
     if name == 'lox': name = 'loxodont'
+    if name == "forseburn": name = "forsburn"
+    if name == "galvin": name = "galvan"
 
     return CHAR_NAME_TO_ID.get(name)
 
