@@ -66,11 +66,11 @@ def get_character_id(name):
     if name == 'zetter': name = 'zetterburn'
     if name == 'zettersburn': name = 'zetterburn'
     if name == 'fors': name = 'forsburn'
+    if name == "forseburn": name = "forsburn"
     if name == 'oly': name = 'olympia'
     if name == 'maple': name = 'maypul'
     if name == 'mapul': name = 'maypul'
     if name == 'lox': name = 'loxodont'
-    if name == "forseburn": name = "forsburn"
     if name == "galvin": name = "galvan"
 
     return CHAR_NAME_TO_ID.get(name)
