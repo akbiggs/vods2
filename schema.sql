@@ -122,4 +122,4 @@ INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Absa", "https:/
 -- Galvan = 14
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Galvan", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/galvan_small.png");
 -- La Reina = 15
-INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "La Reina", "./static/favicon.ico"); -- Placeholder icon
+INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "La Reina", "./static/lareina.png"); -- Placeholder icon
