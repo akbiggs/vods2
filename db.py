@@ -21,7 +21,8 @@ CHAR_NAME_TO_ID = {
     "etalus": 11,
     "olympia": 12,
     "absa": 13,
-    "galvan": 14
+    "galvan": 14,
+    "la reina": 15
 }
 
 # STATUS VALUES
@@ -72,6 +73,8 @@ def get_character_id(name):
     if name == 'mapul': name = 'maypul'
     if name == 'lox': name = 'loxodont'
     if name == "galvin": name = "galvan"
+    if name == "la reyna": name = "la reina"
+    if name == "lareina": name = "la reina"
 
     return CHAR_NAME_TO_ID.get(name)
 
