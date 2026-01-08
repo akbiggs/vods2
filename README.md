@@ -58,7 +58,7 @@ You only need to do this once.
 8. Import the VODs.
 
     ```sh
-    python3 -m flask ingest-csv data/vods.csv
+    python3 -m flask ingest-csv
     ```
 
 ### Running the site locally
@@ -91,7 +91,7 @@ To add new VODs manually, you can edit `data/vods.csv` to add new rows and then
 run:
 
 ```sh
-python3 -m flask ingest-csv data/vods.csv
+python3 -m flask ingest-csv
 ```
 
 ### Adding VODs from a YouTube channel
@@ -209,14 +209,14 @@ After verifying the new VODs you can export them to `data/vods.csv` using the
 following command:
 
 ```sh
-python3 -m flask export-vods data/vods.csv
+python3 -m flask export-csv
 ```
 
 On the production site to get the new VODs, I pull the changes to
 `data/vods.csv` and then run:
 
 ```sh
-python3 -m flask ingest-csv data/vods.csv
+python3 -m flask ingest-csv
 ```
 
 ### Hosting
