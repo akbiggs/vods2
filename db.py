@@ -357,13 +357,14 @@ def review_submissions_command():
                 click.echo('Unknown action.')
 
 @click.command('ingest-csv')
-@click.argument('filename')
-def ingest_csv_command(filename):
+# vestigial
+# @click.argument('filename')
+def ingest_csv_command():
     import csv
 
     db = get_db()
     num_vods = 0
-    with open(filename) as csvfile:
+    with open("./data/vods.csv") as csvfile:
         for url, p1, c1, p2, c2, event, round, vod_time in csv.reader(csvfile):
             if vod_exists(url):
                 # click.echo(f"Skipping existing vod {url}.")
@@ -574,9 +575,10 @@ def ingest_playlist_command(playlist_url, event_name, format_str):
     else:
         click.echo('Aborting.')
 
-@click.command('export-vods')
-@click.argument('filename')
-def export_vods_command(filename):
+@click.command('export-csv')
+# vestigial
+# @click.argument('filename')
+def export_vods_command():
     import csv
 
     db = get_db()
@@ -590,7 +592,7 @@ def export_vods_command(filename):
         INNER JOIN game_character c2 ON c2.id = vod.c2_id
     ORDER BY vod_date ASC
     """, ()).fetchall()
-    with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+    with open("./data/vods.csv", 'w', newline='', encoding='utf-8') as csvfile:
         vod_writer = csv.writer(csvfile)
         for id, url, p1_tag, p2_tag, c1_name, c2_name, event_name, round, vod_date in vods:
             row = [url, p1_tag, c1_name, p2_tag, c2_name, event_name, round if round else '', vod_date if vod_date else '']
