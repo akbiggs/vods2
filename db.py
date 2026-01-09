@@ -578,10 +578,12 @@ def ingest_playlist_command(playlist_url, event_name, format_str):
         click.echo('Aborting.')
 
 @click.command('export-csv')
-# vestigial
-# @click.argument('filename')
-def export_vods_command():
+@click.argument('filename', required=False)
+def export_vods_command(filename: str | None):
     import csv
+
+    if filename is None:
+        filename = "./data/vods.csv"
 
     db = get_db()
     vods = db.cursor().execute("""
@@ -594,7 +596,7 @@ def export_vods_command():
         INNER JOIN game_character c2 ON c2.id = vod.c2_id
     ORDER BY vod_date ASC
     """, ()).fetchall()
-    with open("./data/vods.csv", 'w', newline='', encoding='utf-8') as csvfile:
+    with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
         vod_writer = csv.writer(csvfile)
         for id, url, p1_tag, p2_tag, c1_name, c2_name, event_name, round, vod_date in vods:
             row = [url, p1_tag, c1_name, p2_tag, c2_name, event_name, round if round else '', vod_date if vod_date else '']
