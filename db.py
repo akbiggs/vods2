@@ -357,14 +357,16 @@ def review_submissions_command():
                 click.echo('Unknown action.')
 
 @click.command('ingest-csv')
-# vestigial
-# @click.argument('filename')
-def ingest_csv_command():
+@click.argument('filename', required=False)
+def ingest_csv_command(filename: str | None):
     import csv
+
+    if filename is None:
+        filename = "./data/vods.csv"
 
     db = get_db()
     num_vods = 0
-    with open("./data/vods.csv") as csvfile:
+    with open(filename) as csvfile:
         for url, p1, c1, p2, c2, event, round, vod_time in csv.reader(csvfile):
             if vod_exists(url):
                 # click.echo(f"Skipping existing vod {url}.")
