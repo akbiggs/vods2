@@ -75,6 +75,23 @@ def get_character_id(name):
     if name == "galvin": name = "galvan"
     if name == "la reyna": name = "la reina"
     if name == "lareina": name = "la reina"
+    if name == "la raina": name = "la reina"
+
+    #This is done specifically for https://www.youtube.com/@SuperiorCalRivals2
+    if name == "for" : name = "forsburn"
+    if name == "zet" : name = "zetterburn"
+    if name == "lox" : name = "loxodont"
+    if name == "may" : name = "maypul"
+    if name == "eta" : name = "etalus"
+    if name == "oly" : name = "olympia"
+    if name == "abs" : name = "absa"
+    if name == "gal" : name = "galvan"
+    if name == "wra" : name = "wrastor"
+    if name == "ran" : name = "ranno"
+    if name == "kra" : name = "kragg"
+    if name == "cla" : name = "clairen"
+    if name == "fle" : name = "fleet"
+    if name == "lar" : name = "la reina"
 
     return CHAR_NAME_TO_ID.get(name)
 
