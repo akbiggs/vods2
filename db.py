@@ -909,7 +909,7 @@ def title_query_to_regex_str(query):
     """Converts queries like "%P1 (%C1) %V %P2 (%C2)" into a regex str."""
     return (re.escape(query)
                     .replace('%SIDE', r'(([\s*W\s*])|([\s*L\s*]))')
-                    .replace('%E', r'(?P<event>[\w\s\+\-#&;:@\'\(\)\.\,~]+)')
+                    .replace('%E', r'(?P<event>[\w\s\+\-#&;:@\'\(\)\.\,~/~]+)')
                     .replace('%P1', r'(?P<p1>[\s*\w\$|&;:~!?#.@\-\+]+)')
                     .replace('%P2', r'(?P<p2>[\s*\w\$|&;:~!?#.@\-\+]+)')
                     .replace('%C1', r'(?P<c1>[\s*\w/*,*]+)')
