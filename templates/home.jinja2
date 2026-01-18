@@ -4,7 +4,18 @@
     <style>
         {% include "styles.css" %}
     </style>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    {# Open Graph Meta Tags #}
+    <meta property="og:title" content="Rivals 2 Vods"/>
+    <meta property="og:site_name" content="Rivals 2 Vods"/>
+    <meta property="og:description" content="Searchable database of Rivals of Aether 2 VODs"/>
+    <meta name="description" content="Searchable database of Rivals of Aether 2 VODs"/>
+    <meta property="og:image" content="{{ url_for('static', filename='ROA2Logo.png', _external=True) }}"/>
+    <meta property="og:image:width" content="512"/>
+    <meta property="og:image:height" content="512"/>
+    <meta property="og:url" content="https://www.rivals2vods.com/"/>
+    <meta property="og:type" content="website"/>
+    <meta name="theme-color" content="#2e2e53"/>
 </head>
 <body>
 
