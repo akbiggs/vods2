@@ -297,6 +297,11 @@ body:has(details[closed]) summary {
 	border-top: none;
 }
 
+/* this is pure voodoo thanks for the assist grok*/
+.pagination-links:not(:has(nav)) > .pagination-page-info {
+	margin-top: 1.25rem;
+}
+
 /* line above pagination */
 .pagination-links > nav ::before {
 	content: "";
