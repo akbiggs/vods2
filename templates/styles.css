@@ -279,7 +279,7 @@ body:has(details[closed]) summary {
 }
 
 .pagination-page-info {
-	margin-top: 0.5rem;
+	margin-top: 0.4rem;
 	margin-left: auto;
 }
 
