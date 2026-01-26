@@ -275,7 +275,7 @@ body:has(details[closed]) summary {
 .pagination-links > nav {
 	margin-left: auto;
 	margin-right: auto;
-	transform: translateX(15%);
+	transform: translateX(25%);
 }
 
 .pagination-page-info {
