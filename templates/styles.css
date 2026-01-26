@@ -417,6 +417,10 @@ body:has(details[closed]) summary {
 	.content-body-search {
 		width: 100%;
 	}
+	.pagination-links {
+		max-width: 100%;
+		margin-right: 0.5rem;
+	}
 }
 
 /*Mobile Fixes*/
@@ -479,6 +483,10 @@ body:has(details[closed]) summary {
 	a {
 		color: #6d6dc1;
 	}
+	.pagination-links {
+		max-width: 100%;
+		margin-right: 0.5rem;
+	}
 }
 /*1440p*/
 @media (min-width: 2560px) {
@@ -487,5 +495,8 @@ body:has(details[closed]) summary {
 	}
 	body:has(details[open]) .vod-table-container {
 		max-height: 74.5vh;
+	}
+	.pagination-links > nav {
+		transform: translateX(30%);
 	}
 }
