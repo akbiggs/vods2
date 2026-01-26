@@ -444,6 +444,7 @@ body:has(details[closed]) summary {
 
 	.vod-table-container {
 		max-width: 100%;
+		border-bottom: 1px solid #2e2e53;
 	}
 
 	details[open] {
