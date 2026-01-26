@@ -274,11 +274,12 @@ body:has(details[closed]) summary {
 /* this is the container holding the first pagination div */
 .pagination-links > nav {
 	margin-left: auto;
-	margin-right: auto;
+	margin-right: 19%;
 	transform: translateX(25%);
 }
 
 .pagination-page-info {
+	margin-top: 0.5rem;
 	margin-left: auto;
 }
 
@@ -490,7 +491,13 @@ body:has(details[closed]) summary {
 	}
 	.pagination-links {
 		max-width: 100%;
-		margin-right: 0.5rem;
+		display: block;
+	}
+	.pagination-page-info {
+		display: none;
+	}
+	.pagination-links > nav ::before {
+		display: none;
 	}
 }
 /*1440p*/
