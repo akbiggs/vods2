@@ -50,7 +50,9 @@ td {
 	/* prevent page scrolling at end of vods when scrolling the table */
 	max-width: 60%;
 	padding: 0;
-	transition: max-height 0.3s ease, height 0.3s ease;
+	transition:
+		max-height 0.3s ease,
+		height 0.3s ease;
 	border-radius: 5px;
 	margin-left: 0.5rem;
 }
@@ -261,31 +263,48 @@ body:has(details[closed]) summary {
 	background-color: #333;
 }
 
-.pagination {
+.pagination-links {
 	display: flex;
-	justify-content: center;
-	gap: 0.5rem;
-	flex-wrap: wrap;
-	list-style: none;
-	padding: 0;
-	margin: 10px 0;
-	max-width: 60%;
+	align-items: center;
 	position: relative;
-	border-top: none;
+	max-width: 60%;
+	max-height: 6%;
+}
+
+/* this is the container holding the first pagination div */
+.pagination-links > nav {
+	margin-left: auto;
+	margin-right: auto;
+	transform: translateX(15%);
+}
+
+.pagination-page-info {
+	margin-left: auto;
 }
 
 .pagination .page-item {
 	display: inline-block;
 }
 
+.pagination {
+	display: flex;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+	list-style: none;
+	padding: 0;
+	margin: 10px 0;
+	position: relative;
+	border-top: none;
+}
+
 /* line above pagination */
-.pagination::before {
+.pagination-links > nav ::before {
 	content: "";
 	position: absolute;
 	top: 0;
 	left: 50%;
 	transform: translateX(-50%);
-	width: 65%;
+	width: 100%;
 	border-top: 1px solid #2e2e53;
 }
 
@@ -349,7 +368,7 @@ body:has(details[closed]) summary {
 	background-color: #3e3e7a;
 }
 
-.navbar-item.is-active{
+.navbar-item.is-active {
 	border-bottom: 2px solid white;
 	border-radius: 2px;
 }
@@ -371,31 +390,31 @@ body:has(details[closed]) summary {
 	}
 }
 
-.infoPages{
+.infoPages {
 	margin-left: 1rem;
 	margin-right: 1rem;
 	font-size: 1.25rem;
-	
-	li,ul {
+
+	li,
+	ul {
 		margin-bottom: 0.4rem;
 		line-height: 1.4;
 	}
 }
 
-
-@media (min-width: 1280px) and (max-width: 1919px){
+@media (min-width: 1280px) and (max-width: 1919px) {
 	.vod-table-container {
 		max-width: 100%;
 		margin-right: 0.5rem;
 		max-height: 78vh;
 	}
 	body:has(details[open]) .vod-table-container {
-  	max-height: 54vh;
+		max-height: 54vh;
 	}
 	.pagination {
 		max-width: 100%;
 	}
-	.content-body-search{
+	.content-body-search {
 		width: 100%;
 	}
 }
@@ -464,9 +483,9 @@ body:has(details[closed]) summary {
 /*1440p*/
 @media (min-width: 2560px) {
 	.vod-table-container {
-  		max-height: 88vh;
+		max-height: 88vh;
 	}
 	body:has(details[open]) .vod-table-container {
-  		max-height: 74.5vh;
+		max-height: 74.5vh;
 	}
 }
