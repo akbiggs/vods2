@@ -269,6 +269,7 @@ body:has(details[closed]) summary {
 	position: relative;
 	max-width: 60%;
 	max-height: 6%;
+	margin-top: 0.5rem;
 }
 
 /* this is the container holding the first pagination div */
@@ -293,7 +294,7 @@ body:has(details[closed]) summary {
 	flex-wrap: wrap;
 	list-style: none;
 	padding: 0;
-	margin: 10px 0;
+	margin: 0;
 	position: relative;
 	border-top: none;
 }
