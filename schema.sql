@@ -93,33 +93,35 @@ CREATE INDEX idx_vod_p2 ON vod (p2_id);
 
 INSERT INTO game (name) VALUES ("Rivals of Aether 2");
 
--- Clairen = 1
+-- Random = 1
+INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Random", "./static/random.png");
+-- Clairen = 2
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Clairen", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/clairen_small.png");
--- Ranno = 2
+-- Ranno = 3
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Ranno", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/ranno_small.png");
--- Zetter = 3
+-- Zetter = 4
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Zetterburn", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/zetter_small.png");
--- Forsburn = 4
+-- Forsburn = 5
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Forsburn", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/fors_small.png");
--- Orcane = 5
+-- Orcane = 6
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Orcane", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/orcane_small.png");
--- Fleet = 6
+-- Fleet = 7
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Fleet", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/fleet_small.png");
--- Kragg = 7
+-- Kragg = 8
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Kragg", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/kragg_small.png");
--- Wrastor = 8
+-- Wrastor = 9
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Wrastor", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/wrastor_small.png");
--- Loxodont = 9
+-- Loxodont = 10
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Loxodont", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/loxodont_small.png");
--- Maypul = 10
+-- Maypul = 11
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Maypul", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/maypul_small.png");
--- Etalus = 11
+-- Etalus = 12
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Etalus", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/etalus_small.png");
--- Olympia = 12
+-- Olympia = 13
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Olympia", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/oly_small.png");
--- Absa = 13
+-- Absa = 14
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Absa", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/absa_small.png");
--- Galvan = 14
+-- Galvan = 15
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Galvan", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/galvan_small.png");
--- La Reina = 15
+-- La Reina = 16
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "La Reina", "./static/lareina.png"); -- Placeholder icon

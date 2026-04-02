@@ -8,21 +8,22 @@ from flask import current_app, g
 from models import Vod, Patch, VodAndPatch, ParsedVodTitle
 
 CHAR_NAME_TO_ID = {
-    "clairen": 1,
-    "ranno": 2,
-    "zetterburn": 3,
-    "forsburn": 4,
-    "orcane": 5,
-    "fleet": 6,
-    "kragg": 7,
-    "wrastor": 8,
-    "loxodont": 9,
-    "maypul": 10,
-    "etalus": 11,
-    "olympia": 12,
-    "absa": 13,
-    "galvan": 14,
-    "la reina": 15
+    "random": 1,
+    "clairen": 2,
+    "ranno": 3,
+    "zetterburn": 4,
+    "forsburn": 5,
+    "orcane": 6,
+    "fleet": 7,
+    "kragg": 8,
+    "wrastor": 9,
+    "loxodont": 10,
+    "maypul": 11,
+    "etalus": 12,
+    "olympia": 13,
+    "absa": 14,
+    "galvan": 15,
+    "la reina": 16
 }
 
 # STATUS VALUES
