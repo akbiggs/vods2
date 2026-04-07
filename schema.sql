@@ -94,7 +94,7 @@ CREATE INDEX idx_vod_p2 ON vod (p2_id);
 INSERT INTO game (name) VALUES ("Rivals of Aether 2");
 
 -- Random = 1
-INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Random", "./static/random.png");
+INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Random", "./static/characters/random.png");
 -- Clairen = 2
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Clairen", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/clairen_small.png");
 -- Ranno = 3
@@ -124,4 +124,6 @@ INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Absa", "https:/
 -- Galvan = 15
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Galvan", "https://akbiggs-vods-18c62d7f-a87a-4da5-b315-7a7f450c7577.s3.us-east-2.amazonaws.com/galvan_small.png");
 -- La Reina = 16
-INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "La Reina", "./static/lareina.png"); -- Placeholder icon
+INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "La Reina", "./static/characters/lareina.png");
+-- Slade = 17
+INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Slade", "./static/characters/slade.png");

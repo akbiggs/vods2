@@ -23,7 +23,8 @@ CHAR_NAME_TO_ID = {
     "olympia": 13,
     "absa": 14,
     "galvan": 15,
-    "la reina": 16
+    "la reina": 16,
+    "slade": 17
 }
 
 # STATUS VALUES
