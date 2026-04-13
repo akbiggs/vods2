@@ -18,3 +18,7 @@ youtube_api_key
 
 # Temp files.
 /tmp
+/utils/playlistExport.json
+/utils/output.csv
+
+
