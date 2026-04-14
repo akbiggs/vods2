@@ -63,7 +63,7 @@ def fetch_playlist_videos(api_key: str, playlist_id: str):
         page_token = data.get("nextPageToken")
         if not page_token:
             break
-
+    print(f"Fetched {len(videos)} videos from playlist {playlist_id}")
     return videos
 
 # Strip brackets / parentheses
@@ -100,14 +100,34 @@ def clean_title(title: str):
     match_part = parts[1].strip()
     round_part = parts[2].strip()
 
+    # try standard format first
     m = re.match(
         r"(.+?)\s*\[(.+?)\]\s*vs\s*(.+?)\s*\[(.+?)\]",
         match_part,
         re.IGNORECASE
     )
 
+    # fallback: (Character) format
+    if not m:
+        m = re.match(
+            r"(.+?)\s*\((.+?)\)\s*vs\s*(.+?)\s*\((.+?)\)",
+            match_part,
+            re.IGNORECASE
+        )
+
+    # fallback: mixed format like [Player](Character)
+    if not m:
+        m = re.match(
+            r"\[(.+?)\]\s*\((.+?)\)\s*vs\s*\[(.+?)\]\s*\((.+?)\)",
+            match_part,
+            re.IGNORECASE
+        )
+
     if not m:
         return None
+
+        if not m:
+            return None
 
     p1, c1, p2, c2 = m.groups()
 
@@ -135,6 +155,7 @@ def main():
     for vid in videos:
         parsed = clean_title(vid["title"])
         if not parsed:
+            print(f"Skipping {vid['title']}")
             continue
 
         timestamp = ""
@@ -151,6 +172,7 @@ def main():
             "round": parsed["round"],
             "timestamp": timestamp
         })
+        print(f"Added {vid['title']}")
 
     with open(OUTPUT_FILE, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(
