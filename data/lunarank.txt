@@ -100,11 +100,13 @@ Bin
 Mr.Watch&Learn
 NatySolo
 Bird
+# HM
 aubreyclo
 Dingo
 Marss
 Nbad
 Silver
+# Attendance cut
 Plup
 Kero
 Sago
@@ -115,6 +117,7 @@ Gravy
 PiggyG
 JM1-3
 Lulius
+# EU
 Dia
 Neylax
 Mr.R
