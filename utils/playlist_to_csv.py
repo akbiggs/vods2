@@ -80,6 +80,7 @@ def clean_title(title: str):
     title = title.replace(" v ", " vs ")
     title = title.replace(" Vs ", " vs ")
     title = title.replace(" VS ", " vs ")
+    title = title.replace(" | ", " - ")
 
     # Remove references to RoA, taken from db.py
 
