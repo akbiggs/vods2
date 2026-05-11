@@ -1018,6 +1018,100 @@ def prompt(text, default=None):
     value = input(f'{text} ' + (f'[{default}]' if default else '') + ': ')
     return value if value else default
     
+# Google Sheets Stuff
+
+@click.command('pull-sheet')
+def pull_sheet_command():
+    """Pull data from the Google Sheet and update vods.csv"""
+    import gspread
+    from google.oauth2.service_account import Credentials
+    import csv
+    import os
+
+    # Authenticate w/ Google Sheets
+    scope = ['https://www.googleapis.com/auth/spreadsheets']
+    credentials = Credentials.from_service_account_file('google_service_account.json', scopes=scope)
+    client = gspread.authorize(credentials)
+
+    sheet_id = '1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4'
+    sheet = client.open_by_key(sheet_id).worksheet('Sheet1')
+    
+    # Get data from the sheet
+    all_values = sheet.get_all_values()
+    if not all_values:
+        click.echo('Sheet is empty!')
+        return
+    
+    # Skip header row
+    data_rows = all_values[1:]
+    
+    # Write to vods.csv
+    csv_path = './data/vods.csv'
+    try:
+        with open(csv_path, 'w', newline='', encoding='utf-8') as csvfile:
+            writer = csv.writer(csvfile)
+            for row in data_rows:
+                # Only write non-empty rows
+                if any(row):
+                    writer.writerow(row)
+        
+        click.echo(f'Successfully synced {len(data_rows)} rows from Google Sheet to {csv_path}')
+    except Exception as e:
+        click.echo(f'Error writing to CSV: {e}')
+
+@click.command('push-sheet')
+def push_sheet_command():
+    """Push vods.csv data to Google Sheet"""
+    import gspread
+    from google.oauth2.service_account import Credentials
+    import csv
+    
+    # Read vods.csv
+    csv_path = './data/vods.csv'
+    try:
+        with open(csv_path, 'r', encoding='utf-8') as csvfile:
+            reader = csv.reader(csvfile)
+            csv_data = list(reader)
+    except FileNotFoundError:
+        click.echo(f'Error: {csv_path} not found!')
+        return
+    except Exception as e:
+        click.echo(f'Error reading CSV: {e}')
+        return
+    
+    if not csv_data:
+        click.echo('CSV is empty!')
+        return
+    
+    # Authenticate with Google Sheets
+    scope = ['https://www.googleapis.com/auth/spreadsheets']
+    creds = Credentials.from_service_account_file('google_service_account.json', scopes=scope)
+    client = gspread.authorize(creds)
+    
+    # Open the sheet
+    sheet_id = '1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4'
+    try:
+        sheet = client.open_by_key(sheet_id).worksheet('Sheet1')
+    except Exception as e:
+        click.echo(f'Error opening sheet: {e}')
+        return
+    
+    try:
+        # Clear all cells except the header (row 1)
+        # Get current data to see how many rows we need to clear
+        current_values = sheet.get_all_values()
+        
+        if len(current_values) > 1:
+            # Clear rows 2 onwards using batch_clear instead of delete_rows
+            sheet.batch_clear([f'A2:H{len(current_values)}'])
+        
+        # Append the CSV data
+        if len(csv_data) > 0:
+            sheet.append_rows(csv_data, value_input_option='RAW')
+        
+        click.echo(f'Successfully synced {len(csv_data)} rows from {csv_path} to Google Sheet')
+    except Exception as e:
+        click.echo(f'Error updating sheet: {e}')
 
 sqlite3.register_converter(
     "timestamp", lambda v: datetime.fromisoformat(v.decode().replace('Z', '+00:00'))
@@ -1033,3 +1127,5 @@ def init_app(app):
     app.cli.add_command(ingest_multi_vod_command)
     app.cli.add_command(ingest_playlist_command)
     app.cli.add_command(extract_vods_v1_command)
+    app.cli.add_command(pull_sheet_command)
+    app.cli.add_command(push_sheet_command)
