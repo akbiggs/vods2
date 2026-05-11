@@ -382,48 +382,47 @@ def ingest_csv_command(filename: str | None):
     import gspread
     from google.oauth2.service_account import Credentials
 
-    if filename is None:
-        try:
-            scope = ['https://www.googleapis.com/auth/spreadsheets.readonly']
-            credentials = Credentials.from_service_account_file('google_service_account.json', scopes=scope)
-            client = gspread.authorize(credentials)
+    try:
+        scope = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+        credentials = Credentials.from_service_account_file('google_service_account.json', scopes=scope)
+        client = gspread.authorize(credentials)
 
-            sheet_id = '1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4'
-            sheet = client.open_by_key(sheet_id).worksheet('vods')
+        sheet_id = '1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4'
+        sheet = client.open_by_key(sheet_id).worksheet('vods')
 
-            all_data = sheet.get_all_values()
-            data_rows = all_data[1:]  # skip header row
+        all_data = sheet.get_all_values()
+        data_rows = all_data[1:]  # skip header row
 
-            click.echo(f'fetching {len(data_rows)} vods from Google Sheets...')
-        except Exception as e:
-            click.echo(f'Error accessing Google Sheets: {e}')
-            return
-
-        db = get_db()
-        num_vods = 0
-        for row in data_rows:
-            if len(row) < 8:
-                click.echo(f'Skipping malformed row: {row}')
-                continue
-            url, p1, c1, p2, c2, event, round, vod_time = row[:8]
-            if vod_exists(url):
-                # click.echo(f"Skipping existing vod {url}.")
-                continue
-
-            p1_id = ensure_player(p1)
-            p2_id = ensure_player(p2)
-            event_id = ensure_event(event)
-            c1_id = get_character_id(c1)
-            c2_id = get_character_id(c2)
-
-            num_vods += 1
-            db.cursor().execute("""
-                              INSERT INTO vod (game_id, event_id, url, p1_id, p2_id, c1_id, c2_id, round, vod_date)
-                              VALUES          (?,       ?,        ?,   ?,     ?,     ?,     ?,     ?,     ?);
-                              """, (RIVALS_OF_AETHER_TWO, event_id, url, p1_id, p2_id, c1_id, c2_id, round, vod_time,))
-        db.commit()
-        click.echo(f'Ingested {num_vods} vods from Google Sheets.')
+        click.echo(f'Fetching {len(data_rows)} vods from Google Sheets...')
+    except Exception as e:
+        click.echo(f'Error accessing Google Sheets: {e}')
         return
+
+    db = get_db()
+    num_vods = 0
+    for row in data_rows:
+        if len(row) < 8:
+            click.echo(f'Skipping malformed row: {row}')
+            continue
+        url, p1, c1, p2, c2, event, round, vod_time = row[:8]
+        if vod_exists(url):
+            # click.echo(f"Skipping existing vod {url}.")
+            continue
+
+        p1_id = ensure_player(p1)
+        p2_id = ensure_player(p2)
+        event_id = ensure_event(event)
+        c1_id = get_character_id(c1)
+        c2_id = get_character_id(c2)
+
+        num_vods += 1
+        db.cursor().execute("""
+                            INSERT INTO vod (game_id, event_id, url, p1_id, p2_id, c1_id, c2_id, round, vod_date)
+                            VALUES          (?,       ?,        ?,   ?,     ?,     ?,     ?,     ?,     ?);
+                            """, (RIVALS_OF_AETHER_TWO, event_id, url, p1_id, p2_id, c1_id, c2_id, round, vod_time,))
+    db.commit()
+    click.echo(f'Ingested {num_vods} vods from Google Sheets.')
+    return
 
     # db = get_db()
     # num_vods = 0
@@ -642,9 +641,9 @@ def ingest_playlist_command(playlist_url, event_name, format_str):
 @click.argument('filename', required=False)
 def export_vods_command(filename: str | None):
     import csv
-
-    if filename is None:
-        filename = "./data/vods.csv"
+    import gspread
+    from google.oauth2.service_account import Credentials
+    from datetime import datetime
 
     db = get_db()
     vods = db.cursor().execute("""
@@ -657,11 +656,69 @@ def export_vods_command(filename: str | None):
         INNER JOIN game_character c2 ON c2.id = vod.c2_id
     ORDER BY vod_date ASC
     """, ()).fetchall()
-    with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
-        vod_writer = csv.writer(csvfile)
-        for id, url, p1_tag, p2_tag, c1_name, c2_name, event_name, round, vod_date in vods:
-            row = [url, p1_tag, c1_name, p2_tag, c2_name, event_name, round if round else '', vod_date if vod_date else '']
-            vod_writer.writerow(row)
+    
+    # Build the data rows
+    data_rows = []
+    for id, url, p1_tag, p2_tag, c1_name, c2_name, event_name, round, vod_date in vods:
+        # Convert datetime to string if needed
+        if isinstance(vod_date, datetime):
+            vod_date_str = vod_date.isoformat()
+        else:
+            vod_date_str = str(vod_date) if vod_date else ''
+        
+        row = [str(url), str(p1_tag), str(c1_name), str(p2_tag), str(c2_name), str(event_name), str(round) if round else '', vod_date_str]
+        data_rows.append(row)
+    
+    # Authenticate with Google Sheets
+    scope = ['https://www.googleapis.com/auth/spreadsheets']
+    try:
+        credentials = Credentials.from_service_account_file('google_service_account.json', scopes=scope)
+        client = gspread.authorize(credentials)
+    except Exception as e:
+        click.echo(f'Error authenticating with Google Sheets: {e}')
+        return
+    
+    sheet_id = '1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4'
+    try:
+        sheet = client.open_by_key(sheet_id).worksheet('vods')
+    except Exception as e:
+        click.echo(f'Error opening Google Sheet: {e}')
+        return
+
+
+    click.echo(f'Exporting {len(data_rows)} vods to Google Sheets...')
+    try:
+        # Clear all cells except the header (row 1)
+        current_values = sheet.get_all_values()
+        
+        if len(current_values) > 1:
+            # Clear rows 2 onwards
+            sheet.batch_clear([f'A2:H{len(current_values)}'])
+        
+        # Append the data to the sheet
+        if len(data_rows) > 0:
+            sheet.append_rows(data_rows, value_input_option='RAW')
+        
+        click.echo(f'Exported {len(data_rows)} VODs to Google Sheet')
+    except Exception as e:
+        click.echo(f'Error updating Google Sheet: {e}')
+
+    # db = get_db()
+    # vods = db.cursor().execute("""
+    # SELECT vod.id, vod.url, p1.tag, p2.tag, c1.name, c2.name, e.name, vod.round, vod.vod_date
+    # FROM vod
+    #     INNER JOIN event e ON e.id = vod.event_id
+    #     INNER JOIN player p1 ON p1.id = vod.p1_id
+    #     INNER JOIN player p2 ON p2.id = vod.p2_id
+    #     INNER JOIN game_character c1 ON c1.id = vod.c1_id
+    #     INNER JOIN game_character c2 ON c2.id = vod.c2_id
+    # ORDER BY vod_date ASC
+    # """, ()).fetchall()
+    # with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+    #     vod_writer = csv.writer(csvfile)
+    #     for id, url, p1_tag, p2_tag, c1_name, c2_name, event_name, round, vod_date in vods:
+    #         row = [url, p1_tag, c1_name, p2_tag, c2_name, event_name, round if round else '', vod_date if vod_date else '']
+    #         vod_writer.writerow(row)
 
 @click.command('extract-vods')
 @click.argument('vod_url')
