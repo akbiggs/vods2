@@ -379,14 +379,33 @@ def review_submissions_command():
 @click.argument('filename', required=False)
 def ingest_csv_command(filename: str | None):
     import csv
+    import gspread
+    from google.oauth2.service_account import Credentials
 
     if filename is None:
-        filename = "./data/vods.csv"
+        try:
+            scope = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+            credentials = Credentials.from_service_account_file('google_service_account.json', scopes=scope)
+            client = gspread.authorize(credentials)
 
-    db = get_db()
-    num_vods = 0
-    with open(filename) as csvfile:
-        for url, p1, c1, p2, c2, event, round, vod_time in csv.reader(csvfile):
+            sheet_id = '1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4'
+            sheet = client.open_by_key(sheet_id).worksheet('vods')
+
+            all_data = sheet.get_all_values()
+            data_rows = all_data[1:]  # skip header row
+
+            click.echo(f'fetching {len(data_rows)} vods from Google Sheets...')
+        except Exception as e:
+            click.echo(f'Error accessing Google Sheets: {e}')
+            return
+
+        db = get_db()
+        num_vods = 0
+        for row in data_rows:
+            if len(row) < 8:
+                click.echo(f'Skipping malformed row: {row}')
+                continue
+            url, p1, c1, p2, c2, event, round, vod_time = row[:8]
             if vod_exists(url):
                 # click.echo(f"Skipping existing vod {url}.")
                 continue
@@ -402,8 +421,31 @@ def ingest_csv_command(filename: str | None):
                               INSERT INTO vod (game_id, event_id, url, p1_id, p2_id, c1_id, c2_id, round, vod_date)
                               VALUES          (?,       ?,        ?,   ?,     ?,     ?,     ?,     ?,     ?);
                               """, (RIVALS_OF_AETHER_TWO, event_id, url, p1_id, p2_id, c1_id, c2_id, round, vod_time,))
-    db.commit()
-    click.echo(f"Ingested {num_vods} vods.")
+        db.commit()
+        click.echo(f'Ingested {num_vods} vods from Google Sheets.')
+        return
+
+    # db = get_db()
+    # num_vods = 0
+    # with open(filename) as csvfile:
+    #     for url, p1, c1, p2, c2, event, round, vod_time in csv.reader(csvfile):
+    #         if vod_exists(url):
+    #             # click.echo(f"Skipping existing vod {url}.")
+    #             continue
+
+    #         p1_id = ensure_player(p1)
+    #         p2_id = ensure_player(p2)
+    #         event_id = ensure_event(event)
+    #         c1_id = get_character_id(c1)
+    #         c2_id = get_character_id(c2)
+
+    #         num_vods += 1
+    #         db.cursor().execute("""
+    #                           INSERT INTO vod (game_id, event_id, url, p1_id, p2_id, c1_id, c2_id, round, vod_date)
+    #                           VALUES          (?,       ?,        ?,   ?,     ?,     ?,     ?,     ?,     ?);
+    #                           """, (RIVALS_OF_AETHER_TWO, event_id, url, p1_id, p2_id, c1_id, c2_id, round, vod_time,))
+    # db.commit()
+    # click.echo(f"Ingested {num_vods} vods.")
 
 @click.command('ingest-channel')
 @click.argument('channel_id')
