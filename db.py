@@ -1034,7 +1034,7 @@ def pull_sheet_command():
     client = gspread.authorize(credentials)
 
     sheet_id = '1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4'
-    sheet = client.open_by_key(sheet_id).worksheet('Sheet1')
+    sheet = client.open_by_key(sheet_id).worksheet('vods')
     
     # Get data from the sheet
     all_values = sheet.get_all_values()
@@ -1091,7 +1091,7 @@ def push_sheet_command():
     # Open the sheet
     sheet_id = '1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4'
     try:
-        sheet = client.open_by_key(sheet_id).worksheet('Sheet1')
+        sheet = client.open_by_key(sheet_id).worksheet('vods')
     except Exception as e:
         click.echo(f'Error opening sheet: {e}')
         return
