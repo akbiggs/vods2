@@ -4,6 +4,7 @@ import re
 import math
 from datetime import datetime, timezone, timedelta
 from flask import current_app, g
+from utils.authenticate_google_sheet import get_vods_sheet
 
 from models import Vod, Patch, VodAndPatch, ParsedVodTitle
 
@@ -379,24 +380,16 @@ def review_submissions_command():
 @click.argument('filename', required=False)
 def ingest_csv_command(filename: str | None):
     import csv
-    import gspread
-    from google.oauth2.service_account import Credentials
 
-    try:
-        scope = ['https://www.googleapis.com/auth/spreadsheets.readonly']
-        credentials = Credentials.from_service_account_file('google_service_account.json', scopes=scope)
-        client = gspread.authorize(credentials)
+    # Call Google Sheets Authentication helper to get the sheet object.
+    sheet = get_vods_sheet()
 
-        sheet_id = '1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4'
-        sheet = client.open_by_key(sheet_id).worksheet('vods')
-
-        all_data = sheet.get_all_values()
-        data_rows = all_data[1:]  # skip header row
-
-        click.echo(f'Fetching {len(data_rows)} vods from Google Sheets...')
-    except Exception as e:
-        click.echo(f'Error accessing Google Sheets: {e}')
+    if not sheet:
+        click.echo('Sheet not found!')
         return
+
+    all_data = sheet.get_all_values()
+    data_rows = all_data[1:]  # skip header row
 
     db = get_db()
     num_vods = 0
@@ -641,8 +634,6 @@ def ingest_playlist_command(playlist_url, event_name, format_str):
 @click.argument('filename', required=False)
 def export_vods_command(filename: str | None):
     import csv
-    import gspread
-    from google.oauth2.service_account import Credentials
     from datetime import datetime
 
     db = get_db()
@@ -656,6 +647,16 @@ def export_vods_command(filename: str | None):
         INNER JOIN game_character c2 ON c2.id = vod.c2_id
     ORDER BY vod_date ASC
     """, ()).fetchall()
+
+    # Call Google Sheets Authentication helper to get the sheet object.
+
+    sheet = get_vods_sheet()
+
+    if not sheet:
+        click.echo('Sheet not found!')
+        return
+    
+    rows= sheet.get_all_values()
     
     # Build the data rows
     data_rows = []
@@ -669,26 +670,11 @@ def export_vods_command(filename: str | None):
         row = [str(url), str(p1_tag), str(c1_name), str(p2_tag), str(c2_name), str(event_name), str(round) if round else '', vod_date_str]
         data_rows.append(row)
     
-    # Authenticate with Google Sheets
-    scope = ['https://www.googleapis.com/auth/spreadsheets']
-    try:
-        credentials = Credentials.from_service_account_file('google_service_account.json', scopes=scope)
-        client = gspread.authorize(credentials)
-    except Exception as e:
-        click.echo(f'Error authenticating with Google Sheets: {e}')
-        return
-    
-    sheet_id = '1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4'
-    try:
-        sheet = client.open_by_key(sheet_id).worksheet('vods')
-    except Exception as e:
-        click.echo(f'Error opening Google Sheet: {e}')
-        return
-
 
     click.echo(f'Exporting {len(data_rows)} vods to Google Sheets...')
     try:
         # Clear all cells except the header (row 1)
+        click.echo('Clearing existing data from Google Sheet...')
         current_values = sheet.get_all_values()
         
         if len(current_values) > 1:
