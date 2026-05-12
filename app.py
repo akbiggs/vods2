@@ -2,6 +2,7 @@ from flask import Flask, render_template, request , redirect
 from markupsafe import escape
 from urllib.parse import urlparse
 from flask_paginate import Pagination, get_page_parameter
+from utils.update_template import get_recent_events, get_last_updated_date
 
 import db
 from models import Channel
@@ -106,7 +107,21 @@ def search_page():
         display_msg="{start} - {end} / {total}"
     )
     
-    return render_template("home.jinja2", vods=vods, c1=c1, c2=c2, p1=p1, p2=p2, event=event, rank=rank, channels=get_channels(), is_search=True, pagination=pagination)
+    return render_template(
+        "home.jinja2",
+        vods=vods,
+        c1=c1,
+        c2=c2,
+        p1=p1,
+        p2=p2,
+        event=event,
+        rank=rank,
+        channels=get_channels(),
+        is_search=True,
+        pagination=pagination,
+        recent_events=get_recent_events(),
+        last_updated=get_last_updated_date(),
+        )
 
 
 @app.post("/submission")

@@ -414,6 +414,20 @@ def ingest_csv_command(filename: str | None):
                             VALUES          (?,       ?,        ?,   ?,     ?,     ?,     ?,     ?,     ?);
                             """, (RIVALS_OF_AETHER_TWO, event_id, url, p1_id, p2_id, c1_id, c2_id, round, vod_time,))
     db.commit()
+
+    # Update the last updated date in the metadata table.
+
+    today = datetime.now().strftime('%Y-%m-%d')
+
+    cursor = db.cursor()
+
+    cursor.execute("""
+    INSERT OR REPLACE INTO metadata (key, value)
+    VALUES (?, ?)
+    """, ("last_updated", today))
+
+    db.commit()
+
     click.echo(f'Ingested {num_vods} vods from Google Sheets.')
     return
 
@@ -532,6 +546,19 @@ def ingest_channel_command(channel_id, query, format):
     response = input(f'Are you sure you want to commit {len(results)} VODs? [y/n] ')
     if response in ['y', 'yes']:
         db.commit()
+
+        # Update the last updated date in the metadata table.
+        today = datetime.now().strftime('%Y-%m-%d')
+
+        cursor = db.cursor()
+
+        cursor.execute("""
+        INSERT OR REPLACE INTO metadata (key, value)
+        VALUES (?, ?)
+        """, ("last_updated", today))
+
+        db.commit()
+
     else:
         click.echo('Aborting.')
         return
@@ -626,6 +653,19 @@ def ingest_playlist_command(playlist_url, event_name, format_str):
     response = input(f'Are you sure you want to commit {len(results)} VODs? [y/n] ')
     if response.lower() in ['y', 'yes']:
         db.commit()
+
+        # Update the last updated date in the metadata table.
+        today = datetime.now().strftime('%Y-%m-%d')
+
+        cursor = db.cursor()
+
+        cursor.execute("""
+        INSERT OR REPLACE INTO metadata (key, value)
+        VALUES (?, ?)
+        """, ("last_updated", today))
+
+        db.commit()
+
         click.echo('Committed successfully!')
     else:
         click.echo('Aborting.')
@@ -988,6 +1028,20 @@ def ingest_multi_vod_command(multi_vod_url, event, datetime_str, title_format, f
     response = input(f'Are you sure you want to commit {len(results)} VODs? [y/n] ')
     if response in ['y', 'yes']:
         db.commit()
+
+        # Update the last updated date in the metadata table.
+        today = datetime.now().strftime('%Y-%m-%d')
+
+        cursor = get_db().cursor()
+
+        cursor.execute("""
+        INSERT OR REPLACE INTO metadata (key, value)
+        VALUES (?, ?)
+        """, ("last_updated", today))
+
+        get_db().commit()
+
+        click.echo('Committed successfully!')
     else:
         click.echo('Aborting.')
         return
