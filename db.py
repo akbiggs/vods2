@@ -376,10 +376,8 @@ def review_submissions_command():
             else:
                 click.echo('Unknown action.')
 
-@click.command('ingest-csv')
-@click.argument('filename', required=False)
-def ingest_csv_command(filename: str | None):
-    import csv
+@click.command('ingest-sheet')
+def ingest_sheet_command():
 
     # Call Google Sheets Authentication helper to get the sheet object.
     sheet = get_vods_sheet()
@@ -431,27 +429,35 @@ def ingest_csv_command(filename: str | None):
     click.echo(f'Ingested {num_vods} vods from Google Sheets.')
     return
 
-    # db = get_db()
-    # num_vods = 0
-    # with open(filename) as csvfile:
-    #     for url, p1, c1, p2, c2, event, round, vod_time in csv.reader(csvfile):
-    #         if vod_exists(url):
-    #             # click.echo(f"Skipping existing vod {url}.")
-    #             continue
+@click.command('ingest-csv')
+@click.argument('filename', required=False)
+def ingest_csv_command(filename: str | None):
+    import csv
 
-    #         p1_id = ensure_player(p1)
-    #         p2_id = ensure_player(p2)
-    #         event_id = ensure_event(event)
-    #         c1_id = get_character_id(c1)
-    #         c2_id = get_character_id(c2)
+    if filename is None:
+        filename = "./data/vods.csv"
 
-    #         num_vods += 1
-    #         db.cursor().execute("""
-    #                           INSERT INTO vod (game_id, event_id, url, p1_id, p2_id, c1_id, c2_id, round, vod_date)
-    #                           VALUES          (?,       ?,        ?,   ?,     ?,     ?,     ?,     ?,     ?);
-    #                           """, (RIVALS_OF_AETHER_TWO, event_id, url, p1_id, p2_id, c1_id, c2_id, round, vod_time,))
-    # db.commit()
-    # click.echo(f"Ingested {num_vods} vods.")
+    db = get_db()
+    num_vods = 0
+    with open(filename) as csvfile:
+        for url, p1, c1, p2, c2, event, round, vod_time in csv.reader(csvfile):
+            if vod_exists(url):
+                # click.echo(f"Skipping existing vod {url}.")
+                continue
+
+            p1_id = ensure_player(p1)
+            p2_id = ensure_player(p2)
+            event_id = ensure_event(event)
+            c1_id = get_character_id(c1)
+            c2_id = get_character_id(c2)
+
+            num_vods += 1
+            db.cursor().execute("""
+                              INSERT INTO vod (game_id, event_id, url, p1_id, p2_id, c1_id, c2_id, round, vod_date)
+                              VALUES          (?,       ?,        ?,   ?,     ?,     ?,     ?,     ?,     ?);
+                              """, (RIVALS_OF_AETHER_TWO, event_id, url, p1_id, p2_id, c1_id, c2_id, round, vod_time,))
+    db.commit()
+    click.echo(f"Ingested {num_vods} vods.")
 
 @click.command('ingest-channel')
 @click.argument('channel_id')
@@ -674,6 +680,30 @@ def ingest_playlist_command(playlist_url, event_name, format_str):
 @click.argument('filename', required=False)
 def export_vods_command(filename: str | None):
     import csv
+
+    if filename is None:
+        filename = "./data/vods.csv"
+
+    db = get_db()
+    vods = db.cursor().execute("""
+    SELECT vod.id, vod.url, p1.tag, p2.tag, c1.name, c2.name, e.name, vod.round, vod.vod_date
+    FROM vod
+        INNER JOIN event e ON e.id = vod.event_id
+        INNER JOIN player p1 ON p1.id = vod.p1_id
+        INNER JOIN player p2 ON p2.id = vod.p2_id
+        INNER JOIN game_character c1 ON c1.id = vod.c1_id
+        INNER JOIN game_character c2 ON c2.id = vod.c2_id
+    ORDER BY vod_date ASC
+    """, ()).fetchall()
+    with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+        vod_writer = csv.writer(csvfile)
+        for id, url, p1_tag, p2_tag, c1_name, c2_name, event_name, round, vod_date in vods:
+            row = [url, p1_tag, c1_name, p2_tag, c2_name, event_name, round if round else '', vod_date if vod_date else '']
+            vod_writer.writerow(row)
+
+@click.command('export-sheet')
+def export_sheet_command():
+
     from datetime import datetime
 
     db = get_db()
@@ -728,23 +758,6 @@ def export_vods_command(filename: str | None):
         click.echo(f'Exported {len(data_rows)} VODs to Google Sheet')
     except Exception as e:
         click.echo(f'Error updating Google Sheet: {e}')
-
-    # db = get_db()
-    # vods = db.cursor().execute("""
-    # SELECT vod.id, vod.url, p1.tag, p2.tag, c1.name, c2.name, e.name, vod.round, vod.vod_date
-    # FROM vod
-    #     INNER JOIN event e ON e.id = vod.event_id
-    #     INNER JOIN player p1 ON p1.id = vod.p1_id
-    #     INNER JOIN player p2 ON p2.id = vod.p2_id
-    #     INNER JOIN game_character c1 ON c1.id = vod.c1_id
-    #     INNER JOIN game_character c2 ON c2.id = vod.c2_id
-    # ORDER BY vod_date ASC
-    # """, ()).fetchall()
-    # with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
-    #     vod_writer = csv.writer(csvfile)
-    #     for id, url, p1_tag, p2_tag, c1_name, c2_name, event_name, round, vod_date in vods:
-    #         row = [url, p1_tag, c1_name, p2_tag, c2_name, event_name, round if round else '', vod_date if vod_date else '']
-    #         vod_writer.writerow(row)
 
 @click.command('extract-vods')
 @click.argument('vod_url')
@@ -1263,6 +1276,8 @@ def init_app(app):
     app.cli.add_command(ingest_channel_command)
     app.cli.add_command(ingest_csv_command)
     app.cli.add_command(export_vods_command)
+    app.cli.add_command(ingest_sheet_command)
+    app.cli.add_command(export_sheet_command)
     app.cli.add_command(ingest_multi_vod_command)
     app.cli.add_command(ingest_playlist_command)
     app.cli.add_command(extract_vods_v1_command)
