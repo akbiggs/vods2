@@ -738,8 +738,6 @@ def export_sheet_command():
         row = [str(url), str(p1_tag), str(c1_name), str(p2_tag), str(c2_name), str(event_name), str(round) if round else '', vod_date_str]
         data_rows.append(row)
     
-
-    click.echo(f'Exporting {len(data_rows)} vods to Google Sheets...')
     try:
         # Clear all cells except the header (row 1)
         click.echo('Clearing existing data from Google Sheet...')
