@@ -704,8 +704,6 @@ def export_vods_command(filename: str | None):
 @click.command('export-sheet')
 def export_sheet_command():
 
-    from datetime import datetime
-
     db = get_db()
     vods = db.cursor().execute("""
     SELECT vod.id, vod.url, p1.tag, p2.tag, c1.name, c2.name, e.name, vod.round, vod.vod_date
