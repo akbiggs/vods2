@@ -46,19 +46,13 @@ You only need to do this once.
 6. Install dependencies.
 
     ```sh
-    python3 -m pip install click==8.1.7 flask==3.1.0 flask-paginate==2024.4.12
+    pip install -r requirements.txt
     ```
 
 7. Initialize the database. Type "confirm" when the script asks you to.
 
     ```sh
     python3 -m flask init-db
-    ```
-
-8. Import the VODs.
-
-    ```sh
-    python3 -m flask ingest-csv
     ```
 
 ### Running the site locally
@@ -85,25 +79,39 @@ To see your changes locally:
 
 3. Go to http://localhost:5000 to see the site.
 
-### Adding VODs manually
+### Adding VODs
 
-To add new VODs manually, you can edit `data/vods.csv` to add new rows and then
-run:
+Adding VODs manually can currently be done via a CSV file or a Google Sheet.
+
+#### Adding VODs from a CSV file
 
 ```sh
 python3 -m flask ingest-csv
 ```
 
-### Adding VODs from a YouTube channel
-
-Adding VODs from a YouTube channel currently requires the Google Python API
-Client to use YouTube's API.
+This defaults to `data/vods.csv` however you can customize the path to the CSV file with an additional argument.
 
 ```sh
-python3 -m pip install google-api-python-client==2.179.0
+python3 -m flask ingest-csv directory/file.csv
 ```
 
-You also need to
+#### Adding VODs from a Google Sheet
+
+You will need to create a [Google Cloud project](https://developers.google.com/workspace/guides/create-project) and enable the Google Sheets API. You must then generate a JSON key file and place it in the top-level `vods2` folder and name it `google_service_account.json`. The last step is to share the sheet with the service account email.
+
+It should be noted that a large advantage of using a Google Sheet as opposed to a CSV file is that you will not need to have a local copy of the CSV file tracked by Git and all of what that entails. 
+
+**If the slightly longer setup is not an issue, a Google Sheet is the recommended option.**
+
+You can add VODs from a Google Sheet to the database using the following command:
+
+```sh
+python3 -m flask ingest-sheet
+```
+
+### Adding VODs from a YouTube channel
+
+You will need to
 [get a YouTube API key](https://developers.google.com/youtube/v3/getting-started)
 and put it in a `youtube_api_key` file in the top-level `vods2` folder. Note
 that there is no file extension on `youtube_api_key`.
@@ -117,18 +125,18 @@ python3 -m flask ingest-channel <channel_id> '<search_query>' '<video_title_form
 
 where:
 
--   `channel_id` is the YouTube channel ID. I get the ID using [this website](https://www.streamweasels.com/%20tools/youtube-channel-id-and-%20user-id-convertor/).
-    -   The channel IDs for the websites I pull from are stored in [`data/channel_ids.txt`](https://github.com/akbiggs/vods2/blob/main/data/channel_ids.txt).
--   `search_query` is an optional query to reduce what videos get queried from the channel. For example if you are trying to get VODs that have the word "Blah" in the title, you can type `'"Blah"'`.
--   `video_title_format` describes the format of the video title (where the event name, the player names, and the character names are).
-    -   `%P1`: Where the first player name goes.
-    -   `%P2`: Where the second player name goes.
-    -   `%C1`: Where the first player's character(s) goes.
-    -   `%C2`: Where the second player's character(s) goes.
-    -   `%E`: (optional) The event name.
-    -   `%R`: (optional) The round name.
-    -   `%V`: (optional) Some versus text, for example "vs", "VS", "vs.".
-    -   `%ROA`: (optional) Some reference to Rivals of Aether II, for example "RoA2", "Rivals of Aether II", "Rivals 2".
+- `channel_id` is the YouTube channel ID. I get the ID using [this website](https://www.streamweasels.com/%20tools/youtube-channel-id-and-%20user-id-convertor/).
+    - The channel IDs for the websites I pull from are stored in [`data/channel_ids.txt`](https://github.com/akbiggs/vods2/blob/main/data/channel_ids.txt).
+- `search_query` is an optional query to reduce what videos get queried from the channel. For example if you are trying to get VODs that have the word "Blah" in the title, you can type `'"Blah"'`.
+- `video_title_format` describes the format of the video title (where the event name, the player names, and the character names are).
+    - `%P1`: Where the first player name goes.
+    - `%P2`: Where the second player name goes.
+    - `%C1`: Where the first player's character(s) goes.
+    - `%C2`: Where the second player's character(s) goes.
+    - `%E`: (optional) The event name.
+    - `%R`: (optional) The round name.
+    - `%V`: (optional) Some versus text, for example "vs", "VS", "vs.".
+    - `%ROA`: (optional) Some reference to Rivals of Aether II, for example "RoA2", "Rivals of Aether II", "Rivals 2".
 
 For example, if you want to add Rivals II videos from [Collision Gaming Series](https://www.youtube.com/@CollisionSeries), an example video title is "Bay State Beatdown 138 Rivals 2 - FC | Vidad (Clairen) vs yc | Pip (Maypul) - Grand Finals", and the corresponding command would be:
 
@@ -153,17 +161,17 @@ python3 -m flask ingest-playlist "playlist_url" '<event_name>' '<video_title_for
 
 where:
 
--   `playlist_url` is the url of the playlist you wish to add.
--   `event_name` is the name of the event or tournament name you wish to add.
--   `video_title_format` describes the format of the video title (where the event name, the player names, and the character names are).
-    -   `%P1`: Where the first player name goes.
-    -   `%P2`: Where the second player name goes.
-    -   `%C1`: Where the first player's character(s) goes.
-    -   `%C2`: Where the second player's character(s) goes.
-    -   `%E`: (optional) The event name.
-    -   `%R`: (optional) The round name.
-    -   `%V`: (optional) Some versus text, for example "vs", "VS", "vs.".
-    -   `%ROA`: (optional) Some reference to Rivals of Aether II, for example "RoA2", "Rivals of Aether II", "Rivals 2".
+- `playlist_url` is the url of the playlist you wish to add.
+- `event_name` is the name of the event or tournament name you wish to add.
+- `video_title_format` describes the format of the video title (where the event name, the player names, and the character names are).
+    - `%P1`: Where the first player name goes.
+    - `%P2`: Where the second player name goes.
+    - `%C1`: Where the first player's character(s) goes.
+    - `%C2`: Where the second player's character(s) goes.
+    - `%E`: (optional) The event name.
+    - `%R`: (optional) The round name.
+    - `%V`: (optional) Some versus text, for example "vs", "VS", "vs.".
+    - `%ROA`: (optional) Some reference to Rivals of Aether II, for example "RoA2", "Rivals of Aether II", "Rivals 2".
 
 For example if you want to add the playlist for [Monthly of Aether #9: NA](https://www.youtube.com/playlist?list=PLG_10Q9RHnFwFQwGbNUmz_hO6mUJiAnei), an example video title is:
 
@@ -205,8 +213,9 @@ python3 -m flask extract-vods "https://www.youtube.com/watch?v=gWtNu_6hoDY" "Was
 
 ### Exporting VODs list
 
-After verifying the new VODs you can export them to `data/vods.csv` using the
-following command:
+After verifying the new VODs you can export them to either a CSV file or a Google Sheet, or both.
+
+#### Exporting VODs to a CSV file
 
 ```sh
 python3 -m flask export-csv
@@ -217,6 +226,18 @@ On the production site to get the new VODs, I pull the changes to
 
 ```sh
 python3 -m flask ingest-csv
+```
+
+#### Exporting VODs to a Google Sheet
+
+```sh
+python3 -m flask export-sheet
+```
+
+On the production site to get the new Vods, I run:
+
+```sh
+python3 -m flask ingest-sheet
 ```
 
 ### Hosting
