@@ -136,7 +136,7 @@ google_service_account.json
 
 Without this step, the application will not be able to access the sheet.
 
-#### 4. Configure your sheet in the project
+#### 4. Configuration for the Google Sheet
 
 Open `utils/authenticate_google_sheet.py` and set the following variables:
 
@@ -149,7 +149,7 @@ You can find the sheet ID in the URL:
 
 `https://docs.google.com/spreadsheets/d/<SHEET_ID>/edit`
 
-You can find the worksheet name at the bottom of the sheet.
+You can find the worksheet name at the bottom of the Google Sheet.
 
 For example our Google Sheet's URL is `https://docs.google.com/spreadsheets/d/1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4` and the worksheet name is `vods`.
 
