@@ -12,6 +12,7 @@ db.init_app(app)
 
 
 # This injects recent events and last updated date into the template context for all routes
+# If we see performance issues with db queries we can refactor with a cache or something
 @app.context_processor
 def inject_globals():
     return {
