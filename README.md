@@ -100,9 +100,11 @@ This defaults to `data/vods.csv` however you can customize the path to the CSV f
 python3 -m flask ingest-csv directory/file.csv
 ```
 
-### Adding VODs from a Google Sheet
+### Adding VODs to and from a Google Sheet
 
 Using a Google Sheet is recommended over a CSV file because it allows contributors to update VOD data without needing to commit changes to a tracked file or create pull requests. However the setup is longer.
+
+If you only wish to contribute VODs to our database via the Google Sheet, you can skip the following instructions and instead apply for access [here](https://docs.google.com/spreadsheets/d/1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4/edit?gid=0#gid=0).
 
 ---
 
@@ -127,8 +129,6 @@ google_service_account.json
 ```
 
 #### 3. Share your Google Sheet with the service account
-
-Then:
 
 - Open your Google Sheet
 - Click Share
