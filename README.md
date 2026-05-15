@@ -162,6 +162,7 @@ worksheet_name = 'vods'
 
 ```sh
 python3 -m flask ingest-sheet
+python3 -m flask export-sheet
 ```
 
 On production, new updates are typically pulled by running:
