@@ -10,6 +10,8 @@ from models import Channel
 app = Flask(__name__)
 db.init_app(app)
 
+
+# This injects recent events and last updated date into the template context for all routes
 @app.context_processor
 def inject_globals():
     return {
