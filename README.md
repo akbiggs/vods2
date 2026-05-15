@@ -102,11 +102,11 @@ python3 -m flask ingest-csv directory/file.csv
 
 #### Adding VODs from a Google Sheet
 
-It should be noted that a large advantage of using a Google Sheet as opposed to a CSV file is that you will not need to have a local copy of the CSV file tracked by Git and all of what that entails.
+It should be noted that there is an advantage to using a Google Sheet as opposed to a CSV file You will not need to have a local copy of the CSV file tracked by Git, nor will contributors need to make pull requests to contribute to the CSV file.
 
 **If the longer setup is not an issue, a Google Sheet is the recommended option.**
 
-You will need to create a [Google Cloud project](https://developers.google.com/workspace/guides/create-project) and enable the Google Sheets API. You must then generate a JSON key file and place it in the top-level `vods2` folder and name it `google_service_account.json`. Then on the sheet, share the service account email address found in the JSON file.
+You will need to create a [Google Cloud project](https://developers.google.com/workspace/guides/create-project) and enable the Google Sheets API. You must then generate a JSON key file and place it in the top-level `vods2` folder and name it `google_service_account.json`. Then on the sheet, share edit access with the service account email address found in the JSON file labeled `client_email`.
 
 Lastly, you will need to go to `utils/authenticate_google_sheet.py` and replace the `sheet_id` and `worksheet_name` with the ID of your Google Sheet and the name of the individual worksheet.
 
@@ -118,7 +118,7 @@ The worksheet name is:
 
 - `vods`
 
-In this case the varibles should be set to as such:
+In this case the variables should be set to as such:
 
 ```python
 sheet_id = '1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4'
