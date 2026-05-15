@@ -10,6 +10,13 @@ from models import Channel
 app = Flask(__name__)
 db.init_app(app)
 
+@app.context_processor
+def inject_globals():
+    return {
+        "recent_events": get_recent_events(),
+        "last_updated": get_last_updated_date(),
+    }
+
 def get_channels():
     channels = []
     with open('data/channel_ids.txt') as f:
@@ -119,10 +126,7 @@ def search_page():
         channels=get_channels(),
         is_search=True,
         pagination=pagination,
-        recent_events=get_recent_events(),
-        last_updated=get_last_updated_date(),
         )
-
 
 @app.post("/submission")
 def vod_post():
@@ -151,7 +155,10 @@ def submit_page():
 
 @app.route("/credits")
 def credits_page():
-    return render_template("home.jinja2", channels=get_channels())
+    return render_template(
+        "home.jinja2",
+        channels=get_channels(),
+        )
 
 @app.route("/contact")
 def contact_page():
