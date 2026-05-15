@@ -1,11 +1,11 @@
 <div class="updateContainer">
     <p>
         Last updated: {{ last_updated }} |
-
-        {% for event in recent_events %}
+        <span class="event-navbar">
+        {% for event in recent_events -%}
             <a href="/?c1=any&c2=any&p1=&p2=&event={{ event.url }}&rank=any">
-                {{ event.name }}{% if not loop.last %},{% endif %}
-            </a>
-        {% endfor %}
+            {{ event.name }}</a>{% if not loop.last %}, {% endif %}
+        {%- endfor %}
+        </span>
     </p>
 </div>
