@@ -81,7 +81,12 @@ To see your changes locally:
 
 ### Adding VODs
 
-Adding VODs manually can currently be done via a CSV file or a Google Sheet.
+Manually adding VODs can be added in two ways:
+
+1. From a CSV file
+2. From a Google Sheet
+
+_A Google Sheet is recommended but instructions for both are provided below._
 
 #### Adding VODs from a CSV file
 
@@ -97,16 +102,39 @@ python3 -m flask ingest-csv directory/file.csv
 
 #### Adding VODs from a Google Sheet
 
-You will need to create a [Google Cloud project](https://developers.google.com/workspace/guides/create-project) and enable the Google Sheets API. You must then generate a JSON key file and place it in the top-level `vods2` folder and name it `google_service_account.json`. The last step is to share the sheet with the service account email.
+It should be noted that a large advantage of using a Google Sheet as opposed to a CSV file is that you will not need to have a local copy of the CSV file tracked by Git and all of what that entails.
 
-It should be noted that a large advantage of using a Google Sheet as opposed to a CSV file is that you will not need to have a local copy of the CSV file tracked by Git and all of what that entails. 
+**If the longer setup is not an issue, a Google Sheet is the recommended option.**
 
-**If the slightly longer setup is not an issue, a Google Sheet is the recommended option.**
+You will need to create a [Google Cloud project](https://developers.google.com/workspace/guides/create-project) and enable the Google Sheets API. You must then generate a JSON key file and place it in the top-level `vods2` folder and name it `google_service_account.json`. Then on the sheet, share the service account email address found in the JSON file.
 
-You can add VODs from a Google Sheet to the database using the following command:
+Lastly, you will need to go to `utils/authenticate_google_sheet.py` and replace the `sheet_id` and `worksheet_name` with the ID of your Google Sheet and the name of the individual worksheet.
+
+For example, the Google Sheet we use can be found at:
+
+- `https://docs.google.com/spreadsheets/d/1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4`
+
+The worksheet name is:
+
+- `vods`
+
+In this case the varibles should be set to as such:
+
+```python
+sheet_id = '1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4'
+worksheet_name = 'vods'
+```
+
+You can now add VODs from a Google Sheet to the database using the following command:
 
 ```sh
-python3 -m flask ingest-sheet
+flask ingest-sheet
+```
+
+To export your database to the Google Sheet use the following command:
+
+```sh
+flask export-sheet
 ```
 
 ### Adding VODs from a YouTube channel
