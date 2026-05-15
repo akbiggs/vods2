@@ -161,7 +161,7 @@ worksheet_name = 'vods'
 #### 5. Importing and exporting VODs from the Google Sheet
 
 ```sh
-python3 -m flask pull-sheet
+python3 -m flask ingest-sheet
 ```
 
 On production, new updates are typically pulled by running:
