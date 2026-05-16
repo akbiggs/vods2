@@ -19,7 +19,3 @@ google_service_account.json
 
 # Temp files.
 /tmp
-/utils/playlistExport.json
-/utils/output.csv
-
-

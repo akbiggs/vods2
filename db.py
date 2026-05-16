@@ -4,6 +4,7 @@ import re
 import math
 from datetime import datetime, timezone, timedelta
 from flask import current_app, g
+from utils.authenticate_google_sheet import get_vods_sheet
 
 from models import Vod, Patch, VodAndPatch, ParsedVodTitle
 
@@ -375,6 +376,59 @@ def review_submissions_command():
             else:
                 click.echo('Unknown action.')
 
+@click.command('ingest-sheet')
+def ingest_sheet_command():
+
+    # Call Google Sheets Authentication helper to get the sheet object.
+    sheet = get_vods_sheet()
+
+    if not sheet:
+        click.echo('Sheet not found!')
+        return
+
+    all_data = sheet.get_all_values()
+    data_rows = all_data[1:]  # skip header row
+
+    db = get_db()
+    num_vods = 0
+    for row in data_rows:
+        if len(row) < 8:
+            click.echo(f'Skipping malformed row: {row}')
+            continue
+        url, p1, c1, p2, c2, event, round, vod_time = row[:8]
+        if vod_exists(url):
+            # click.echo(f"Skipping existing vod {url}.")
+            continue
+
+        p1_id = ensure_player(p1)
+        p2_id = ensure_player(p2)
+        event_id = ensure_event(event)
+        c1_id = get_character_id(c1)
+        c2_id = get_character_id(c2)
+
+        num_vods += 1
+        db.cursor().execute("""
+                            INSERT INTO vod (game_id, event_id, url, p1_id, p2_id, c1_id, c2_id, round, vod_date)
+                            VALUES          (?,       ?,        ?,   ?,     ?,     ?,     ?,     ?,     ?);
+                            """, (RIVALS_OF_AETHER_TWO, event_id, url, p1_id, p2_id, c1_id, c2_id, round, vod_time,))
+    db.commit()
+
+    # Update the last updated date in the metadata table.
+
+    today = datetime.now().strftime('%Y-%m-%d')
+
+    cursor = db.cursor()
+
+    cursor.execute("""
+    INSERT OR REPLACE INTO metadata (key, value)
+    VALUES (?, ?)
+    """, ("last_updated", today))
+
+    db.commit()
+
+    click.echo(f'Ingested {num_vods} vods from Google Sheets.')
+    return
+
 @click.command('ingest-csv')
 @click.argument('filename', required=False)
 def ingest_csv_command(filename: str | None):
@@ -498,6 +552,19 @@ def ingest_channel_command(channel_id, query, format):
     response = input(f'Are you sure you want to commit {len(results)} VODs? [y/n] ')
     if response in ['y', 'yes']:
         db.commit()
+
+        # Update the last updated date in the metadata table.
+        today = datetime.now().strftime('%Y-%m-%d')
+
+        cursor = db.cursor()
+
+        cursor.execute("""
+        INSERT OR REPLACE INTO metadata (key, value)
+        VALUES (?, ?)
+        """, ("last_updated", today))
+
+        db.commit()
+
     else:
         click.echo('Aborting.')
         return
@@ -592,6 +659,19 @@ def ingest_playlist_command(playlist_url, event_name, format_str):
     response = input(f'Are you sure you want to commit {len(results)} VODs? [y/n] ')
     if response.lower() in ['y', 'yes']:
         db.commit()
+
+        # Update the last updated date in the metadata table.
+        today = datetime.now().strftime('%Y-%m-%d')
+
+        cursor = db.cursor()
+
+        cursor.execute("""
+        INSERT OR REPLACE INTO metadata (key, value)
+        VALUES (?, ?)
+        """, ("last_updated", today))
+
+        db.commit()
+
         click.echo('Committed successfully!')
     else:
         click.echo('Aborting.')
@@ -620,6 +700,60 @@ def export_vods_command(filename: str | None):
         for id, url, p1_tag, p2_tag, c1_name, c2_name, event_name, round, vod_date in vods:
             row = [url, p1_tag, c1_name, p2_tag, c2_name, event_name, round if round else '', vod_date if vod_date else '']
             vod_writer.writerow(row)
+
+@click.command('export-sheet')
+def export_sheet_command():
+
+    db = get_db()
+    vods = db.cursor().execute("""
+    SELECT vod.id, vod.url, p1.tag, p2.tag, c1.name, c2.name, e.name, vod.round, vod.vod_date
+    FROM vod
+        INNER JOIN event e ON e.id = vod.event_id
+        INNER JOIN player p1 ON p1.id = vod.p1_id
+        INNER JOIN player p2 ON p2.id = vod.p2_id
+        INNER JOIN game_character c1 ON c1.id = vod.c1_id
+        INNER JOIN game_character c2 ON c2.id = vod.c2_id
+    ORDER BY vod_date ASC
+    """, ()).fetchall()
+
+    # Call Google Sheets Authentication helper to get the sheet object.
+
+    sheet = get_vods_sheet()
+
+    if not sheet:
+        click.echo('Sheet not found!')
+        return
+    
+    rows= sheet.get_all_values()
+    
+    # Build the data rows
+    data_rows = []
+    for id, url, p1_tag, p2_tag, c1_name, c2_name, event_name, round, vod_date in vods:
+        # Convert datetime to string if needed
+        if isinstance(vod_date, datetime):
+            vod_date_str = vod_date.isoformat()
+        else:
+            vod_date_str = str(vod_date) if vod_date else ''
+        
+        row = [str(url), str(p1_tag), str(c1_name), str(p2_tag), str(c2_name), str(event_name), str(round) if round else '', vod_date_str]
+        data_rows.append(row)
+    
+    try:
+        # Clear all cells except the header (row 1)
+        click.echo('Clearing existing data from Google Sheet...')
+        current_values = sheet.get_all_values()
+        
+        if len(current_values) > 1:
+            # Clear rows 2 onwards
+            sheet.batch_clear([f'A2:H{len(current_values)}'])
+        
+        # Append the data to the sheet
+        if len(data_rows) > 0:
+            sheet.append_rows(data_rows, value_input_option='RAW')
+        
+        click.echo(f'Exported {len(data_rows)} VODs to Google Sheet')
+    except Exception as e:
+        click.echo(f'Error updating Google Sheet: {e}')
 
 @click.command('extract-vods')
 @click.argument('vod_url')
@@ -903,6 +1037,20 @@ def ingest_multi_vod_command(multi_vod_url, event, datetime_str, title_format, f
     response = input(f'Are you sure you want to commit {len(results)} VODs? [y/n] ')
     if response in ['y', 'yes']:
         db.commit()
+
+        # Update the last updated date in the metadata table.
+        today = datetime.now().strftime('%Y-%m-%d')
+
+        cursor = get_db().cursor()
+
+        cursor.execute("""
+        INSERT OR REPLACE INTO metadata (key, value)
+        VALUES (?, ?)
+        """, ("last_updated", today))
+
+        get_db().commit()
+
+        click.echo('Committed successfully!')
     else:
         click.echo('Aborting.')
         return
@@ -1018,6 +1166,100 @@ def prompt(text, default=None):
     value = input(f'{text} ' + (f'[{default}]' if default else '') + ': ')
     return value if value else default
     
+# # Google Sheets Stuff
+
+# @click.command('pull-sheet')
+# def pull_sheet_command():
+#     """Pull data from the Google Sheet and update vods.csv"""
+#     import gspread
+#     from google.oauth2.service_account import Credentials
+#     import csv
+#     import os
+
+#     # Authenticate w/ Google Sheets
+#     scope = ['https://www.googleapis.com/auth/spreadsheets']
+#     credentials = Credentials.from_service_account_file('google_service_account.json', scopes=scope)
+#     client = gspread.authorize(credentials)
+
+#     sheet_id = '1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4'
+#     sheet = client.open_by_key(sheet_id).worksheet('vods')
+    
+#     # Get data from the sheet
+#     all_values = sheet.get_all_values()
+#     if not all_values:
+#         click.echo('Sheet is empty!')
+#         return
+    
+#     # Skip header row
+#     data_rows = all_values[1:]
+    
+#     # Write to vods.csv
+#     csv_path = './data/vods.csv'
+#     try:
+#         with open(csv_path, 'w', newline='', encoding='utf-8') as csvfile:
+#             writer = csv.writer(csvfile)
+#             for row in data_rows:
+#                 # Only write non-empty rows
+#                 if any(row):
+#                     writer.writerow(row)
+        
+#         click.echo(f'Successfully synced {len(data_rows)} rows from Google Sheet to {csv_path}')
+#     except Exception as e:
+#         click.echo(f'Error writing to CSV: {e}')
+
+# @click.command('push-sheet')
+# def push_sheet_command():
+#     """Push vods.csv data to Google Sheet"""
+#     import gspread
+#     from google.oauth2.service_account import Credentials
+#     import csv
+    
+#     # Read vods.csv
+#     csv_path = './data/vods.csv'
+#     try:
+#         with open(csv_path, 'r', encoding='utf-8') as csvfile:
+#             reader = csv.reader(csvfile)
+#             csv_data = list(reader)
+#     except FileNotFoundError:
+#         click.echo(f'Error: {csv_path} not found!')
+#         return
+#     except Exception as e:
+#         click.echo(f'Error reading CSV: {e}')
+#         return
+    
+#     if not csv_data:
+#         click.echo('CSV is empty!')
+#         return
+    
+#     # Authenticate with Google Sheets
+#     scope = ['https://www.googleapis.com/auth/spreadsheets']
+#     creds = Credentials.from_service_account_file('google_service_account.json', scopes=scope)
+#     client = gspread.authorize(creds)
+    
+#     # Open the sheet
+#     sheet_id = '1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4'
+#     try:
+#         sheet = client.open_by_key(sheet_id).worksheet('vods')
+#     except Exception as e:
+#         click.echo(f'Error opening sheet: {e}')
+#         return
+    
+#     try:
+#         # Clear all cells except the header (row 1)
+#         # Get current data to see how many rows we need to clear
+#         current_values = sheet.get_all_values()
+        
+#         if len(current_values) > 1:
+#             # Clear rows 2 onwards using batch_clear instead of delete_rows
+#             sheet.batch_clear([f'A2:H{len(current_values)}'])
+        
+#         # Append the CSV data
+#         if len(csv_data) > 0:
+#             sheet.append_rows(csv_data, value_input_option='RAW')
+        
+#         click.echo(f'Successfully synced {len(csv_data)} rows from {csv_path} to Google Sheet')
+#     except Exception as e:
+#         click.echo(f'Error updating sheet: {e}')
 
 sqlite3.register_converter(
     "timestamp", lambda v: datetime.fromisoformat(v.decode().replace('Z', '+00:00'))
@@ -1030,6 +1272,10 @@ def init_app(app):
     app.cli.add_command(ingest_channel_command)
     app.cli.add_command(ingest_csv_command)
     app.cli.add_command(export_vods_command)
+    app.cli.add_command(ingest_sheet_command)
+    app.cli.add_command(export_sheet_command)
     app.cli.add_command(ingest_multi_vod_command)
     app.cli.add_command(ingest_playlist_command)
     app.cli.add_command(extract_vods_v1_command)
+    # app.cli.add_command(pull_sheet_command)
+    # app.cli.add_command(push_sheet_command)

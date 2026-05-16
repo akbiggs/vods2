@@ -1,9 +1,11 @@
 <div class="updateContainer">
-    <p>Last updated: May 14th, 2026 | 
-		<a href="/?c1=any&c2=any&p1=&p2=&event=Straight+Into+The+Abyss+%2349&rank=any">Straight Into The Abyss #49</a>,
-		<a href="/?c1=any&c2=any&p1=&p2=&event=Blazing+Battlefield+%2310&rank=any">Blazing Battlefield #10</a>,
-		<a href="/?c1=any&c2=any&p1=&p2=&event=Immortal+Fight+Night+%23275&rank=any">Immortal Fight Night #275</a>,
-		<a href="/?c1=any&c2=any&p1=&p2=&event=Run+The+Rivals+%2357&rank=any">Run The Rivals #57</a>,
-		<a href="/?c1=any&c2=any&p1=&p2=&event=King+2026&rank=any">King 2026</a>
+    <p>
+        Last updated: {{ last_updated }} |
+        <span class="event-navbar">
+        {% for event in recent_events -%}
+            <a href="/?c1=any&c2=any&p1=&p2=&event={{ event.url }}&rank=any">
+            {{ event.name }}</a>{% if not loop.last %}, {% endif %}
+        {%- endfor %}
+        </span>
     </p>
 </div>

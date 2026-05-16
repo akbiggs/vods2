@@ -1,4 +1,4 @@
-- Switch from CSV to Google Sheets to enable people to contribute.
+- ~~Switch from CSV to Google Sheets to enable people to contribute.~~
 - Automate ingestion of data/regular_queries.txt.
   - Need compliance to get more YouTube API quota for this, as currently we do not have
     enough daily quota to run all the queries (we will get an API exception).

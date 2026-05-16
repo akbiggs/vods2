@@ -2,12 +2,23 @@ from flask import Flask, render_template, request , redirect
 from markupsafe import escape
 from urllib.parse import urlparse
 from flask_paginate import Pagination, get_page_parameter
+from utils.update_template import get_recent_events, get_last_updated_date
 
 import db
 from models import Channel
 
 app = Flask(__name__)
 db.init_app(app)
+
+
+# This injects recent events and last updated date into the template context for all routes
+# If we see performance issues with db queries we can refactor with a cache or something
+@app.context_processor
+def inject_globals():
+    return {
+        "recent_events": get_recent_events(),
+        "last_updated": get_last_updated_date(),
+    }
 
 def get_channels():
     channels = []
@@ -106,8 +117,19 @@ def search_page():
         display_msg="{start} - {end} / {total}"
     )
     
-    return render_template("home.jinja2", vods=vods, c1=c1, c2=c2, p1=p1, p2=p2, event=event, rank=rank, channels=get_channels(), is_search=True, pagination=pagination)
-
+    return render_template(
+        "home.jinja2",
+        vods=vods,
+        c1=c1,
+        c2=c2,
+        p1=p1,
+        p2=p2,
+        event=event,
+        rank=rank,
+        channels=get_channels(),
+        is_search=True,
+        pagination=pagination,
+        )
 
 @app.post("/submission")
 def vod_post():
@@ -136,7 +158,10 @@ def submit_page():
 
 @app.route("/credits")
 def credits_page():
-    return render_template("home.jinja2", channels=get_channels())
+    return render_template(
+        "home.jinja2",
+        channels=get_channels(),
+        )
 
 @app.route("/contact")
 def contact_page():

@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS mod;
 DROP TABLE IF EXISTS player;
 DROP TABLE IF EXISTS vod;
 DROP TABLE IF EXISTS submission;
+DROP TABLE IF EXISTS metadata;
 
 CREATE TABLE mod (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -83,6 +84,11 @@ CREATE TABLE vod (
   FOREIGN KEY (c3_id) REFERENCES game_character (id),
   FOREIGN KEY (c4_id) REFERENCES game_character (id),
   FOREIGN KEY (submission_id) REFERENCES submission (id)
+);
+
+CREATE TABLE metadata (
+    key TEXT PRIMARY KEY,
+    value TEXT
 );
 
 CREATE INDEX idx_submission_status ON submission (status);
