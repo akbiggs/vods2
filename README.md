@@ -102,7 +102,7 @@ python3 -m flask ingest-csv directory/file.csv
 
 ### Adding VODs to and from a Google Sheet
 
-Using a Google Sheet is recommended over a CSV file because it allows contributors to update VOD data without needing to commit changes to a tracked file or create pull requests. However the setup is longer.
+Using a Google Sheet is recommended over a CSV file because it allows contributors to update VOD data without needing to commit changes to a git tracked file or create pull requests. However the setup is longer.
 
 If you only wish to contribute VODs to our database via the Google Sheet, you can skip the following instructions and instead apply for access [here](https://docs.google.com/spreadsheets/d/1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4/edit?gid=0#gid=0).
 
@@ -158,18 +158,21 @@ sheet_id = '1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4'
 worksheet_name = 'vods'
 ```
 
-#### 5. Importing and exporting VODs from the Google Sheet
+#### 5. Importing and exporting VODs with the Google Sheet
+
+To import VODs from the Google Sheet, run:
 
 ```sh
 python3 -m flask ingest-sheet
-python3 -m flask export-sheet
 ```
 
-On production, new updates are typically pulled by running:
+To export VODs to the Google Sheet from the local database, run:
 
 ```sh
 python3 -m flask export-sheet
 ```
+
+On production, new updates are typically pulled from the Google Sheet by running the same command.
 
 ### Adding VODs from a YouTube channel
 
