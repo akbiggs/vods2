@@ -44,6 +44,7 @@ def get_last_updated_date() -> str:
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
+    # 1. Try metadata first
     cursor.execute("""
         SELECT value
         FROM metadata
@@ -51,13 +52,27 @@ def get_last_updated_date() -> str:
     """)
 
     row = cursor.fetchone()
+    date_str = row[0] if row and row[0] else None
+
+    # 2. Fallback to latest VOD date
+    if not date_str:
+        cursor.execute("""
+            SELECT vod_date
+            FROM vod
+            WHERE vod_date IS NOT NULL
+            ORDER BY vod_date DESC
+            LIMIT 1
+        """)
+
+        row = cursor.fetchone()
+        date_str = row[0] if row and row[0] else None
+
     conn.close()
 
-    if not row or not row[0]:
+    if not date_str:
         return "Unknown"
 
-    # parse YYYY-MM-DD from DB
-    dt = datetime.strptime(row[0], "%Y-%m-%d")
+    dt = datetime.fromisoformat(date_str.split(" ")[0])
 
     day = dt.day
 

@@ -2,6 +2,8 @@
 
 This is a simple website for collecting and searching Rivals of Aether 2 VODs. https://www.rivals2vods.com
 
+If you only wish to contribute VODs to our database via the Google Sheet, you can skip the following instructions and instead apply for access [here](https://docs.google.com/spreadsheets/d/1RRblTHe9hmlQDmOw05dglEXmnuH0fcB7f-ZqHjBOyT4/edit?gid=0#gid=0).
+
 ## Developer instructions
 
 These are instructions for running the site locally.
