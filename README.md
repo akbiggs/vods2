@@ -174,7 +174,7 @@ To export VODs to the Google Sheet from the local database, run:
 python3 -m flask export-sheet
 ```
 
-On production, new updates are typically pulled from the Google Sheet by running the same command.
+On production, new updates are typically pulled to and from the Google Sheet by running the same commands.
 
 ### Adding VODs from a YouTube channel
 
