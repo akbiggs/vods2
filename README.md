@@ -288,8 +288,8 @@ After verifying the new VODs you can export them to either a CSV file or a Googl
 python3 -m flask export-csv
 ```
 
-On the production site to get the new VODs, I pull the changes to
-`data/vods.csv` and then run:
+On the production site to get the new VODs, changes are pulled to
+`data/vods.csv` and then the CSV is ingested with:
 
 ```sh
 python3 -m flask ingest-csv
