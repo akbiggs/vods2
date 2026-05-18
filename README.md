@@ -83,7 +83,7 @@ To see your changes locally:
 
 ### Adding VODs
 
-Manually adding VODs can be added in two ways:
+Manually adding VODs can be done in two ways:
 
 1. From a CSV file
 2. From a Google Sheet
