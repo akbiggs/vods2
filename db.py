@@ -79,6 +79,7 @@ def get_character_id(name):
     if name == "la reyna": name = "la reina"
     if name == "lareina": name = "la reina"
     if name == "la raina": name = "la reina"
+    if name == "krag": name = "kragg"
 
     #This is done specifically for https://www.youtube.com/@SuperiorCalRivals2
     if name == "for" : name = "forsburn"
