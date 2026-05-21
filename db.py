@@ -387,6 +387,7 @@ def ingest_sheet_command():
         click.echo('Sheet not found!')
         return
 
+    click.echo('Fetching data from Google Sheet...')
     all_data = sheet.get_all_values()
     data_rows = all_data[1:]  # skip header row
 
