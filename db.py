@@ -25,7 +25,8 @@ CHAR_NAME_TO_ID = {
     "absa": 14,
     "galvan": 15,
     "la reina": 16,
-    "slade": 17
+    "slade": 17,
+    "gouie": 18
 }
 
 # STATUS VALUES
@@ -80,6 +81,8 @@ def get_character_id(name):
     if name == "lareina": name = "la reina"
     if name == "la raina": name = "la reina"
     if name == "krag": name = "kragg"
+    if name == "gooey": name = "gouie"
+    if name == "gooie": name = "gouie"
 
     #This is done specifically for https://www.youtube.com/@SuperiorCalRivals2
     if name == "for" : name = "forsburn"

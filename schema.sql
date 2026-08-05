@@ -133,3 +133,5 @@ INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Galvan", "https
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "La Reina", "./static/characters/lareina.png");
 -- Slade = 17
 INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Slade", "./static/characters/slade.png");
+-- Gouie = 18
+INSERT INTO game_character (game_id, name, icon_url) VALUES (1, "Gouie", "./static/characters/gouie.png");
